@@ -1,121 +1,180 @@
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-  }
+<!DOCTYPE html>
+<html lang="en">
 
-  .sidebar {
-    position: absolute;
-    left: 0;
-    width: 250px;
-    height: 100vh;
-    background-color: #fff;
-    border-right: 1px solid #ddd;
-    padding-top: 10px;
-  }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Sidebar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-  .sidebar ul {
-    list-style-type: none;
-    padding: 0;
-  }
+    /* Sidebar Styles */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      width: 250px;
+      height: 100vh;
+      background-color: #fff;
+      border-right: 1px solid #ddd;
+      padding-top: 10px;
+      transition: transform 0.3s ease;
+      z-index: 1;
+    }
 
-  .sidebar li {
-    margin: 1px 0;
-    padding-left: 20px;
-  }
+    /* Sidebar collapsed state */
+    .sidebar.closed {
+      transform: translateX(-100%);
+      /* Move sidebar completely off-screen */
+    }
 
-  .sidebar a {
-    text-decoration: none;
-    color: black;
-    font-size: 12px;
-  }
+    /* Sidebar links */
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
 
-  .sidebar .menu {
-    margin-bottom: 5px;
-    position: relative;
-  }
+    .sidebar li {
+      margin: 5px 0;
+    }
 
-  .sidebar .menu .vertical-line {
-    position: absolute;
-    left: 1px;
-    top: 0;
-    height: 100%;
-    width: 3px;
-    background-color: purple;
-  }
+    .sidebar a {
+      text-decoration: none;
+      color: black;
+      font-size: 14px;
+      display: block;
+      padding: 8px 15px;
+    }
 
-  .content-sidebar {
-    margin-left: 10px;
-    padding: 20px;
-  }
+    .sidebar a:hover {
+      background-color: #f1f1f1;
+    }
 
-  /* Email and Logout button */
-  .sidebar .email {
-    font-size: 12px;
-    padding: 10px 20px;
-    color: gray;
-  }
+    /* Email and Logout button */
+    .sidebar .email {
+      font-size: 12px;
+      color: gray;
+      padding-left: 25px;
+      padding-top: 20%;
+      padding-bottom: 5px;
+    }
 
-  .sidebar .logout {
-    padding: 10px 20px;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    font-size: 12px;
-  }
+    .sidebar .logout {
+      padding: 10px 15px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      cursor: pointer;
+      width: calc(100% - 30px);
+      /* Adjust width */
+      margin: 10px 15px;
+      font-size: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
 
-  .sidebar .logout:hover {
-    background-color: #c0392b;
-  }
-</style>
+    .sidebar .logout:hover {
+      background-color: #c0392b;
+    }
 
-<aside>
-  <div class="sidebar content-sidebar">
-    <!-- Complaint Form -->
-    <a href="<?php echo site_url('Complaint'); ?>"><strong>Complaint Form</strong></a>
-    <br><br>
+    /* Menu toggle button */
+    .menu-toggle {
+      display: block;
+      background: none;
+      color: white;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      position: fixed;
+      /* Position it fixed on screen */
+      top: 10px;
+      /* Adjust top spacing */
+      left: 10px;
+      /* Adjust left spacing */
+      z-index: 1100;
+      /* Keep above sidebar */
+      border-radius: 5px;
+    }
 
-    <!-- Pending Complaints -->
-    <a href="<?php echo site_url('Complaint/pending_complaints'); ?>"><strong>Pending
-        Complaints</strong></a>
-    <br><br>
+    .menu-toggle:hover {
+      background-color: #351B4A;
+    }
 
-    <!-- Resolved Complaints -->
-    <a href="<?php echo site_url('Complaint/resolved_complaints'); ?>"><strong>Resolved Complaints</strong></a>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <!-- Display admin's email -->
-    <div class="email">
-      <strong>Logged in as:</strong> <br>
-      <?php echo $this->session->userdata('user_email'); ?>
+    /* Content Area Styles */
+    .content-sidebar {
+      margin-left: 250px;
+      /* Start with sidebar width */
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .content-sidebar.collapsed {
+      margin-left: 0;
+      /* Adjust content when sidebar collapsed */
+    }
+
+    /* Small screen adjustments */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 70%;
+        z-index: 3;
+        /* Adjust sidebar width */
+      }
+
+      .content-sidebar {
+        margin-left: 0;
+        /* Ensure no gap for smaller screens */
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <aside>
+    <!-- Sidebar (initially closed) -->
+    <div class="sidebar closed">
+      <ul>
+        <li><a href="<?php echo site_url('Complaint'); ?>"><strong>Complaint Form</strong></a></li>
+        <li><a href="<?php echo site_url('Complaint/pending_complaints'); ?>"><strong>Pending Complaints</strong></a>
+        </li>
+        <li><a href="<?php echo site_url('Complaint/resolved_complaints'); ?>"><strong>Resolved Complaints</strong></a>
+        </li>
+      </ul>
+
+      <div class="email">
+        <strong>Logged in as:</strong> <br>
+        <?php echo $this->session->userdata('user_email'); ?>
+      </div>
+
+      <form method="post" action="<?php echo base_url('Complaint/logout'); ?>">
+        <button type="submit" class="logout" style="border-radius: 10px;">Logout</button>
+      </form>
     </div>
-    <!-- Logout button -->
-    <form method="post" action="<?php echo base_url('Complaint/logout'); ?>">
-      <button style="border-radius:10px;" type="submit" class="logout">Logout</button>
-    </form>
-  </div>
-</aside>
+
+    <!-- Content Area -->
+    <div class="content-sidebar">
+      <!-- Menu toggle button for small screens -->
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    </div>
+  </aside>
+
+  <script>
+    // Function to toggle sidebar visibility
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      const content = document.querySelector('.content-sidebar');
+
+      // Toggle 'open' and 'closed' classes
+      sidebar.classList.toggle('closed');
+      content.classList.toggle('collapsed');
+    }
+  </script>
+
+</body>
+
+</html>
