@@ -1567,10 +1567,12 @@
   # Footer
   --------------------------------------------------------------*/
   .footer {
+    position: relative;
     font-size: 14px;
     background-color: #1f1f24;
     padding: 50px 0;
     color: rgba(255, 255, 255, 0.7);
+    z-index: 2;
   }
 
   .footer .icon {
