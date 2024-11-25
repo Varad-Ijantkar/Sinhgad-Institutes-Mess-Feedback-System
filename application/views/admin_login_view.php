@@ -75,7 +75,9 @@
             <div class="form-group text-center">
                 <button type="submit" class="btn btn-primary btn-block">Login</button>
             </div>
-        </form>
+			<div class="text-center mt-4"><a href="<?php echo base_url('login'); ?>">Student?</a></div>
+			<div class="text-center mt-4"><a href="<?php echo base_url('get_credential'); ?>">Get Credential</a></div>
+		</form>
     </div>
 
 

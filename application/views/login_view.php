@@ -52,8 +52,7 @@
 				<p>Not a Student? <a href="<?php echo base_url('admin_login'); ?>">Click here</a></p>
 			</div>
 			<div class="text-center mt-4">
-				<p><a href="<?php echo base_url('login/get_credentials'); ?>">Get
-						Credentials</a></p>
+				<p><a href="<?php echo base_url('get_credential'); ?>">Get Credentials</a></p>
 			</div>
 		</div>
 	</div>

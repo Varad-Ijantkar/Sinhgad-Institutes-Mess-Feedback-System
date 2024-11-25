@@ -56,3 +56,5 @@ $route['ResidenceOfficer/upload_student_details'] = 'ResidenceOfficer/upload_stu
 $route['pending-complaints'] = 'complaint/pending_complaints';
 $route['resolved-complaints'] = 'complaint/resolved_complaints';
 
+
+
