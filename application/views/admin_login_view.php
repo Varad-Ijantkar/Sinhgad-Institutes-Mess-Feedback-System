@@ -60,9 +60,10 @@
                     <option value="Supervisor" <?php echo set_select('role', 'Supervisor'); ?>>Supervisor</option>
                     <option value="Residence Officer" <?php echo set_select('role', 'Residence Officer'); ?>>Residence
                         Officer</option>
-                    <option value="Campus Director" <?php echo set_select('role', 'Campus Director'); ?>>Campus Director
-                    </option>
+					<option value="Estate Head" <?php echo set_select('role', 'Estate Head'); ?>>Estate Head</option>
+                    <option value="Campus Director" <?php echo set_select('role', 'Campus Director'); ?>>Campus Director</option>
                     <option value="Committee" <?php echo set_select('role', 'Committee'); ?>>Committee</option>
+					<option value="Management" <?php echo set_select('role', 'Management'); ?>>Management</option></option>
                 </select>
             </div>
 

@@ -28,11 +28,13 @@ class Admin_Dashboard_model extends CI_Model
     {
         return $this->db->count_all('complaints');
     }
-    public function get_resolved_complaints()
-    {
-        $this->db->where('status', 'resolved');
-        return $this->db->get('complaints')->result_array();
-    }
+	public function get_resolved_complaints()
+	{
+		$this->db->select('id, food_complaints as description, updated_at as date, name, mess, campus');
+		$this->db->where('status', 'Resolved'); // Filter for resolved complaints
+		$query = $this->db->get('complaints'); // Assuming 'complaints' is the table name
+		return $query->result_array();
+	}
 
     // Fetch total complaints data (both pending and resolved)
     public function get_total_complaints()
@@ -42,5 +44,12 @@ class Admin_Dashboard_model extends CI_Model
         $query = $this->db->get('complaints');
         return $query->result_array();
     }
+
+	public function mark_as_resolved($complaint_id)
+	{
+		$this->db->where('id', $complaint_id);
+		$this->db->update('complaints', ['status' => 'Resolved', 'updated_at' => date('Y-m-d H:i:s')]);
+	}
+
 
 }

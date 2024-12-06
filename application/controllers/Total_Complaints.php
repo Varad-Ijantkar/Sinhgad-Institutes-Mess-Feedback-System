@@ -27,4 +27,21 @@ class Total_Complaints extends CI_Controller
         $this->load->view('template/adminnavbar', $data);
         $this->load->view('total_complaints_view', $data); // Total complaints view
     }
+
+	public function resolve()
+	{
+		if (!$this->session->userdata('user_id')) {
+			redirect('Admin_Login');
+		}
+
+		$complaint_id = $this->input->post('complaint_id');
+		if ($complaint_id) {
+			$this->load->model('Admin_Dashboard_model');
+			$this->Admin_Dashboard_model->mark_as_resolved($complaint_id);
+			$this->session->set_flashdata('message', 'Complaint resolved successfully!');
+		}
+
+		redirect('Total_Complaints');
+	}
+
 }
