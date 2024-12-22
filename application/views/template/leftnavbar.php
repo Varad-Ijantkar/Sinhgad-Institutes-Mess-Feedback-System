@@ -1,140 +1,123 @@
-<!DOCTYPE html>
-<html lang="en">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Responsive Sidebar</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
+  /* Sidebar Styles */
+  .sidebar {
+    position: fixed;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    padding-top: 10px;
+    transition: transform 0.3s ease;
+    z-index: 1;
+  }
+
+  /* Sidebar collapsed state */
+  .sidebar.closed {
+    transform: translateX(-100%);
+    /* Move sidebar completely off-screen */
+    }
+  /* Sidebar links */
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  .sidebar li {
+    margin: 5px 0;
+  }
+
+  .sidebar a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+    display: block;
+    padding: 8px 15px;
+  }
+  .sidebar a:hover {
+    background-color: #f1f1f1;
     }
 
-    /* Sidebar Styles */
+  /* Email and Logout button */
+  .sidebar .email {
+    font-size: 12px;
+    color: gray;
+    padding-left: 25px;
+    padding-top: 20%;
+    padding-bottom: 5px;
+  }
+
+  .sidebar .logout {
+    padding: 10px 15px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: calc(100% - 30px);
+  /* Adjust width */
+    margin: 10px 15px;
+    font-size: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .sidebar .logout:hover {
+    background-color: #c0392b;
+  }
+   /* Menu toggle button */
+  .menu-toggle {
+    display: block;
+    background: none;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    position: fixed;
+    /* Position it fixed on screen */
+    top: 10px;
+    /* Adjust top spacing */
+    left: 10px;
+    /* Adjust left spacing */
+    z-index: 1100;
+    /* Keep above sidebar */
+    border-radius: 5px;
+  }
+
+  .menu-toggle:hover {
+    background-color: #351B4A;
+  }
+
+  /* Content Area Styles */
+  .content-sidebar {
+    margin-left: 250px;
+    /* Start with sidebar width */
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+  }
+  .content-sidebar.collapsed {
+    margin-left: 0;
+    /* Adjust content when sidebar collapsed */
+  }
+
+  /* Small screen adjustments */
+  @media (max-width: 768px) {
     .sidebar {
-      position: fixed;
-      left: 0;
-      width: 250px;
-      height: 100vh;
-      background-color: #fff;
-      border-right: 1px solid #ddd;
-      padding-top: 10px;
-      transition: transform 0.3s ease;
-      z-index: 1;
+      width: 70%;
+      z-index: 4;
+      /* Adjust sidebar width */
     }
-
-    /* Sidebar collapsed state */
-    .sidebar.closed {
-      transform: translateX(-100%);
-      /* Move sidebar completely off-screen */
-    }
-
-    /* Sidebar links */
-    .sidebar ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    .sidebar li {
-      margin: 5px 0;
-    }
-
-    .sidebar a {
-      text-decoration: none;
-      color: black;
-      font-size: 14px;
-      display: block;
-      padding: 8px 15px;
-    }
-
-    .sidebar a:hover {
-      background-color: #f1f1f1;
-    }
-
-    /* Email and Logout button */
-    .sidebar .email {
-      font-size: 12px;
-      color: gray;
-      padding-left: 25px;
-      padding-top: 20%;
-      padding-bottom: 5px;
-    }
-
-    .sidebar .logout {
-      padding: 10px 15px;
-      background-color: #e74c3c;
-      color: white;
-      border: none;
-      cursor: pointer;
-      width: calc(100% - 30px);
-      /* Adjust width */
-      margin: 10px 15px;
-      font-size: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .sidebar .logout:hover {
-      background-color: #c0392b;
-    }
-
-    /* Menu toggle button */
-    .menu-toggle {
-      display: block;
-      background: none;
-      color: white;
-      padding: 10px;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-      position: fixed;
-      /* Position it fixed on screen */
-      top: 10px;
-      /* Adjust top spacing */
-      left: 10px;
-      /* Adjust left spacing */
-      z-index: 1100;
-      /* Keep above sidebar */
-      border-radius: 5px;
-    }
-
-    .menu-toggle:hover {
-      background-color: #351B4A;
-    }
-
-    /* Content Area Styles */
     .content-sidebar {
-      margin-left: 250px;
-      /* Start with sidebar width */
-      padding: 20px;
-      transition: margin-left 0.3s ease;
-    }
-
-    .content-sidebar.collapsed {
       margin-left: 0;
-      /* Adjust content when sidebar collapsed */
+      /* Ensure no gap for smaller screens */
     }
-
-    /* Small screen adjustments */
-    @media (max-width: 768px) {
-      .sidebar {
-        width: 70%;
-        z-index: 3;
-        /* Adjust sidebar width */
-      }
-
-      .content-sidebar {
-        margin-left: 0;
-        /* Ensure no gap for smaller screens */
-      }
-    }
-  </style>
-</head>
-
+  }
+</style>
 <body>
-
   <aside>
     <!-- Sidebar (initially closed) -->
     <div class="sidebar closed">
