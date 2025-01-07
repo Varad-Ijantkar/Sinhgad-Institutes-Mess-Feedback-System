@@ -55,7 +55,7 @@
 <header id="header" class="mx-auto sticky-top bg-danger">
     <div class="container d-flex align-items-center justify-content-between">
         <!-- Logo -->
-        <img src="http://nbnstic.sinhgad.edu/wp-content/uploads/2022/11/Sinhgad-Institutes-custom-1024x671.png" 
+        <img src="https://cms.sinhgad.edu/SIM_Web_Assets/images/sinhgad-logo-colour-1.png" 
             alt="Sinhgad Technical Education Society, Pune" class="img-fluid header-logo">
         
         <!-- Header Title (show on medium and larger screens) -->
