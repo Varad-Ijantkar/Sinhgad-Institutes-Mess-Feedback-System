@@ -21,6 +21,7 @@
             padding: 20px;
             margin: 20px auto;
             max-width: 1200px;
+            margin-bottom: 17%;
         }
 
         .pending_view {
@@ -55,6 +56,7 @@
         td {
             padding: 12px 15px;
             border: 1px solid #ddd;
+            height: 50;
         }
 
         th {
@@ -89,6 +91,7 @@
             .content {
                 margin: 10px;
                 padding: 10px;
+                margin-bottom: 23%;
             }
 
             table,

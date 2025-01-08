@@ -9,12 +9,13 @@
         /* Soft shadow */
         max-width: 500px;
         margin: 120px auto;
+        margin-left: 35%;
         /* Center the form horizontally and add some space at the top */
     }
 
     /* Adjust the container margin-left to account for the sidebar */
     .container {
-        margin-left: 170px;
+        margin: auto;
         /* Space for sidebar */
     }
 
@@ -50,7 +51,7 @@
     /* Responsive Design */
     @media (max-width: 768px) {
         .container {
-            margin-left: 0;
+            margin-left: 10%;
             /* Remove left margin on small screens */
         }
 
