@@ -26,6 +26,7 @@ class Total_Complaints extends CI_Controller
         $this->load->view('template/header', $data);
         $this->load->view('template/adminnavbar', $data);
         $this->load->view('total_complaints_view', $data); // Total complaints view
+		$this->load->view('template/footer',$data);
     }
 
 	public function resolve()

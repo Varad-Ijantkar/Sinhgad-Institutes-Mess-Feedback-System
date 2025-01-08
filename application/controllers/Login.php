@@ -16,7 +16,7 @@ class Login extends CI_Controller
 	{
 		$data['otpSent'] = false;
 		$data['email'] = "";
-		$data['error'] = ""; // To store any error messages
+		$data['error'] = "";
 
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			// Step 1: Email and password submission
@@ -24,43 +24,41 @@ class Login extends CI_Controller
 				$email = $this->input->post('email');
 				$password = $this->input->post('password');
 
-				// Check if email and password match a record in the database
 				$user = $this->Login_model->validate_user($email, $password);
 
 				if ($user) {
-					// Check if the user is using a temporary password
+					// Check if temporary password is in use
 					if ($user->is_temp_password == 1) {
 						// Redirect to password renewal
-						$this->session->set_userdata('user_email', $user->email);
-						$this->session->set_userdata('is_temp_password', 1);
+						$this->session->set_userdata([
+							'user_email' => $user->email,
+							'is_temp_password' => 1
+						]);
 						redirect('passwordrenew');
 					}
 
-					// User exists, generate OTP
-					$this->session->set_userdata('otp', $user->otp); // Use the OTP from the database
-					$this->session->set_userdata('user_email', $email); // Store email in session
+					// Normal login flow with OTP generation
+					$this->session->set_userdata('otp', $user->otp);
+					$this->session->set_userdata('user_email', $email);
 					$data['otpSent'] = true;
-					$data['email'] = $email; // Pass email back to view
+					$data['email'] = $email;
 				} else {
 					$data['error'] = "Invalid email or password. Please try again.";
-					$data['email'] = $email; // Keep email filled even in case of error
+					$data['email'] = $email;
 				}
 			}
 
-			// Step 2: OTP submission
+			// Step 2: OTP verification
 			if ($this->input->post('otp')) {
 				$otp = $this->input->post('otp');
 
-				// Verify OTP
 				if ($otp == $this->session->userdata('otp')) {
-					// Successful login, redirect to complaintform.php
 					redirect('complaint');
-					exit(); // Make sure to stop script execution after redirection
+					exit();
 				} else {
-					// Invalid OTP
 					$data['error'] = "Invalid OTP. Please try again.";
-					$data['otpSent'] = true; // Keep OTP field visible
-					$data['email'] = $this->session->userdata('user_email'); // Preserve email
+					$data['otpSent'] = true;
+					$data['email'] = $this->session->userdata('user_email');
 				}
 			}
 		}

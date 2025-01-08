@@ -168,7 +168,6 @@
             </table>
         </div>
     </div>
-
 </body>
-
+<?php $this->load->view('template/footer'); ?>
 </html>

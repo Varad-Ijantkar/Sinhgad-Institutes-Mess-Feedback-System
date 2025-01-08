@@ -162,6 +162,6 @@
             </table>
         </div>
     </div>
-
+	<?php $this->load->view('template/footer'); ?>
 </body>
 </html>
