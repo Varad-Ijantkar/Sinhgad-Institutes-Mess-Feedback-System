@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    
 </head>
 
 <body class="bg-grey-100">
@@ -36,21 +37,19 @@
 
                 <!-- Role Selection -->
                 <div class="mb-3">
-                    <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Access Type</label>
-                    <select id="role" name="role"
-                        class="w-full border border-purple-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-violet-400"
-                        required>
-                        <option value="Vendor" <?php echo set_select('role', 'Vendor'); ?>>Vendor</option>
-                        <option value="Supervisor" <?php echo set_select('role', 'Supervisor'); ?>>Supervisor</option>
-                        <option value="Residence Officer"
-                            <?php echo set_select('role', 'Residence Officer'); ?>>Residence Officer</option>
-                        <option value="Estate Head" <?php echo set_select('role', 'Estate Head'); ?>>Estate Head</option>
-                        <option value="Campus Director"
-                            <?php echo set_select('role', 'Campus Director'); ?>>Campus Director</option>
-                        <option value="Committee" <?php echo set_select('role', 'Committee'); ?>>Committee</option>
-                        <option value="Management" <?php echo set_select('role', 'Management'); ?>>Management</option>
-                    </select>
-                </div>
+    <label for="role" class="block text-sm font-medium text-grey-700 mb-1">Access Type</label>
+    <select id="role" name="role"
+        class="w-full border border-purple-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-violet-400"
+        required>
+        <option value="Vendor" <?php echo set_select('role', 'Vendor'); ?>>Vendor</option>
+        <option value="Supervisor" <?php echo set_select('role', 'Supervisor'); ?>>Supervisor</option>
+        <option value="Residence Officer" <?php echo set_select('role', 'Residence Officer'); ?>>Residence Officer</option>
+        <option value="Estate Head" <?php echo set_select('role', 'Estate Head'); ?>>Estate Head</option>
+        <option value="Campus Director" <?php echo set_select('role', 'Campus Director'); ?>>Campus Director</option>
+        <option value="Committee" <?php echo set_select('role', 'Committee'); ?>>Committee</option>
+        <option value="Management" <?php echo set_select('role', 'Management'); ?>>Management</option>
+    </select>
+</div>
 
                 <!-- Error Message -->
                 <?php if (!empty($login_error)): ?>
