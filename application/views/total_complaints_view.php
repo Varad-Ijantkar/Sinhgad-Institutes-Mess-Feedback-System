@@ -17,7 +17,6 @@
         .content {
             padding: 20px;
             margin: 20px auto;
-            max-width: 1200px;
             margin-bottom: 17%;
         }
 
@@ -32,13 +31,14 @@
             font-weight: bold;
             font-size: 28px;
             margin-bottom: 30px;
+            color: hsl(270, 46.20%, 28.40%);
         }
 
         .table-wrapper {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+			justify-content: center;
+            width: 86%;
+            margin-left: 14%;
         }
 
         table {

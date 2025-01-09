@@ -10,31 +10,70 @@
 
 	<style>
 		/* Custom CSS to adjust container size */
+		
 		.container-custom {
 			max-width: 1000px;
-			/* Reducing the width */
-			padding: 20px;
-			margin-top: 50px;
-			margin-bottom: 50px;
-			/* Reducing the height by limiting vertical margin */
-			margin-left: 260px;
+			margin-top: 5%;
+			margin-bottom: 10%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			color: #48276A;
 		}
 
 		.form-custom {
 			max-height: 80vh;
 			overflow-y: auto;
-			/* Allow vertical scroll */
-			/* Hide scrollbar for Chrome, Safari, and newer versions of Edge */
+			width: 100%;
 			scrollbar-width: none;
-			/* Hide scrollbar for Firefox */
 			-ms-overflow-style: none;
-			/* Hide scrollbar for IE and Edge */
 		}
 
 		.form-custom::-webkit-scrollbar {
 			display: none;
-			/* Chrome, Safari, and Edge */
 		}
+
+		.form-custom button {
+			background: hsl(270, 46.20%, 28.40%);
+		}
+
+		.form-custom button:hover {
+			background: hsl(270, 46.20%, 48.40%);
+		}
+		@media screen and (max-width: 1024px) {
+            .container-custom {
+                max-width: 90%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .container-custom {
+                max-width: 95%;
+                padding: 15px;
+                margin-top: 30px;
+                margin-bottom: 30px;
+            }
+
+            .form-custom {
+                max-height: 75vh;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .container-custom {
+                max-width: 100%;
+                padding: 10px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+
+            .form-custom {
+                max-height: 70vh;
+            }
+        }
 	</style>
 </head>
 

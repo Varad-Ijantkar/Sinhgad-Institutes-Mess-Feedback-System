@@ -7,7 +7,8 @@
 	<title>Pending Complaints</title>
 	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 	<style>
-		html, body {
+		html,
+		body {
 			height: 100%;
 			margin: 0;
 			font-family: 'Quicksand', sans-serif;
@@ -20,18 +21,21 @@
 		}
 
 		.pending_view h2 {
-            text-align: center;
-            color: black;
-            font-weight: bolder;
-        }
-		.pending_view h3 {
-            text-align: center;
-            color: black;
-        }
+			margin-left: 33%;
+			font-weight: bolder;
+			color: hsl(270, 46.20%, 28.40%);
+		}
 
-		.table-wrapper {
-			overflow-x: auto;
-			-webkit-overflow-scrolling: touch;
+		.pending_view h3 {
+			margin-left: 33%;
+			color: hsl(270, 46.20%, 28.40%);
+		}
+
+		.table-wrapper {	
+            -webkit-overflow-scrolling: touch;
+			display: flex;
+			justify-content: center;
+            width: 100%;
 		}
 
 		table {
@@ -39,14 +43,15 @@
 			border-collapse: collapse;
 			margin: 20px 0;
 			background-color: #fff;
-			border-radius: 12px;
 			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 		}
 
-		table, th, td {
+		table,
+		th,
+		td {
 			padding: 12px 15px;
 			border: 1px solid #ddd;
-			height: 50;
+			height: 50px;
 		}
 
 		th {
@@ -64,10 +69,21 @@
 			background-color: #f3e5f5;
 		}
 
-		th, td {
+		th,
+		td {
 			text-align: left;
 			word-wrap: break-word;
 			font-size: 14px;
+		}
+
+		.center-align {
+			text-align: center;
+		}
+		.center-align button {
+			background: hsl(270, 46.20%, 28.40%);
+		}
+		.center-align button:hover {
+			background: hsl(270, 46.20%, 48.40%);
 		}
 
 		@media (max-width: 768px) {
@@ -76,9 +92,20 @@
 				padding: 10px;
 			}
 
-			table, th, td {
+			.pending_view h2, .pending_view h3 {
+				margin-left: 0;
+				text-align: center;
+			}
+
+			table,
+			th,
+			td {
 				font-size: 14px;
 				padding: 10px;
+			}
+
+			.center-align form {
+				text-align: center;
 			}
 
 			.table-wrapper::-webkit-scrollbar {
@@ -87,12 +114,16 @@
 		}
 
 		@media (max-width: 576px) {
-			table, th, td {
+
+			table,
+			th,
+			td {
 				font-size: 12px;
 				padding: 8px;
 			}
 
-			th, td {
+			th,
+			td {
 				white-space: nowrap;
 			}
 		}
@@ -127,7 +158,7 @@
 				<th>Campus</th>
 				<th>Description</th>
 				<?php if (!in_array($role, ['vendor', 'committee', 'campus_director', 'estate_head'])): ?>
-					<th>Action</th> <!-- Only render the Action column for authorized roles -->
+					<th class="center-align">Action</th> <!-- Only render the Action column for authorized roles -->
 				<?php endif; ?>
 			</tr>
 			</thead>
@@ -142,7 +173,7 @@
 						<td><?php echo $complaint['campus']; ?></td>
 						<td><?php echo $complaint['description']; ?></td>
 						<?php if (!in_array($role, ['vendor', 'committee', 'campus_director', 'estate_head'])): ?>
-							<td>
+							<td class="center-align">
 								<form method="post" action="<?php echo base_url('Pending_Complaints/mark_as_resolved'); ?>">
 									<input type="hidden" name="complaint_id" value="<?php echo $complaint['id']; ?>">
 									<button type="submit" class="btn btn-primary">Resolve</button>

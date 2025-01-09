@@ -30,17 +30,18 @@
     }
 
     /* Submit button */
-    .btn-primary {
-        background-color: #5cb85c;
-        border-color: #4cae4c;
+    .btn{
+        background-color:hsl(270, 46.20%, 28.40%);
         width: 100%;
-        /* Full width button */
+        color: white;
         padding: 10px;
         font-size: 16px;
     }
 
-    .btn-primary:hover {
-        background-color: #4cae4c;
+
+    .btn:hover {
+        background-color:hsl(270, 46.20%, 48.40%);
+        color: white;
     }
 
     /* Style for the form labels */
@@ -94,7 +95,7 @@
             </div>
 
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn">Submit</button>
         </form>
     </div>
 </div>
