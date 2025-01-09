@@ -8,7 +8,7 @@
         position: absolute;
         left: 0;
         width: 250px;
-        height: 100vh;
+        height: 78vh;
         background-color: #fff;
         border-right: 1px solid #ddd;
         padding-top: 10px;
@@ -92,25 +92,29 @@
                 <li><a href="<?php echo site_url('Total_Complaints'); ?>">Total</a></li> <!-- Updated link -->
             </ul>
         </div>
-        <div>
-            <?php if ($this->session->userdata('user_role') == 'Residence Officer'): ?> <!-- Updated role -->
-                <a href="<?php echo site_url('ResidenceOfficer/upload_student_details'); ?>">
-                    <!-- Ensure this is the correct path -->
-                    <strong>Upload Student Details</strong>
-                </a>
-            <?php endif; ?>
-        </div>
+		<div>
+			<?php if (in_array($this->session->userdata('user_role'), ['Residence Officer', 'Management', 'Estate Head'])): ?> <!-- Updated roles -->
+				<a href="<?php echo site_url('ResidenceOfficer/upload_student_details'); ?>">
+					<strong>Upload Student Details</strong>
+				</a>
+			<?php endif; ?>
+		</div>
+		<br>
+		<div>
+			<?php if (in_array($this->session->userdata('user_role'),['Residence Officer','Estate Head','Management'])): ?> <!-- Updated role -->
+				<a href="<?php echo site_url('ResidenceOfficer/view_student_details'); ?>">
+					<strong>View Student Details</strong>
+				</a>
+			<?php endif; ?>
+		</div>
         <br>
         <div>
-            <?php if ($this->session->userdata('user_role') == 'Residence Officer'): ?>
+            <?php if (in_array($this->session->userdata('user_role'),['Residence Officer','Estate Head','Management'])): ?>
                 <a href="<?php echo site_url('ResidenceOfficer/manage_access'); ?>">
                     <strong>Manage Access</strong>
                 </a>
             <?php endif; ?>
         </div>
-        <br>
-        <br>
-        <br>
         <br>
         <br>
         <br>
