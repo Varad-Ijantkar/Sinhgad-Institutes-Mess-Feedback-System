@@ -12,6 +12,20 @@ class ResidenceOfficer extends CI_Controller
         $this->load->model('Student_Info_model'); // Load the Student_Info_model to handle student info
     }
 
+	public function view_student_details()
+	{
+		$user_email = $this->session->userdata('user_email');
+		$data['user_email'] = $user_email;
+
+		// Fetch student details
+		$data['students'] = $this->Student_Info_model->get_all_students();
+
+		$this->load->view('template/header', $data);
+		$this->load->view('template/adminnavbar', $data);
+		$this->load->view('view_student_details', $data); // Pass data to the view
+	}
+
+
     // View for uploading student details
     public function upload_student_details()
     {

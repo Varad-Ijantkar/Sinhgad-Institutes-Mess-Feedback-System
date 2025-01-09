@@ -12,7 +12,6 @@
         body {
             height: 100%;
             margin: 0;
-            font-family: 'Quicksand', sans-serif;
             box-sizing: border-box;
         }
 

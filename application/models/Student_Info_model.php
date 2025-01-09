@@ -8,7 +8,11 @@ class Student_Info_model extends CI_Model
         parent::__construct();
         $this->load->database();
     }
-
+	public function get_all_students()
+	{
+		$query = $this->db->get('student_info');
+		return $query->result(); // Return as an array of objects
+	}
     // Insert student data into the database (used for CSV upload)
     public function insert_student($data)
     {
@@ -18,7 +22,7 @@ class Student_Info_model extends CI_Model
     // Fetch student data by email (used for autofilling form)
     public function get_student_by_email($email)
     {
-        // Query to fetch student data where the email matches
+        // Query to fetch student data where the email matchesz
         $this->db->where('email', $email);
         $query = $this->db->get('student_info'); // 'student_info' is the table name
 

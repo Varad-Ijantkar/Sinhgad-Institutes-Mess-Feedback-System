@@ -26,6 +26,5 @@ class Resolved_Complaints extends CI_Controller
         $this->load->view('template/header', $data);
         $this->load->view('template/adminnavbar', $data);
         $this->load->view('resolved_complaints_view', $data); // Resolved complaints view
-		$this->load->view('template/footer');
     }
 }
