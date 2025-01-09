@@ -11,7 +11,7 @@
 <body class="bg-grey-100">
 
 	<div class='flex items-center justify-center min-h-[78vh]'>
-		<div class="bg-white  rounded-lg p-6 max-w-md w-1/2" style="box-shadow: 0 4px 6px rgba(139, 92, 246, 0.5);">
+		<div class="bg-white border border-purple-300 rounded-lg p-6 max-w-md w-1/2" style="box-shadow: 0 4px 6px rgba(139, 92, 246, 0.5);">
 			<h2 class="text-center text-2xl font-bold mb-4 text-violet-950">Student Login</h2>
 			<form action="" method="POST">
 				<!-- Email Input -->

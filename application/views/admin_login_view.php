@@ -12,7 +12,7 @@
 
     <div class="flex flex-col items-center justify-center gap-0 min-h-[78vh]">
     
-        <div class="bg-white rounded-lg p-4 max-w-md w-1/2" style="box-shadow: 0 4px 6px rgba(139, 92, 246, 0.5);">
+        <div class="bg-white border border-purple-300 rounded-lg p-4 max-w-md w-1/2" style="box-shadow: 0 4px 6px rgba(139, 92, 246, 0.5);">
         <h2 class="text-center text-2xl font-bold mb-3 text-violet-950">Admin Login</h2>
 
             <form action="<?php echo base_url('Admin_Login/login'); ?>" method="POST">
