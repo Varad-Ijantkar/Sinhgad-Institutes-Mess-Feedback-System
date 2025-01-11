@@ -85,11 +85,11 @@
         <div class="menu">
             <div class="vertical-line"></div>
             <ul>
-                <li><a href="<?php echo site_url('Pending_Complaints'); ?>">Pending</a></li>
+                <li><a href="<?php echo site_url('Admin_Pending_Complaints'); ?>">Pending</a></li>
                 <!-- Updated link -->
-                <li><a href="<?php echo site_url('Resolved_Complaints'); ?>">Resolved</a></li>
+                <li><a href="<?php echo site_url('Admin_Resolved_Complaints'); ?>">Resolved</a></li>
                 <!-- Updated link -->
-                <li><a href="<?php echo site_url('Total_Complaints'); ?>">Total</a></li> <!-- Updated link -->
+                <li><a href="<?php echo site_url('Admin_Total_Complaints'); ?>">Total</a></li> <!-- Updated link -->
             </ul>
         </div>
 		<div>

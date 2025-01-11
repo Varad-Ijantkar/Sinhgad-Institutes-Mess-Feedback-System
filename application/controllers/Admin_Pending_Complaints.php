@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pending_Complaints extends CI_Controller
+class Admin_Pending_Complaints extends CI_Controller
 {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Pending_Complaints_model');
+		$this->load->model('Admin_Pending_Complaints_model');
 		$this->load->library('session');
 		$this->load->helper('url');
 	}
@@ -18,7 +18,7 @@ class Pending_Complaints extends CI_Controller
 		}
 
 		// Fetch pending complaints
-		$data['pending_complaints'] = $this->Pending_Complaints_model->get_pending_complaints();
+		$data['pending_complaints'] = $this->Admin_Pending_Complaints_model->get_pending_complaints();
 		$data['user_email'] = $this->session->userdata('user_email');
 		$data['role'] = strtolower($this->session->userdata('user_role')); // Use 'user_role' here
 
@@ -39,18 +39,18 @@ class Pending_Complaints extends CI_Controller
 		$role = strtolower($this->session->userdata('user_role')); // Use 'user_role' here
 		if (in_array($role, ['vendor', 'committee', 'campus_director', 'estate_head'])) {
 			$this->session->set_flashdata('error', 'You do not have permission to resolve complaints.');
-			redirect('Pending_Complaints');
+			redirect('Admin_Pending_Complaints');
 		}
 
 		// Fetch complaint ID and mark as resolved
 		$complaint_id = $this->input->post('complaint_id');
 		if ($complaint_id) {
-			$this->Pending_Complaints_model->mark_as_resolved($complaint_id);
+			$this->Admin_Pending_Complaints_model->mark_as_resolved($complaint_id);
 			$this->session->set_flashdata('message', 'Complaint resolved successfully!');
 		} else {
 			$this->session->set_flashdata('error', 'Failed to resolve complaint. Invalid ID.');
 		}
 
-		redirect('Pending_Complaints');
+		redirect('Admin_Pending_Complaints');
 	}
 }
