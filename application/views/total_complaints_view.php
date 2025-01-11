@@ -16,27 +16,27 @@
 
         .content {
             padding: 20px;
-            margin: 20px auto;
-            margin-bottom: 17%;
+            margin: 0 auto;
         }
 
         .total_view {
-            margin-left: auto;
-            margin-right: auto;
+            width: 100%;
         }
 
         .total_view h2 {
+            font-family: sans-serif;
             text-align: center;
-            color: black;
+            color: hsl(270, 46.20%, 28.40%);
             font-weight: bold;
             font-size: 28px;
             margin-bottom: 30px;
-            color: hsl(270, 46.20%, 28.40%);
         }
 
         .table-wrapper {
-            display: flex;
-			justify-content: center;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            display: block;
+            margin: 0 auto;
             width: 86%;
             margin-left: 14%;
         }
@@ -44,23 +44,22 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 0;
             background-color: #fff;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
 
         table, th, td {
             padding: 12px 15px;
             border: 1px solid #ddd;
-            height: 50;
+            text-align: left;
+            word-wrap: break-word;
         }
 
         th {
             background-color: rgb(87, 49, 125);
             color: white;
-            text-align: left;
-            font-weight: 700;
+            font-weight: bold;
         }
-        
 
         tr:nth-child(even) {
             background-color: #f9f9f9;
@@ -71,16 +70,16 @@
         }
 
         th, td {
-            text-align: left;
-            word-wrap: break-word;
-            font-size: 14px;
+            font-size: 18px;
         }
 
         @media (max-width: 768px) {
             .content {
-                margin: 10px;
                 padding: 10px;
-                margin-bottom: 23%;
+            }
+
+            .table-wrapper {
+                padding: 0 10px;
             }
 
             table, th, td {
@@ -90,7 +89,6 @@
 
             h2 {
                 font-size: 25px;
-                margin-bottom: 10px;
             }
 
             .table-wrapper::-webkit-scrollbar {
@@ -99,13 +97,26 @@
         }
 
         @media (max-width: 576px) {
-            table, th, td {
-                font-size: 12px;
-                padding: 8px;
+            .table-wrapper {
+                padding: 0 5px;
+                margin-left: 8px;
+                width: 95%;
             }
+
+            table,
+			th,
+			td {
+				font-size: 18px;
+				padding: 8px;
+				height: 50;
+			}
 
             th, td {
                 white-space: nowrap;
+            }
+
+            h2 {
+                font-size: 20px;
             }
         }
     </style>

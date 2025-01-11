@@ -30,8 +30,8 @@
     }
 
     /* Submit button */
-    .btn{
-        background-color:hsl(270, 46.20%, 28.40%);
+    .btn {
+        background-color: hsl(270, 46.20%, 28.40%);
         width: 100%;
         color: white;
         padding: 10px;
@@ -40,7 +40,7 @@
 
 
     .btn:hover {
-        background-color:hsl(270, 46.20%, 48.40%);
+        background-color: hsl(270, 46.20%, 48.40%);
         color: white;
     }
 
@@ -52,13 +52,14 @@
     /* Responsive Design */
     @media (max-width: 768px) {
         .container {
-            margin-left: 10%;
+            margin-left: 0;
             /* Remove left margin on small screens */
         }
 
         .form-container {
             width: 90%;
-            /* Reduce form width on small screens */
+            margin-left: 5%;
+            margin-top: 50%;
         }
     }
 </style>

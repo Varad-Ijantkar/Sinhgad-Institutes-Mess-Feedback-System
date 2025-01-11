@@ -21,14 +21,9 @@
             margin-bottom: 24%;
         }
 
-        .resolved_view {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
         .resolved_view h2 {
+            font-family: sans-serif;
             text-align: center;
-            color: black;
             font-weight: bold;
             font-size: 28px;
             margin-bottom: 30px;
@@ -36,8 +31,10 @@
         }
 
         .table-wrapper {
-            display: flex;
-			justify-content: center;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            display: block;
+            margin: 0 auto;
             width: 86%;
             margin-left: 14%;
         }
@@ -45,7 +42,6 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 0;
             background-color: #fff;
         }
 
@@ -54,7 +50,6 @@
         td {
             padding: 12px 15px;
             border: 1px solid #ddd;
-            height: 50;
         }
 
         th {
@@ -76,9 +71,10 @@
         td {
             text-align: left;
             word-wrap: break-word;
-            font-size: 14px;
+            font-size: 18px;
         }
 
+        /* Media queries for responsiveness */
         @media (max-width: 768px) {
             .content {
                 margin: 10px;
@@ -86,12 +82,20 @@
                 margin-bottom: 60%;
             }
 
-            table,
-            th,
-            td {
-                font-size: 14px;
-                padding: 10px;
+            .table-wrapper {
+                overflow-x: auto;
+                margin: 0 auto;
+                width: 100%;
             }
+
+            table,
+			th,
+			td {
+				font-size: 18px;
+				padding: 8px;
+				height: 50;
+			}
+
 
             h2 {
                 font-size: 25px;
@@ -104,17 +108,22 @@
         }
 
         @media (max-width: 576px) {
-
             table,
-            th,
-            td {
-                font-size: 12px;
-                padding: 8px;
-            }
+			th,
+			td {
+				font-size: 18px;
+				padding: 8px;
+				height: 50;
+			}
+
 
             th,
             td {
                 white-space: nowrap;
+            }
+
+            .table-wrapper {
+                padding: 10px;
             }
         }
     </style>
