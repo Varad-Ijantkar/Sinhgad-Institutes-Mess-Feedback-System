@@ -36,8 +36,8 @@
 
 		/* Wrapper for making the table scrollable */
 		.table-wrapper {
-			overflow-x: auto; /* Enable horizontal scroll */
-			-webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+			overflow-x: auto;
+			-webkit-overflow-scrolling: touch;
 		}
 
 		/* Table styles */
@@ -58,7 +58,7 @@
 		}
 
 		th {
-			background-color:rgb(87, 49, 125);
+			background-color: rgb(87, 49, 125);
 			color: white;
 			text-align: left;
 			font-weight: 700;
@@ -102,12 +102,14 @@
 				font-size: 25px;
 				margin-bottom: 10px;
 			}
+
 			.table-wrapper::-webkit-scrollbar {
 				display: none;
 			}
 		}
 
 		@media (max-width: 576px) {
+
 			table,
 			th,
 			td {
@@ -117,7 +119,8 @@
 
 			th,
 			td {
-				white-space: nowrap; /* Prevent text wrapping on small screens */
+				white-space: nowrap;
+				/* Prevent text wrapping on small screens */
 			}
 		}
 	</style>
@@ -125,47 +128,48 @@
 
 <body>
 
-<!-- Main content area -->
-<div class="content pending_view">
-	<h2>Resolved Complaints</h2>
+	<!-- Main content area -->
+	<div class="content pending_view">
+		<h2>Resolved Complaints</h2>
 
-	<div class="table-wrapper">
-		<table>
-			<thead>
-			<tr>
-				<th>Complaint ID</th>
-				<th>Name</th>
-				<th>Mess</th>
-				<th>Date Filed</th>
-				<th>Campus</th>
-				<th>Description</th>
-				<th>View Report</th>
-			</tr>
-			</thead>
-			<tbody>
-			<?php if (!empty($resolved_complaints)): ?>
-				<?php foreach ($resolved_complaints as $complaint): ?>
+		<div class="table-wrapper">
+			<table>
+				<thead>
 					<tr>
-						<td><?php echo $complaint->id; ?></td>
-						<td><?php echo $complaint->name; ?></td>
-						<td><?php echo $complaint->mess; ?></td>
-						<td><?php echo $complaint->date; ?></td>
-						<td><?php echo $complaint->campus; ?></td>
-						<td><?php echo $complaint->food_complaints; ?></td>
-						<td>
-							<a href="<?php echo base_url('complaint/generate_report/' . $complaint->id); ?>">View</a> <!-- Updated View hyperlink -->
-						</td>
+						<th>Complaint ID</th>
+						<th>Name</th>
+						<th>Mess</th>
+						<th>Date Filed</th>
+						<th>Campus</th>
+						<th>Description</th>
+						<th>View Report</th>
 					</tr>
-				<?php endforeach; ?>
-			<?php else: ?>
-				<tr>
-					<td colspan="6">No resolved complaints found</td>
-				</tr>
-			<?php endif; ?>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<?php if (!empty($resolved_complaints)): ?>
+						<?php foreach ($resolved_complaints as $complaint): ?>
+							<tr>
+								<td><?php echo $complaint->id; ?></td>
+								<td><?php echo $complaint->name; ?></td>
+								<td><?php echo $complaint->mess; ?></td>
+								<td><?php echo $complaint->date; ?></td>
+								<td><?php echo $complaint->campus; ?></td>
+								<td><?php echo $complaint->food_complaints; ?></td>
+								<td>
+									<a href="<?php echo base_url('complaint/generate_report/' . $complaint->id); ?>">View</a> <!-- Updated View hyperlink -->
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					<?php else: ?>
+						<tr>
+							<td colspan="7">No resolved complaints found</td>
+						</tr>
+					<?php endif; ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
-</div>
-<?php $this->load->view('template/footer'); ?>
+	<?php $this->load->view('template/footer'); ?>
 </body>
+
 </html>

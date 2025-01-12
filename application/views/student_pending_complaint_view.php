@@ -59,7 +59,7 @@
 		}
 
 		th {
-			background-color:rgb(87, 49, 125);
+			background-color: rgb(87, 49, 125);
 			/* Purple */
 			color: white;
 			text-align: left;
@@ -130,48 +130,49 @@
 
 <body>
 
-<!-- Main content area -->
-<div class="content pending_view">
-	<h2>Pending Complaints</h2>
+	<!-- Main content area -->
+	<div class="content pending_view">
+		<h2>Pending Complaints</h2>
 
-	<div class="table-wrapper">
-		<table>
-			<thead>
-			<tr>
-				<th>Complaint ID</th>
-				<th>Name</th>
-				<th>Mess</th>
-				<th>Date Filed</th>
-				<th>Campus</th>
-				<th>Description</th>
-				<th>View Report</th>
-			</tr>
-			</thead>
-			<tbody>
-			<?php if (!empty($pending_complaints)): ?>
-				<?php foreach ($pending_complaints as $complaint): ?>
+		<div class="table-wrapper">
+			<table>
+				<thead>
 					<tr>
-						<td><?php echo $complaint->id; ?></td>
-						<td><?php echo $complaint->name; ?></td>
-						<td><?php echo $complaint->mess; ?></td>
-						<td><?php echo $complaint->date; ?></td>
-						<td><?php echo $complaint->campus; ?></td>
-						<td><?php echo $complaint->food_complaints; ?></td>
-						<td>
-							<a href="<?php echo base_url('complaint/generate_report/' . $complaint->id); ?>">View</a> <!-- Updated View hyperlink -->
-						</td>
-
+						<th>Complaint ID</th>
+						<th>Name</th>
+						<th>Mess</th>
+						<th>Date Filed</th>
+						<th>Campus</th>
+						<th>Description</th>
+						<th>View Report</th>
 					</tr>
-				<?php endforeach; ?>
-			<?php else: ?>
-				<tr>
-					<td colspan="7">No pending complaints found</td> <!-- Updated colspan to 7 -->
-				</tr>
-			<?php endif; ?>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<?php if (!empty($pending_complaints)): ?>
+						<?php foreach ($pending_complaints as $complaint): ?>
+							<tr>
+								<td><?php echo $complaint->id; ?></td>
+								<td><?php echo $complaint->name; ?></td>
+								<td><?php echo $complaint->mess; ?></td>
+								<td><?php echo $complaint->date; ?></td>
+								<td><?php echo $complaint->campus; ?></td>
+								<td><?php echo $complaint->food_complaints; ?></td>
+								<td>
+									<a href="<?php echo base_url('complaint/generate_report/' . $complaint->id); ?>">View</a> <!-- Updated View hyperlink -->
+								</td>
+
+							</tr>
+						<?php endforeach; ?>
+					<?php else: ?>
+						<tr>
+							<td colspan="7">No pending complaints found</td> <!-- Updated colspan to 7 -->
+						</tr>
+					<?php endif; ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
-</div>
 </body>
 <?php $this->load->view('template/footer'); ?>
+
 </html>

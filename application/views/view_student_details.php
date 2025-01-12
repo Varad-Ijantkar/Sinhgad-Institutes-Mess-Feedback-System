@@ -2,50 +2,151 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
+<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>View Student Details</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 	<style>
+		html,
 		body {
+			height: 100%;
 			margin: 0;
-			padding: 0;
-			font-family: Arial, sans-serif;
-		}
-
-		/* Adjust content to accommodate the navigation menu */
-		.main-content {
-			margin-left: 250px; /* Offset by the width of the navigation menu */
-			padding: 20px;
+			font-family: 'Quicksand', sans-serif;
 			box-sizing: border-box;
-			overflow-x: auto; /* Prevent horizontal overflow */
 		}
 
-		.container {
-			max-width: calc(100% - 250px); /* Ensure content stays within the viewport */
+		.main-content {
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		h2 {
+			font-family: sans-serif;
+			color: hsl(270, 46.20%, 28.40%);
+			margin-bottom: 20px;
+			text-align: center;
+			font-weight: bold;
+		}
+
+		.table-wrapper {
+			width: 86%;
+			overflow-x: auto;
+			-webkit-overflow-scrolling: touch;
+			margin: 0 auto;
+			margin-left: 14%;
 		}
 
 		table {
 			width: 100%;
+			border-collapse: collapse;
+			background-color: #fff;
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 		}
 
-		/* Responsive adjustments for smaller screens */
+		table,
+		th,
+		td {
+			padding: 12px;
+			border: 1px solid #ddd;
+		}
+
+		th {
+			background-color: rgb(87, 49, 125);
+			color: white;
+			text-align: left;
+			font-weight: bold;
+		}
+
+		tr:nth-child(even) {
+			background-color: #f9f9f9;
+		}
+
+		tr:hover {
+			background-color: #f3e5f5;
+		}
+
+		th,
+		td {
+			text-align: left;
+			word-wrap: break-word;
+			font-size: 16px;
+		}
+
+		.alert {
+			margin-bottom: 20px;
+			padding: 10px;
+			border-radius: 5px;
+		}
+
+		.alert-success {
+			color: #155724;
+			background-color: #d4edda;
+			border-color: #c3e6cb;
+		}
+
+		.alert-danger {
+			color: #721c24;
+			background-color: #f8d7da;
+			border-color: #f5c6cb;
+		}
+
+		/* Responsive styles */
 		@media (max-width: 768px) {
-			.main-content {
-				margin-left: 0;
+			.table-wrapper {
+				padding: 0 10px;
 			}
 
-			.container {
-				max-width: 100%;
+			table,
+			s th,
+			td {
+				font-size: 18px;
+				padding: 8px;
+				height: 50;
+			}
+
+
+			h2 {
+				font-size: 1.8rem;
+			}
+
+			.table-wrapper::-webkit-scrollbar {
+				display: none;
+			}
+		}
+
+		@media (max-width: 576px) {
+			.table-wrapper {
+				padding: 0 5px;
+				margin: 0;
+				width: 100%;
+			}
+
+			table,
+			th,
+			td {
+				font-size: 18px;
+				padding: 8px;
+				height: 50;
+			}
+
+
+			th,
+			td {
+				white-space: nowrap;
+			}
+
+			h2 {
+				font-size: 1.5rem;
 			}
 		}
 	</style>
 </head>
 
 <body>
-<div class="main-content">
-	<div class="container">
-		<h2 class="text-center mb-4">Student Details</h2>
+	<div class="main-content">
+		<h2>Student Details</h2>
 
 		<!-- Success/Error Messages -->
 		<?php if ($this->session->flashdata('success')): ?>
@@ -56,44 +157,40 @@
 		<?php endif; ?>
 
 		<!-- Student Details Table -->
-		<div class="table-responsive">
-			<table class="table table-bordered table-hover">
-				<thead class="thead-dark">
-				<tr>
-					<th>Email</th>
-					<th>Name</th>
-					<th>Phone</th>
-					<th>College</th>
-					<th>Campus</th>
-					<th>Mess</th>
-				</tr>
+		<div class="table-wrapper">
+			<table>
+				<thead>
+					<tr>
+						<th>Email</th>
+						<th>Name</th>
+						<th>Phone</th>
+						<th>College</th>
+						<th>Campus</th>
+						<th>Mess</th>
+					</tr>
 				</thead>
 				<tbody>
-				<?php if (!empty($students)): ?>
-					<?php foreach ($students as $student): ?>
+					<?php if (!empty($students)): ?>
+						<?php foreach ($students as $student): ?>
+							<tr>
+								<td><?php echo $student->email; ?></td>
+								<td><?php echo $student->name; ?></td>
+								<td><?php echo $student->phone; ?></td>
+								<td><?php echo $student->college; ?></td>
+								<td><?php echo $student->campus; ?></td>
+								<td><?php echo $student->mess; ?></td>
+							</tr>
+						<?php endforeach; ?>
+					<?php else: ?>
 						<tr>
-							<td><?php echo $student->email; ?></td>
-							<td><?php echo $student->name; ?></td>
-							<td><?php echo $student->phone; ?></td>
-							<td><?php echo $student->college; ?></td>
-							<td><?php echo $student->campus; ?></td>
-							<td><?php echo $student->mess; ?></td>
+							<td colspan="6" class="text-center">No student details found</td>
 						</tr>
-					<?php endforeach; ?>
-				<?php else: ?>
-					<tr>
-						<td colspan="6" class="text-center">No student details found</td>
-					</tr>
-				<?php endif; ?>
+					<?php endif; ?>
 				</tbody>
 			</table>
 		</div>
 	</div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	</div>
 </body>
 
 </html>

@@ -8,19 +8,22 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         /* Soft shadow */
         max-width: 500px;
-        margin: 120px auto;
+        margin-left: 28%;
+        margin-top: 11%;
         /* Center the form horizontally and add some space at the top */
     }
 
     /* Adjust the container margin-left to account for the sidebar */
     .container {
-        margin-left: 170px;
+        margin: auto;
         /* Space for sidebar */
     }
 
     /* Ensure the form is centered */
     .text-center {
         text-align: center;
+        font-weight: bold;
+        color: hsl(270, 46.20%, 28.40%);
     }
 
     /* Adjust form elements */
@@ -29,17 +32,18 @@
     }
 
     /* Submit button */
-    .btn-primary {
-        background-color: #5cb85c;
-        border-color: #4cae4c;
+    .btn {
+        background-color: hsl(270, 46.20%, 28.40%);
         width: 100%;
-        /* Full width button */
+        color: white;
         padding: 10px;
         font-size: 16px;
     }
 
-    .btn-primary:hover {
-        background-color: #4cae4c;
+
+    .btn:hover {
+        background-color: hsl(270, 46.20%, 48.40%);
+        color: white;
     }
 
     /* Style for the form labels */
@@ -56,7 +60,8 @@
 
         .form-container {
             width: 90%;
-            /* Reduce form width on small screens */
+            margin-left: 5%;
+            margin-top: 50%;
         }
     }
 </style>
@@ -93,7 +98,7 @@
             </div>
 
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn">Submit</button>
         </form>
     </div>
 </div>
