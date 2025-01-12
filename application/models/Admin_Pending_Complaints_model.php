@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pending_Complaints_model extends CI_Model
+class Admin_Pending_Complaints_model extends CI_Model
 {
 	public function __construct()
 	{
@@ -24,4 +24,5 @@ class Pending_Complaints_model extends CI_Model
 		$this->db->where('id', $complaint_id);
 		$this->db->update('complaints', ['status' => 'resolved', 'updated_at' => date('Y-m-d H:i:s')]);
 	}
+	
 }

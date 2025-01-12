@@ -123,51 +123,65 @@
     <!-- Toggle Button (Visible only on small screens) -->
     <button class="toggle-btn" id="toggleSidebar">☰</button>
 
-    <!-- Sidebar -->
-    <aside>
-        <div class="sidebar" id="sidebar">
-            <a href="http://localhost/codeigniter/index.php/admin_dashboard"><strong>Dashboard</strong></a>
-            <div class="menu">
-                <div class="vertical-line"></div>
-                <ul>
-                    <li><a href="<?php echo site_url('Pending_Complaints'); ?>">Pending</a></li>
-                    <li><a href="<?php echo site_url('Resolved_Complaints'); ?>">Resolved</a></li>
-                    <li><a href="<?php echo site_url('Total_Complaints'); ?>">Total</a></li>
-                </ul>
-            </div>
-            <div>
-                <?php if (in_array($this->session->userdata('user_role'), ['Residence Officer', 'Management', 'Estate Head'])): ?>
-                    <a href="<?php echo site_url('ResidenceOfficer/upload_student_details'); ?>">
-                        <strong>Upload Student Details</strong>
-                    </a>
-                <?php endif; ?>
-            </div>
-            <br>
-            <div>
-                <?php if (in_array($this->session->userdata('user_role'), ['Residence Officer', 'Estate Head', 'Management'])): ?>
-                    <a href="<?php echo site_url('ResidenceOfficer/view_student_details'); ?>">
-                        <strong>View Student Details</strong>
-                    </a>
-                <?php endif; ?>
-            </div>
-            <br>
-            <div>
-                <?php if (in_array($this->session->userdata('user_role'), ['Residence Officer', 'Estate Head', 'Management'])): ?>
-                    <a href="<?php echo site_url('ResidenceOfficer/manage_access'); ?>">
-                        <strong>Manage Access</strong>
-                    </a>
-                <?php endif; ?>
-            </div>
-            <br>
-            <div class="email">
-                <strong>Logged in as:</strong> <br>
-                <?php echo $user_email; ?>
-            </div>
-            <form method="post" action="<?php echo base_url('Admin_Login'); ?>">
-                <button style="border-radius:10px;" type="submit" class="logout">Logout</button>
-            </form>
+<aside>
+    <div class="sidebar content-sidebar">
+        <a href="http://localhost/codeigniter/index.php/admin_dashboard"><strong>Dashboard</strong></a>
+        <div class="menu">
+            <div class="vertical-line"></div>
+            <ul>
+                <li><a href="<?php echo site_url('Admin_Pending_Complaints'); ?>">Pending</a></li>
+                <!-- Updated link -->
+                <li><a href="<?php echo site_url('Admin_Resolved_Complaints'); ?>">Resolved</a></li>
+                <!-- Updated link -->
+                <li><a href="<?php echo site_url('Admin_Total_Complaints'); ?>">Total</a></li> <!-- Updated link -->
+            </ul>
         </div>
-    </aside>
+		<div>
+			<?php if (in_array($this->session->userdata('user_role'), ['Residence Officer', 'Management', 'Estate Head'])): ?> <!-- Updated roles -->
+				<a href="<?php echo site_url('ResidenceOfficer/upload_student_details'); ?>">
+					<strong>Upload Student Details</strong>
+				</a>
+			<?php endif; ?>
+		</div>
+		<br>
+		<div>
+			<?php if (in_array($this->session->userdata('user_role'),['Residence Officer','Estate Head','Management'])): ?> <!-- Updated role -->
+				<a href="<?php echo site_url('ResidenceOfficer/view_student_details'); ?>">
+					<strong>View Student Details</strong>
+				</a>
+			<?php endif; ?>
+		</div>
+        <br>
+        <div>
+            <?php if (in_array($this->session->userdata('user_role'),['Residence Officer','Estate Head','Management'])): ?>
+                <a href="<?php echo site_url('ResidenceOfficer/manage_access'); ?>">
+                    <strong>Manage Access</strong>
+                </a>
+            <?php endif; ?>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <!-- Display admin's email -->
+        <div class="email">
+            <strong>Logged in as:</strong> <br>
+            <?php echo $user_email; ?>
+        </div>
+
+        <!-- Logout button -->
+        <form method="post" action="<?php echo base_url('Admin_Login'); ?>">
+            <button style="border-radius:10px;" type="submit" class="logout">Logout</button>
+        </form>
+    </div>
+</aside>
 
     <script>
         const toggleBtn = document.getElementById('toggleSidebar');
