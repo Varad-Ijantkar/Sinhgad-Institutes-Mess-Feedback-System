@@ -8,8 +8,8 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         /* Soft shadow */
         max-width: 500px;
-        margin: 120px auto;
-        margin-left: 35%;
+        margin-left: 28%;
+        margin-top: 11%;
         /* Center the form horizontally and add some space at the top */
     }
 
@@ -22,6 +22,8 @@
     /* Ensure the form is centered */
     .text-center {
         text-align: center;
+        font-weight: bold;
+        color: hsl(270, 46.20%, 28.40%);
     }
 
     /* Adjust form elements */

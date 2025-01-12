@@ -5,7 +5,6 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Pending Complaints</title>
-	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 	<style>
 		html,
 		body {
@@ -20,16 +19,17 @@
 			padding: 20px;
 		}
 
-		.heading{
+		.heading {
 			margin-top: 30px;
 			margin-bottom: 0;
 		}
+
 		.heading h2 {
 			font-family: sans-serif;
 			text-align: center;
 			color: rgb(87, 49, 125);
 			font-weight: bolder;
-			
+
 		}
 
 		.heading h3 {
@@ -125,7 +125,8 @@
 				padding: 8px;
 				height: 50;
 			}
-			.table-wrapper{
+
+			.table-wrapper {
 				margin-left: 10px;
 				margin-right: 10px;
 			}
@@ -156,7 +157,6 @@
 			</div>
 		<?php endif; ?>
 
-
 		<div class="table-wrapper">
 			<table>
 				<thead>
@@ -168,7 +168,7 @@
 						<th>Campus</th>
 						<th>Description</th>
 						<?php if (!in_array($role, ['vendor', 'committee', 'campus_director', 'estate_head'])): ?>
-							<th class="center-align">Action</th> <!-- Only render the Action column for authorized roles -->
+							<th class="center-align">Action</th>
 						<?php endif; ?>
 					</tr>
 				</thead>
@@ -184,7 +184,7 @@
 								<td><?php echo $complaint['description']; ?></td>
 								<?php if (!in_array($role, ['vendor', 'committee', 'campus_director', 'estate_head'])): ?>
 									<td class="center-align">
-										<form method="post" action="<?php echo base_url('Pending_Complaints/mark_as_resolved'); ?>">
+										<form method="post" action="<?php echo base_url('Admin_Pending_Complaints/mark_as_resolved'); ?>">
 											<input type="hidden" name="complaint_id" value="<?php echo $complaint['id']; ?>">
 											<button type="submit" class="btn btn-primary">Resolve</button>
 										</form>

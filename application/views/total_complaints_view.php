@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Total Complaints</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        html, body {
+        html,
+        body {
             height: 100%;
             margin: 0;
             font-family: 'Quicksand', sans-serif;
@@ -48,7 +48,9 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
 
-        table, th, td {
+        table,
+        th,
+        td {
             padding: 12px 15px;
             border: 1px solid #ddd;
             text-align: left;
@@ -69,7 +71,8 @@
             background-color: #f3e5f5;
         }
 
-        th, td {
+        th,
+        td {
             font-size: 18px;
         }
 
@@ -82,7 +85,9 @@
                 padding: 0 10px;
             }
 
-            table, th, td {
+            table,
+            th,
+            td {
                 font-size: 14px;
                 padding: 10px;
             }
@@ -104,14 +109,15 @@
             }
 
             table,
-			th,
-			td {
-				font-size: 18px;
-				padding: 8px;
-				height: 50;
-			}
+            th,
+            td {
+                font-size: 18px;
+                padding: 8px;
+                height: 50;
+            }
 
-            th, td {
+            th,
+            td {
                 white-space: nowrap;
             }
 
@@ -160,7 +166,6 @@
             </table>
         </div>
     </div>
-    <?php $this->load->view('template/footer'); ?>
 </body>
 
 </html>

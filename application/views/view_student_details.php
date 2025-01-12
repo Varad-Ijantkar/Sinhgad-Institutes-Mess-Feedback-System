@@ -2,12 +2,13 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
+<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>View Student Details</title>
 	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 	<style>
-		html, body {
+		html,
+		body {
 			height: 100%;
 			margin: 0;
 			font-family: 'Quicksand', sans-serif;
@@ -26,6 +27,7 @@
 			color: hsl(270, 46.20%, 28.40%);
 			margin-bottom: 20px;
 			text-align: center;
+			font-weight: bold;
 		}
 
 		.table-wrapper {
@@ -43,7 +45,9 @@
 			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 		}
 
-		table, th, td {
+		table,
+		th,
+		td {
 			padding: 12px;
 			border: 1px solid #ddd;
 		}
@@ -63,7 +67,8 @@
 			background-color: #f3e5f5;
 		}
 
-		th, td {
+		th,
+		td {
 			text-align: left;
 			word-wrap: break-word;
 			font-size: 16px;
@@ -93,8 +98,8 @@
 				padding: 0 10px;
 			}
 
-			table,s
-			th,
+			table,
+			s th,
 			td {
 				font-size: 18px;
 				padding: 8px;
@@ -105,7 +110,8 @@
 			h2 {
 				font-size: 1.8rem;
 			}
-			.table-wrapper::-webkit-scrollbar{
+
+			.table-wrapper::-webkit-scrollbar {
 				display: none;
 			}
 		}
@@ -126,7 +132,8 @@
 			}
 
 
-			th, td {
+			th,
+			td {
 				white-space: nowrap;
 			}
 
@@ -182,6 +189,7 @@
 				</tbody>
 			</table>
 		</div>
+	</div>
 	</div>
 </body>
 
