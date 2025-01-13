@@ -34,15 +34,15 @@
 			width: 86%;
 			overflow-x: auto;
 			-webkit-overflow-scrolling: touch;
-			margin: 0 auto;
 			margin-left: 14%;
 		}
 
 		table {
-			width: 100%;
+			width: 95%;
 			border-collapse: collapse;
 			background-color: #fff;
 			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+			margin-left:5%;
 		}
 
 		table,

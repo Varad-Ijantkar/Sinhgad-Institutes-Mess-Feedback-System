@@ -1,16 +1,19 @@
 <style>
     /* Add a container for the form background */
     .form-container {
-        background-color: #f9f9f9;
+        background-color: #ffffff;
         /* Light grey background */
         padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        box-shadow: 0 15px 15px rgba(229, 219, 253, 0.5);
+
         /* Soft shadow */
         max-width: 500px;
-        margin-left: 28%;
-        margin-top: 11%;
+        /*margin-left: 28%;*/
+        margin-top: 8%;
         /* Center the form horizontally and add some space at the top */
+		transform: translateX(60%);
+
     }
 
     /* Adjust the container margin-left to account for the sidebar */
