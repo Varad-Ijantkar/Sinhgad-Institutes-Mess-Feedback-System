@@ -33,15 +33,15 @@
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             display: block;
-            margin: 0 auto;
             width: 86%;
-            margin-left: 14%;
+            margin-left: 14%
         }
 
-        table {
-            width: 100%;
+        table {;
             border-collapse: collapse;
             background-color: #fff;
+			margin-left:60px;
+			width:95%;
         }
 
         table,
@@ -49,6 +49,7 @@
         td {
             padding: 12px 15px;
             border: 1px solid #ddd;
+
         }
 
         th {
@@ -70,7 +71,7 @@
         td {
             text-align: left;
             word-wrap: break-word;
-            font-size: 18px;
+            font-size: 14px;
         }
 
         /* Media queries for responsiveness */
@@ -90,7 +91,7 @@
             table,
             th,
             td {
-                font-size: 18px;
+                font-size: 14px;
                 padding: 8px;
                 height: 50;
             }
@@ -111,7 +112,7 @@
             table,
             th,
             td {
-                font-size: 18px;
+                font-size: 14px;
                 padding: 8px;
                 height: 50;
             }

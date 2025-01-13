@@ -42,10 +42,11 @@
         }
 
         table {
-            width: 100%;
+            width: 95%;
             border-collapse: collapse;
             background-color: #fff;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+			margin-left:60px
         }
 
         table,
@@ -73,7 +74,7 @@
 
         th,
         td {
-            font-size: 18px;
+            font-size: 14px;
         }
 
         @media (max-width: 768px) {
@@ -111,7 +112,7 @@
             table,
             th,
             td {
-                font-size: 18px;
+                font-size: 14px;
                 padding: 8px;
                 height: 50;
             }

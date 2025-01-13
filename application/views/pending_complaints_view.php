@@ -78,7 +78,7 @@
 		td {
 			text-align: left;
 			word-wrap: break-word;
-			font-size: 18px;
+			font-size: 14px;
 		}
 
 		.center-align {
