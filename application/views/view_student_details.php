@@ -11,7 +11,6 @@
 		body {
 			height: 100%;
 			margin: 0;
-			font-family: 'Quicksand', sans-serif;
 			box-sizing: border-box;
 		}
 
@@ -20,6 +19,7 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
+			font-family: 'Quicksand', sans-serif;
 		}
 
 		h2 {
@@ -71,7 +71,7 @@
 		td {
 			text-align: left;
 			word-wrap: break-word;
-			font-size: 16px;
+			font-size: 14px;
 		}
 
 		.alert {
@@ -101,7 +101,7 @@
 			table,
 			s th,
 			td {
-				font-size: 18px;
+				font-size: 14px;
 				padding: 8px;
 				height: 50;
 			}
@@ -126,7 +126,7 @@
 			table,
 			th,
 			td {
-				font-size: 18px;
+				font-size: 14px;
 				padding: 8px;
 				height: 50;
 			}
