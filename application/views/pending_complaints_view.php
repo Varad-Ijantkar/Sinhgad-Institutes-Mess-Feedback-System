@@ -160,45 +160,49 @@
 		<div class="table-wrapper">
 			<table>
 				<thead>
-					<tr>
-						<th>Complaint ID</th>
-						<th>Name</th>
-						<th>Mess</th>
-						<th>Date Filed</th>
-						<th>Campus</th>
-						<th>Description</th>
-						<?php if (!in_array($role, ['vendor', 'committee', 'campus_director', 'estate_head'])): ?>
-							<th class="center-align">Action</th>
-						<?php endif; ?>
-					</tr>
+				<tr>
+					<th>Complaint ID</th>
+					<th>Name</th>
+					<th>Mess</th>
+					<th>Date Filed</th>
+					<th>Campus</th>
+					<th>Description</th>
+					<th>View Report</th>
+					<?php if (!in_array($role, ['vendor', 'committee', 'campus_director', 'estate_head'])): ?>
+						<th>Action</th> <!-- Only render the Action column for authorized roles -->
+					<?php endif; ?>
+				</tr>
 				</thead>
 				<tbody>
-					<?php if (!empty($pending_complaints)): ?>
-						<?php foreach ($pending_complaints as $complaint): ?>
-							<tr>
-								<td><?php echo $complaint['id']; ?></td>
-								<td><?php echo $complaint['name']; ?></td>
-								<td><?php echo $complaint['mess']; ?></td>
-								<td><?php echo $complaint['date']; ?></td>
-								<td><?php echo $complaint['campus']; ?></td>
-								<td><?php echo $complaint['description']; ?></td>
-								<?php if (!in_array($role, ['vendor', 'committee', 'campus_director', 'estate_head'])): ?>
-									<td class="center-align">
-										<form method="post" action="<?php echo base_url('Admin_Pending_Complaints/mark_as_resolved'); ?>">
-											<input type="hidden" name="complaint_id" value="<?php echo $complaint['id']; ?>">
-											<button type="submit" class="btn btn-primary">Resolve</button>
-										</form>
-									</td>
-								<?php endif; ?>
-							</tr>
-						<?php endforeach; ?>
-					<?php else: ?>
+				<?php if (!empty($pending_complaints)): ?>
+					<?php foreach ($pending_complaints as $complaint): ?>
 						<tr>
-							<td colspan="<?php echo !in_array($role, ['vendor', 'committee', 'campus_director', 'estate_head']) ? 7 : 6; ?>">
-								No pending complaints found
+							<td><?php echo $complaint['id']; ?></td>
+							<td><?php echo $complaint['name']; ?></td>
+							<td><?php echo $complaint['mess']; ?></td>
+							<td><?php echo $complaint['date']; ?></td>
+							<td><?php echo $complaint['campus']; ?></td>
+							<td><?php echo $complaint['description']; ?></td>
+							<td>
+								<a href="<?php echo base_url('admin_pending_complaints/generate_report/' . $complaint['id']); ?>">View</a>
 							</td>
+							<?php if (!in_array($role, ['vendor', 'committee', 'campus_director', 'estate_head'])): ?>
+								<td class="center-align">
+									<form method="post" action="<?php echo base_url('Admin_Pending_Complaints/mark_as_resolved'); ?>">
+										<input type="hidden" name="complaint_id" value="<?php echo $complaint['id']; ?>">
+										<button type="submit" class="btn btn-primary">Resolve</button>
+									</form>
+								</td>
+							<?php endif; ?>
 						</tr>
-					<?php endif; ?>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<tr>
+						<td colspan="<?php echo !in_array($role, ['vendor', 'committee', 'campus_director', 'estate_head']) ? 7 : 6; ?>">
+							No pending complaints found
+						</td>
+					</tr>
+				<?php endif; ?>
 				</tbody>
 			</table>
 		</div>

@@ -133,38 +133,42 @@
     <div class="content total_view">
         <h2>Total Complaints</h2>
         <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Complaint ID</th>
-                        <th>Name</th>
-                        <th>Mess</th>
-                        <th>Date Filed</th>
-                        <th>Campus</th>
-                        <th>Status</th>
-                        <th>Food Complaints</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($total_complaints)): ?>
-                        <?php foreach ($total_complaints as $complaint): ?>
-                            <tr>
-                                <td><?php echo $complaint['id']; ?></td>
-                                <td><?php echo $complaint['name']; ?></td>
-                                <td><?php echo $complaint['mess']; ?></td>
-                                <td><?php echo $complaint['date']; ?></td>
-                                <td><?php echo $complaint['campus']; ?></td>
-                                <td><?php echo $complaint['status']; ?></td>
-                                <td><?php echo isset($complaint['food_complaints']) ? $complaint['food_complaints'] : 'N/A'; ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="7">No complaints found</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+			<table>
+				<thead>
+				<tr>
+					<th>Complaint ID</th>
+					<th>Name</th>
+					<th>Mess</th>
+					<th>Date Filed</th>
+					<th>Campus</th>
+					<th>Food Complaints</th>
+					<th>Status</th>
+					<th>View Report</th>
+				</tr>
+				</thead>
+				<tbody>
+				<?php if (!empty($total_complaints)): ?>
+					<?php foreach ($total_complaints as $complaint): ?>
+						<tr>
+							<td><?php echo $complaint['id']; ?></td>
+							<td><?php echo $complaint['name']; ?></td>
+							<td><?php echo $complaint['mess']; ?></td>
+							<td><?php echo $complaint['date']; ?></td>
+							<td><?php echo $complaint['campus']; ?></td>
+							<td><?php echo isset($complaint['food_complaints']) ? $complaint['food_complaints'] : 'N/A'; ?></td>
+							<td><?php echo $complaint['status']; ?></td>
+							<td>
+								<a href="<?php echo base_url('admin_resolved_complaints/generate_report/' . $complaint['id']); ?>">View</a>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<tr>
+						<td colspan="7">No complaints found</td>
+					</tr>
+				<?php endif; ?>
+				</tbody>
+			</table>
         </div>
     </div>
 </body>

@@ -134,36 +134,40 @@
     <div class="content resolved_view">
         <h2>Resolved Complaints</h2>
         <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Complaint ID</th>
-                        <th>Name</th>
-                        <th>Mess</th>
-                        <th>Date Resolved</th>
-                        <th>Campus</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!empty($resolved_complaints)): ?>
-                        <?php foreach ($resolved_complaints as $complaint): ?>
-                            <tr>
-                                <td><?php echo $complaint['id']; ?></td>
-                                <td><?php echo $complaint['name']; ?></td>
-                                <td><?php echo $complaint['mess']; ?></td>
-                                <td><?php echo $complaint['date']; ?></td>
-                                <td><?php echo $complaint['campus']; ?></td>
-                                <td><?php echo $complaint['description']; ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="6">No resolved complaints found</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+			<table>
+				<thead>
+				<tr>
+					<th>Complaint ID</th>
+					<th>Name</th>
+					<th>Mess</th>
+					<th>Date Resolved</th>
+					<th>Campus</th>
+					<th>Description</th>
+					<th>View Report</th>
+				</tr>
+				</thead>
+				<tbody>
+				<?php if (!empty($resolved_complaints)): ?>
+					<?php foreach ($resolved_complaints as $complaint): ?>
+						<tr>
+							<td><?php echo $complaint['id']; ?></td>
+							<td><?php echo $complaint['name']; ?></td>
+							<td><?php echo $complaint['mess']; ?></td>
+							<td><?php echo $complaint['date']; ?></td>
+							<td><?php echo $complaint['campus']; ?></td>
+							<td><?php echo $complaint['description']; ?></td>
+							<td>
+								<a href="<?php echo base_url('admin_resolved_complaints/generate_report/' . $complaint['id']); ?>">View</a>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<tr>
+						<td colspan="6">No resolved complaints found</td>
+					</tr>
+				<?php endif; ?>
+				</tbody>
+			</table>
         </div>
     </div>
 </body>

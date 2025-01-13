@@ -24,5 +24,13 @@ class Admin_Pending_Complaints_model extends CI_Model
 		$this->db->where('id', $complaint_id);
 		$this->db->update('complaints', ['status' => 'resolved', 'updated_at' => date('Y-m-d H:i:s')]);
 	}
-	
+	public function get_complaint_by_id($complaint_id)
+	{
+		// Query the database for the specific complaint by its ID
+		$this->db->where('id', $complaint_id);
+		$query = $this->db->get('complaints');
+
+		// Return the result as an associative array or null if not found
+		return $query->row_array();
+	}
 }
