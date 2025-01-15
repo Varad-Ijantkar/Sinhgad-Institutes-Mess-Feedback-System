@@ -10,7 +10,7 @@
 
 	<style>
 		/* Custom CSS to adjust container size */
-		
+
 		.container-custom {
 			max-width: 1000px;
 			margin-top: 5%;
@@ -137,13 +137,24 @@
 			<div class="form-group">
 				<label for="mess">Select Mess</label>
 				<select class="form-control" id="mess" name="mess" disabled>
-					<option value="Sinhgad Annapurna Mess" <?php echo set_select('mess', 'Sinhgad Annapurna Mess', $student_info['mess'] == 'Sinhgad Annapurna Mess'); ?>>Sinhgad Annapurna Mess</option>
-					<option value="Sinhgad Amrapali Mess" <?php echo set_select('mess', 'Sinhgad Amrapali Mess', $student_info['mess'] == 'Sinhgad Amrapali Mess'); ?>>Sinhgad Amrapali Mess</option>
-					<option value="Sinhgad Deepali Mess" <?php echo set_select('mess', 'Sinhgad Deepali Mess', $student_info['mess'] == 'Sinhgad Deepali Mess'); ?>>Sinhgad Deepali Mess</option>
-					<option value="Sinhgad Rakesh Mess" <?php echo set_select('mess', 'Sinhgad Rakesh Mess', $student_info['mess'] == 'Sinhgad Rakesh Mess'); ?>>Sinhgad Rakesh Mess</option>
-					<option value="Sinhgad Ram Mess" <?php echo set_select('mess', 'Sinhgad Ram Mess', $student_info['mess'] == 'Sinhgad Ram Mess'); ?>>Sinhgad Ram Mess</option>
-					<option value="Sinhgad Sham Mess" <?php echo set_select('mess', 'Sinhgad Sham Mess', $student_info['mess'] == 'Sinhgad Sham Mess'); ?>>Sinhgad Sham Mess</option>
-					<option value="Sinhgad Generic Mess" <?php echo set_select('mess', 'Sinhgad Generic Mess', $student_info['mess'] == 'Sinhgad Generic Mess'); ?>>Sinhgad Generic Mess</option>
+					<option value="Om Sai Mess" <?php echo set_select('mess', 'Om Sai Mess', $student_info['mess'] == 'Om Sai Mess'); ?>>Om Sai Mess</option>
+					<option value="Vatsalya Mess" <?php echo set_select('mess', 'Vatsalya Mess', $student_info['mess'] == 'Vatsalya Mess'); ?>>Vatsalya Mess</option>
+					<option value="Annapoorna - I Mess" <?php echo set_select('mess', 'Annapoorna - I Mess', $student_info['mess'] == 'Annapoorna - I Mess'); ?>>Annapoorna - I Mess</option>
+					<option value="Annapoorna - II Mess" <?php echo set_select('mess', 'Annapoorna - II Mess', $student_info['mess'] == 'Annapoorna - II Mess'); ?>>Annapoorna - II Mess</option>
+					<option value="Ashwini Mess" <?php echo set_select('mess', 'Ashwini Mess', $student_info['mess'] == 'Ashwini Mess'); ?>>Ashwini Mess</option>
+					<option value="Nandinee Mess" <?php echo set_select('mess', 'Nandinee Mess', $student_info['mess'] == 'Nandinee Mess'); ?>>Nandinee Mess</option>
+					<option value="Abhilasha Mess" <?php echo set_select('mess', 'Abhilasha Mess', $student_info['mess'] == 'Abhilasha Mess'); ?>>Abhilasha Mess</option>
+					<option value="Geetanjali Mess" <?php echo set_select('mess', 'Geetanjali Mess', $student_info['mess'] == 'Geetanjali Mess'); ?>>Geetanjali Mess</option>
+					<option value="Rohini Mess" <?php echo set_select('mess', 'Rohini Mess', $student_info['mess'] == 'Rohini Mess'); ?>>Rohini Mess</option>
+					<option value="Laxmi Mess" <?php echo set_select('mess', 'Laxmi Mess', $student_info['mess'] == 'Laxmi Mess'); ?>>Laxmi Mess</option>
+					<option value="Shree Ganesh Mess" <?php echo set_select('mess', 'Shree Ganesh Mess', $student_info['mess'] == 'Shree Ganesh Mess'); ?>>Shree Ganesh Mess</option>
+					<option value="Sahdev Mess" <?php echo set_select('mess', 'Sahdev Mess', $student_info['mess'] == 'Sahdev Mess'); ?>>Sahdev Mess</option>
+					<option value="Arjun Mess" <?php echo set_select('mess', 'Arjun Mess', $student_info['mess'] == 'Arjun Mess'); ?>>Arjun Mess</option>
+					<option value="Indrajit Mess" <?php echo set_select('mess', 'Indrajit Mess', $student_info['mess'] == 'Indrajit Mess'); ?>>Indrajit Mess</option>
+					<option value="Kamala Mess" <?php echo set_select('mess', 'Kamala Mess', $student_info['mess'] == 'Kamala Mess'); ?>>Kamala Mess</option>
+					<option value="Sharada Mess" <?php echo set_select('mess', 'Sharada Mess', $student_info['mess'] == 'Sharada Mess'); ?>>Sharada Mess</option>
+					<option value="Amrapali Mess (Girls)" <?php echo set_select('mess', 'Amrapali Mess (Girls)', $student_info['mess'] == 'Amrapali Mess (Girls)'); ?>>Amrapali Mess (Girls)</option>
+					<option value="Annapoorna (Boys)" <?php echo set_select('mess', 'Annapoorna (Boys)', $student_info['mess'] == 'Annapoorna (Boys)'); ?>>Annapoorna (Boys)</option>
 				</select>
 				<input type="hidden" name="mess" value="<?php echo $student_info['mess']; ?>">
 			</div>
