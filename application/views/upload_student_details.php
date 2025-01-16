@@ -1,3 +1,4 @@
+<title>Upload Student Details</title>
 <style>
     /* Add a container for the form background */
     .form-container {
@@ -76,7 +77,7 @@
             <div class="alert alert-danger"><?php echo $this->session->flashdata('error'); ?></div>
         <?php endif; ?>
 
-        <form action="<?php echo site_url('ResidenceOfficer/upload_csv'); ?>" method="post"
+        <form action="<?php echo site_url('admin_dashboard/upload_csv'); ?>" method="post"
             enctype="multipart/form-data">
             <div class="form-group">
                 <label for="csv_file">Upload CSV File:</label>

@@ -119,24 +119,30 @@
             <div class="menu">
                 <div class="vertical-line"></div>
                 <ul>
-                    <li><a href="<?php echo site_url('Admin_Pending_Complaints'); ?>">Pending</a></li>
+                    <li><a href="<?php echo site_url('admin_pending_complaints'); ?>">Pending</a></li>
                     <!-- Updated link -->
-                    <li><a href="<?php echo site_url('Admin_Resolved_Complaints'); ?>">Resolved</a></li>
+                    <li><a href="<?php echo site_url('admin_resolved_complaints'); ?>">Resolved</a></li>
                     <!-- Updated link -->
-                    <li><a href="<?php echo site_url('Admin_Total_Complaints'); ?>">Total</a></li> <!-- Updated link -->
+                    <li><a href="<?php echo site_url('admin_total_complaints'); ?>">Total</a></li> <!-- Updated link -->
                 </ul>
             </div>
-            <div>
-                <?php if (in_array($this->session->userdata('user_role'), ['Residence Officer', 'Management', 'Estate Head'])): ?> <!-- Updated roles -->
-                    <a href="<?php echo site_url('ResidenceOfficer/upload_student_details'); ?>">
-                        <strong>Upload Student Details</strong>
-                    </a>
-                <?php endif; ?>
-            </div>
+			<div>
+				<a href="<?php echo site_url('admin_dashboard/mess_rating'); ?>">
+					<strong>Mess Rating</strong>
+				</a>
+			</div>
+			<br>
+			<div>
+				<?php if (in_array($this->session->userdata('user_role'), ['Residence Officer', 'Management', 'Estate Head'])): ?> <!-- Updated roles -->
+					<a href="<?php echo site_url('admin_dashboard/upload_student_details'); ?>">
+						<strong>Upload Student Details</strong>
+					</a>
+				<?php endif; ?>
+			</div>
             <br>
             <div>
                 <?php if (in_array($this->session->userdata('user_role'), ['Residence Officer', 'Estate Head', 'Management'])): ?> <!-- Updated role -->
-                    <a href="<?php echo site_url('ResidenceOfficer/view_student_details'); ?>">
+                    <a href="<?php echo site_url('admin_dashboard/view_student_details'); ?>">
                         <strong>View Student Details</strong>
                     </a>
                 <?php endif; ?>
@@ -144,18 +150,16 @@
             <br>
             <div>
                 <?php if (in_array($this->session->userdata('user_role'), ['Residence Officer', 'Estate Head', 'Management'])): ?>
-                    <a href="<?php echo site_url('ResidenceOfficer/manage_access'); ?>">
+                    <a href="<?php echo site_url('admin_dashboard/manage_access'); ?>">
                         <strong>Manage Access</strong>
                     </a>
                 <?php endif; ?>
             </div>
-            <br>
             <!-- Display admin's email -->
             <div class="email">
                 <strong>Logged in as:</strong> <br>
                 <?php echo $user_email; ?>
             </div>
-
             <!-- Logout button -->
             <form method="post" action="<?php echo base_url('Admin_Login'); ?>">
                 <button style="border-radius:10px;" type="submit" class="logout">Logout</button>
