@@ -31,18 +31,17 @@
 		}
 
 		.table-wrapper {
-			width: 86%;
+			width: 100%;
 			overflow-x: auto;
 			-webkit-overflow-scrolling: touch;
-			margin-left: 14%;
 		}
 
 		table {
-			width: 95%;
+			width: 82%;
+			margin-left:18%;
 			border-collapse: collapse;
 			background-color: #fff;
 			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-			margin-left:5%;
 		}
 
 		table,
@@ -145,52 +144,53 @@
 </head>
 
 <body>
-	<div class="main-content">
-		<h2>Student Details</h2>
+    <div class="main-content">
+        <h2>Student Details</h2>
 
-		<!-- Success/Error Messages -->
-		<?php if ($this->session->flashdata('success')): ?>
-			<div class="alert alert-success"><?php echo $this->session->flashdata('success'); ?></div>
-		<?php endif; ?>
-		<?php if ($this->session->flashdata('error')): ?>
-			<div class="alert alert-danger"><?php echo $this->session->flashdata('error'); ?></div>
-		<?php endif; ?>
+        <!-- Success/Error Messages -->
+        <?php if ($this->session->flashdata('success')): ?>
+            <div class="alert alert-success"><?php echo $this->session->flashdata('success'); ?></div>
+        <?php endif; ?>
+        <?php if ($this->session->flashdata('error')): ?>
+            <div class="alert alert-danger"><?php echo $this->session->flashdata('error'); ?></div>
+        <?php endif; ?>
 
-		<!-- Student Details Table -->
-		<div class="table-wrapper">
-			<table>
-				<thead>
-					<tr>
-						<th>Email</th>
-						<th>Name</th>
-						<th>Phone</th>
-						<th>College</th>
-						<th>Campus</th>
-						<th>Mess</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php if (!empty($students)): ?>
-						<?php foreach ($students as $student): ?>
-							<tr>
-								<td><?php echo $student->email; ?></td>
-								<td><?php echo $student->name; ?></td>
-								<td><?php echo $student->phone; ?></td>
-								<td><?php echo $student->college; ?></td>
-								<td><?php echo $student->campus; ?></td>
-								<td><?php echo $student->mess; ?></td>
-							</tr>
-						<?php endforeach; ?>
-					<?php else: ?>
-						<tr>
-							<td colspan="6" class="text-center">No student details found</td>
-						</tr>
-					<?php endif; ?>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	</div>
+        <!-- Student Details Table -->
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>College</th>
+                        <th>Campus</th>
+                        <th>Mess</th>
+                        <th>Edit Details</th> <!-- New Column -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($students)): ?>
+                        <?php foreach ($students as $student): ?>
+                            <tr>
+                                <td><?php echo $student->email; ?></td>
+                                <td><?php echo $student->name; ?></td>
+                                <td><?php echo $student->phone; ?></td>
+                                <td><?php echo $student->college; ?></td>
+                                <td><?php echo $student->campus; ?></td>
+                                <td><?php echo $student->mess; ?></td>
+								<td><a href="<?php echo base_url('admin_dashboard/edit_student_details/' . $student->id); ?>">Edit</a></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="7" class="text-center">No student details found</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+		<!-- <a href='admin_dashboard/add_student_details'>Add Student Details+</a> -->
+    </div>
 </body>
-
 </html>

@@ -33,4 +33,28 @@ class Student_Info_model extends CI_Model
             return false; // Return false if no student is found
         }
     }
+    
+    public function get_student_by_id($id) {
+        $this->db->where('id', $id);
+        return $this->db->get('student_info')->row(); // Fetch a single student record
+    }
+    
+    public function update_student_by_id($id, $data) {
+        $this->db->where('id', $id); // Specify the row to be updated
+        return $this->db->update('student_info', $data); // Perform the update query and return TRUE/FALSE
+    }
+
+    // Add this function to your Student_Info_model
+    public function add_student($data) {
+        return $this->db->insert('student_info', $data); // Insert data into the student_info table
+    }
+
+    // Fetch ENUM values for dynamic dropdown options
+    public function get_enum_values($table, $column) {
+        $query = $this->db->query("SHOW COLUMNS FROM $table LIKE '$column'");
+        $row = $query->row();
+        preg_match_all("/'([^']+)'/", $row->Type, $enumValues);
+        return $enumValues[1];
+    }
+
 }
