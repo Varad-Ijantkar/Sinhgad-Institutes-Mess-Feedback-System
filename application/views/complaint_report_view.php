@@ -170,5 +170,11 @@
 		<strong><p>Sinhgad Institute - Mess Complaint</p></strong>
 	</div>
 </div>
+<button id="print-button">Print Results</button>
 </body>
+<script>
+	document.getElementById("print-button").addEventListener("click", function () {
+		window.print(); // Print the current page
+	});
+</script>
 </html>
