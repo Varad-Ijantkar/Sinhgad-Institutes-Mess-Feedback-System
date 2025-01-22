@@ -12,7 +12,7 @@
         background-color: #fff;
         border-right: 1px solid #ddd;
         padding-top: 10px;
-        /*overflow-y: auto; */
+        transition: transform 0.3s ease;
     }
 
     .sidebar ul {
@@ -44,11 +44,21 @@
         width: 3px;
         background-color: purple;
     }
-
+    
     .content-sidebar {
         margin-left: 10px;
         padding: 20px;
+        transition: transform 0.3s ease;
     }
+    .sidebar.closed {
+            transform: translateX(-110%);
+            /* Move sidebar completely off-screen */
+        }
+    
+    .content-sidebar.collapsed {
+			margin-left: 0;
+			/* Adjust content when sidebar collapsed */
+		}
 
     .content1 {
         margin-left: 10px;
@@ -77,10 +87,32 @@
     .sidebar .logout:hover {
         background-color: #c0392b;
     }
+    .menu-toggle {
+			display: block;
+			background: none;
+			color: white;
+			padding: 10px;
+			border: none;
+			cursor: pointer;
+			font-size: 16px;
+			position: fixed;
+			/* Position it fixed on screen */
+			top: 10px;
+			/* Adjust top spacing */
+			left: 10px;
+			/* Adjust left spacing */
+			z-index: 1100;
+			/* Keep above sidebar */
+			border-radius: 5px;
+		}
+
+		.menu-toggle:hover {
+			background-color: #351B4A;
+		}
 </style>
 
 <aside>
-    <div class="sidebar content-sidebar">
+    <div class="sidebar content-sidebar closed">
         <a href="http://localhost/mess-feedback/index.php/admin_dashboard"><strong>Dashboard</strong></a>
         <div class="menu">
             <div class="vertical-line"></div>
@@ -147,4 +179,20 @@
             <button style="border-radius:10px;" type="submit" class="logout">Logout</button>
         </form>
     </div>
+
+    <div class="content-sidebar">
+		<!-- Menu toggle button for small screens -->
+		<button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+	</div>
 </aside>
+<script>
+	// Function to toggle sidebar visibility
+	function toggleSidebar() {
+		const sidebar = document.querySelector('.sidebar');
+		const content = document.querySelector('.content-sidebar');
+
+		// Toggle 'open' and 'closed' classes
+		sidebar.classList.toggle('closed');
+		content.classList.toggle('collapsed');
+	}
+</script>
