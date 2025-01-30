@@ -1,233 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Detailed Complaint Report</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			background-color: #f4f4f4;
-			margin: 0;
-			padding: 0;
-		}
-		::-webkit-scrollbar {
-			display: none;
-		}
-
-		.container {
-			max-width: 900px;
-			margin: 20px auto;
-			background-color: #fff;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-			padding: 20px;
-			border-radius: 8px;
-		}
-
-		.header {
-			background-color:hsl(270, 46.20%, 28.40%);
-			color: #fff;
-			padding: 20px;
-			border-radius: 8px 8px 0 0;
-			text-align: center;
-		}
-
-		.header h1 {
-			margin: 0;
-			font-size: 1.5em;
-		}
-
-		.header p {
-			margin: 5px 0 0;
-			font-size: 0.9em;
-		}
-
-		.status {
-			padding: 10px;
-			margin: 20px 0;
-			border-radius: 4px;
-			font-weight: bold;
-			color: #fff;
-		}
-
-		.status.pending {
-			background-color: rgb(255, 209, 71);
-			border-left: 5px solid #ffc107;
-		}
-
-		.status.resolved {
-			background-color: #28a745;
-			border-left: 5px solid #218838;
-		}
-
-		.status.escalated {
-			background-color: #dc3545;
-			border-left: 5px solid #c82333;
-		}
-
-		.info-grid {
-			display: grid;
-			grid-template-columns: 1fr;
-			gap: 10px;
-			margin: 10px 0;
-			background-color: #f9f9f9;
-			padding: 10px;
-			border-radius: 4px;
-		}
-
-		.info-item {
-			display: flex;
-			align-items: center;
-			padding: 10px;
-			background-color: #ffffff;
-			border-radius: 4px;
-		}
-
-		.info-item strong {
-			flex-shrink: 0;
-			width: 120px;
-		}
-
-		.section {
-			margin: 20px 0;
-		}
-
-		.section h2 {
-			font-size: 1.2em;
-			margin-bottom: 10px;
-		}
-
-		.photo-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-			gap: 10px;
-			margin: 10px 0;
-		}
-
-		.photo-item img {
-			width: 100%;
-			height: auto;
-			border-radius: 4px;
-			box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-		}
-
-		.footer {
-			background-color: #f4f4f4;
-			padding: 10px;
-			text-align: center;
-			border-radius: 0 0 8px 8px;
-			font-size: 0.9em;
-		}
-
-		button {
-			display: block;
-			margin: 20px auto;
-			padding: 10px 20px;
-			background-color:hsl(270, 46.20%, 28.40%);
-			color: #fff;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-			font-size: 1em;
-		}
-
-		button:hover {
-			background-color: hsl(270, 46.20%, 38.40%);
-		}
-
-		@media (min-width: 600px) {
-			.info-grid {
-				grid-template-columns: repeat(2, 1fr);
-			}	
-		}
-
-		@media (min-width: 768px) {
-			.photo-grid {
-				grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-			}
-		}
-	</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Complaint Report</title>
 </head>
+<body class="bg-purple-100 font-sans text-gray-800">
+  <div class="max-w-5xl mx-auto bg-white shadow-lg rounded-lg">
+    
+    <!-- Header -->
+    <header class="bg-purple-800 text-white p-4 md:p-6 text-center">
+      <div class="flex flex-row justify-center relative items-center">
+        <img src="https://cms.sinhgad.edu/SIM_Web_Assets/images/sinhgad-logo-colour-1.png" 
+             alt="Sinhgad Technical Education Society, Pune" 
+             class="w-12 h-12  md:w-20 md:h-20  left-0 absolute md:top-[-10px] top-0">
+        <!-- Header Title -->
+        <div class="flex flex-col justify-center items-center ml-2">
+          <h4 class="hidden text-white text-sm md:text-base">Sinhgad Technical Education Society, Pune</h4>
+          <h1 class="text-xl md:text-2xl font-bold">Mess Complaint Report</h1>
+        </div>
+      </div>
+      <p class="text-xs md:text-sm mt-1 ml-2">Report ID: <?php echo $id; ?> | Generated: <?php echo $created_at; ?></p>
+    </header>
 
-<body>
-	<div class="container">
-		<div class="header">
-			<h1>Sinhgad Institutes - Mess Complaint</h1>
-			<p>Report ID: <?php echo $id; ?> | Generated: <?php echo $created_at; ?></p>
-		</div>
+    <!-- Status -->
+    <div class="p-4 text-center">
+      <div class="flex items-center justify-center bg-yellow-500 text-white py-2 px-4 rounded font-semibold">
+        <span>Status: <strong><?php echo ucfirst($status); ?></strong></span>
+      </div>
+    </div>
 
-		<div class="status <?php echo strtolower($status); ?>">
-			<strong>Status:</strong> <?php echo ucfirst($status); ?>
-		</div>
+    <!-- Main Content: Grid Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 LG gap-4 p-4">
+      <!-- Complainant Information -->
+      <section class="bg-white rounded-lg  p-2">
+        <h2 class="text-xl sm:text-2xl font-bold pb-2 mb-4 text-center text-purple-700">
+          Complainant Information
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-purple-50 p-2 rounded-lg shadow hover:bg-purple-100 transition">
+            <strong class="text-purple-800">Email:</strong>
+            <p class="text-gray-700 mt-1"><?php echo $email; ?></p>
+          </div>
+          <div class="bg-purple-50 p-2 rounded-lg shadow hover:bg-purple-100 transition">
+            <strong class="text-purple-800">Phone:</strong>
+            <p class="text-gray-700 mt-1"><?php echo $phone; ?></p>
+          </div>
+          <div class="bg-purple-50 p-2 rounded-lg shadow hover:bg-purple-100 transition">
+            <strong class="text-purple-800">Campus:</strong>
+            <p class="text-gray-700 mt-1"><?php echo $campus; ?></p>
+          </div>
+          <div class="bg-purple-50 p-2 rounded-lg shadow hover:bg-purple-100 transition">
+            <strong class="text-purple-800">College:</strong>
+            <p class="text-gray-700 mt-1"><?php echo $college; ?></p>
+          </div>
+        </div>
+      </section>
 
-		<div class="section">
-			<h2>Complainant Information</h2>
-			<div class="info-grid">
-				<div class="info-item"><strong>Email:</strong> <span><?php echo $email; ?></span></div>
-				<div class="info-item"><strong>Phone:</strong> <span><?php echo $phone; ?></span></div>
-				<div class="info-item"><strong>Campus:</strong> <span><?php echo $campus; ?></span></div>
-				<div class="info-item"><strong>College:</strong> <span><?php echo $college; ?></span></div>
-			</div>
-		</div>
+      <!-- Incident Details -->
+      <section class="bg-white rounded-lg  p-4">
+        <h2 class="text-xl sm:text-2xl font-bold pb-2 mb-4 text-center text-purple-700">
+          Incident Details
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-purple-50 p-2 rounded-lg shadow hover:bg-purple-100 transition">
+            <strong class="text-purple-800">Date:</strong>
+            <p class="text-gray-700 mt-1"><?php echo $date; ?></p>
+          </div>
+          <div class="bg-purple-50 p-2 rounded-lg shadow hover:bg-purple-100 transition">
+            <strong class="text-purple-800">Meal Time:</strong>
+            <p class="text-gray-700 mt-1"><?php echo $meal_time; ?></p>
+          </div>
+          <div class="bg-purple-50 p-2 rounded-lg shadow hover:bg-purple-100 transition">
+            <strong class="text-purple-800">Mess:</strong>
+            <p class="text-gray-700 mt-1"><?php echo $mess; ?></p>
+          </div>
+          <div class="bg-purple-50 p-2 rounded-lg shadow hover:bg-purple-100 transition">
+            <strong class="text-purple-800">Category:</strong>
+            <p class="text-gray-700 mt-1"><?php echo $category; ?></p>
+          </div>
+        </div>
+      </section>
 
-		<div class="section">
-			<h2>Incident Details</h2>
-			<div class="info-grid">
-				<div class="info-item"><strong>Date of Incident:</strong> <span><?php echo $date; ?></span></div>
-				<div class="info-item"><strong>Meal Time:</strong> <span><?php echo $meal_time; ?></span></div>
-				<div class="info-item"><strong>Mess:</strong> <span><?php echo $mess; ?></span></div>
-				<div class="info-item"><strong>Category:</strong> <span><?php echo $category; ?></span></div>
-			</div>
-		</div>
+      <!-- Facility Assessment -->
+      <section class="bg-white rounded-lg  p-4">
+        <h2 class="text-xl sm:text-2xl font-bold pb-2 mb-4 text-center text-purple-700">
+          Facility Assessment
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-purple-50 p-2 rounded-lg shadow hover:bg-purple-100 transition">
+            <strong class="text-purple-800">Hygiene:</strong>
+            <p class="text-gray-700 mt-1"><?php echo $hygiene; ?></p>
+          </div>
+          <div class="bg-purple-50 p-2 rounded-lg shadow hover:bg-purple-100 transition">
+            <strong class="text-purple-800">Pest Control:</strong>
+            <p class="text-gray-700 mt-1"><?php echo $pest_control; ?></p>
+          </div>
+          <div class="bg-purple-50 p-2 rounded-lg shadow hover:bg-purple-100 transition">
+            <strong class="text-purple-800">Safety Protocols:</strong>
+            <p class="text-gray-700 mt-1"><?php echo $protocols; ?></p>
+          </div>
+        </div>
+      </section>
 
-		<div class="section">
-			<h2>Facility Assessment</h2>
-			<div class="info-grid">
-				<div class="info-item"><strong>Hygiene Status:</strong> <span><?php echo $hygiene; ?></span></div>
-				<div class="info-item"><strong>Pest Control:</strong> <span><?php echo $pest_control; ?></span></div>
-				<div class="info-item"><strong>Safety Protocols:</strong> <span><?php echo $protocols; ?></span></div>
-			</div>
-		</div>
+      <!-- Complaint Description -->
+      <section class="bg-white rounded-lg  p-4">
+        <h2 class="text-xl sm:text-2xl font-bold pb-2 mb-4 text-center text-purple-700">
+          Complaint Description
+        </h2>
+        <div class="space-y-4">
+          <div class="bg-purple-50 p-2 rounded-lg shadow hover:bg-purple-100 transition">
+            <strong class="text-purple-800">Nature of Complaint:</strong>
+            <p class="text-gray-700 mt-2"><?php echo nl2br($food_complaints); ?></p>
+          </div>
+          <div class="bg-purple-50 p-2 rounded-lg shadow hover:bg-purple-100 transition">
+            <strong class="text-purple-800">Recommendations:</strong>
+            <p class="text-gray-700 mt-2"><?php echo nl2br($suggestions); ?></p>
+          </div>
+        </div>
+      </section>
+    </div>
 
-		<div class="section">
-			<h2>Complaint Description</h2>
-			<div class="info-grid">
-				<div class="info-item"><strong>Nature of Complaint:</strong></div>
-				<div class="info-item" style="grid-column: span 2;"><span><?php echo nl2br($food_complaints); ?></span></div>
-				<div class="info-item"><strong>Recommendations:</strong></div>
-				<div class="info-item" style="grid-column: span 2;"><span><?php echo nl2br($suggestions); ?></span></div>
-			</div>
-		</div>
+    <!-- Footer -->
+    <footer class="bg-gray-200 py-4 text-center text-sm">
+      <p>Reference: <?php echo $id; ?></p>
+      <strong>Sinhgad Institutes - Mess Complaint</strong>
+    </footer>
 
-		<div class="section">
-			<h2>Complaint Photos</h2>
-			<?php if (!empty($photos) && is_array($photos)): ?>
-				<div class="photo-grid">
-					<?php foreach ($photos as $photo): ?>
-						<div class="photo-item">
-							<img src="<?php echo 'uploads/complaint_photos/' . htmlspecialchars($photo); ?>" alt="Complaint Photo">
-						</div>
-					<?php endforeach; ?>
-				</div>
-			<?php else: ?>
-				<p>No photos submitted for this complaint.</p>
-			<?php endif; ?>
-		</div>
+    <!-- Print Button -->
+    <div class="fixed bottom-4 right-4">
+      <button 
+        class="bg-purple-800 text-white py-2 px-4 rounded shadow-md hover:bg-purple-700 focus:outline-none focus:ring focus:ring-purple-300" 
+        id="print-button">
+        🖨️ Print
+      </button>
+    </div>
+  </div>
 
-		<div class="footer">
-			<p>Official complaint report. Reference: <?php echo $id; ?></p>
-			<strong>
-				<p>Sinhgad Institute - Mess Complaint</p>
-			</strong>
-		</div>
-	</div>
-	<button id="print-button">Print Results</button>
-	<script>
-		document.getElementById("print-button").addEventListener("click", function() {
-			window.print();
-		});
-	</script>
+  <script>
+    document.getElementById("print-button").addEventListener("click", function () {
+      window.print();
+    });
+  </script>
 </body>
 
 </html>
