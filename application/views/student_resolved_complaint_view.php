@@ -19,7 +19,7 @@
 
         .table-container {
             padding: 0 10%;
-            margin: 40px auto 0;
+
         }
 
         .heading {
@@ -36,10 +36,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 50px;
-            background-color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
+  
         }
 
         .table thead {
@@ -142,7 +139,7 @@
                 gap: 8px;
             }
         }
-        @media (max-width: 768px) {
+        @media (max-width: 456px) {
             .heading {
                 font-size: 20px;
             }

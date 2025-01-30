@@ -86,7 +86,7 @@
         /* Responsive Styles */
         @media (max-width: 768px) {
             .heading {
-                font-size: 26px;
+                font-size: 28px;
                 font-bold: 600;
             }
 
