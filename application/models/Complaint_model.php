@@ -40,19 +40,50 @@ class Complaint_model extends CI_Model
 	// Get all complaints by status for a specific student
 	public function get_complaints_by_status($email, $status)
 	{
-		$this->db->where('email', $email);  // Filter by student's email
-		$this->db->where('status', $status);  // Filter by complaint status (pending/resolved)
-		$query = $this->db->get('complaints');
-		return $query->result();
+		$this->db->select('c.id, c.name, c.date, c.food_complaints AS description, 
+                       ca.campus_name AS campus, m.mess_name AS mess, col.college_name AS college');
+		$this->db->from('complaints c');
+		$this->db->join('campus ca', 'ca.campus_id = c.campus_id', 'left');
+		$this->db->join('messes m', 'm.mess_id = c.mess_id', 'left');
+		$this->db->join('colleges col', 'col.college_id = c.college_id', 'left');
+		$this->db->where('c.email', $email);
+		$this->db->where('c.status', $status);
+
+		$admin = $this->db->get_where('admin_login', ['email' => $email])->row();
+
+		if (!empty($college_id)) {
+			$this->db->where('c.college_id', $college_id);
+		}
+		if (!empty($campus_id)) {
+			$this->db->where('c.campus_id', $campus_id);
+		}
+
+		$query = $this->db->get();
+		return $query->result_array();
 	}
+
+	public function get_resolved_complaints($email)
+	{
+		$this->db->select('c.id, c.name, c.date, c.food_complaints, 
+                       ca.campus_name AS campus, m.mess_name AS mess, col.college_name AS college');
+		$this->db->from('complaints c');
+		$this->db->join('campus ca', 'ca.campus_id = c.campus_id', 'left');
+		$this->db->join('messes m', 'm.mess_id = c.mess_id', 'left');
+		$this->db->join('colleges col', 'col.college_id = c.college_id', 'left');
+		$this->db->where('c.email', $email);
+		$this->db->where('c.status', 'resolved');  // Only fetch resolved complaints
+
+		$query = $this->db->get();
+		return $query->result();  // Ensuring data is returned as objects
+	}
+
+
 
 	public function get_complaint_by_id($complaint_id)
 	{
-		// Query the database for the specific complaint by its ID
 		$this->db->where('id', $complaint_id);
 		$query = $this->db->get('complaints');
 
-		// Return the result as an associative array or null if not found
 		return $query->row_array();
 	}
 

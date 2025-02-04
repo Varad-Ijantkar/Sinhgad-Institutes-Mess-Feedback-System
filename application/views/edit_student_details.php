@@ -144,49 +144,37 @@
                 <!-- College (Full Width) -->
                 <div class="field" style="margin-bottom: 1rem;">
                     <label for="college">College</label>
-                    <select id="college" name="college" required>
-                        <?php
-                        $query = $this->db->query("SHOW COLUMNS FROM student_info LIKE 'college'");
-                        $row = $query->row();
-                        preg_match_all("/'([^']+)'/", $row->Type, $enumValues);
-                        foreach ($enumValues[1] as $value) {
-                            $selected = ($student->college == $value) ? 'selected' : '';
-                            echo "<option value='$value' $selected>$value</option>";
-                        }
-                        ?>
-                    </select>
+					<select name="college">
+						<?php foreach ($options['colleges'] as $college): ?>
+							<option value="<?= $college['college_id']; ?>" <?= ($college['college_id'] == $student->college_id) ? 'selected' : ''; ?>>
+								<?= $college['college_name']; ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
                 </div>
 
                 <!-- Campus (Full Width) -->
                 <div class="field" style="margin-bottom: 1rem;">
                     <label for="campus">Campus</label>
-                    <select id="campus" name="campus" required>
-                        <?php
-                        $query = $this->db->query("SHOW COLUMNS FROM student_info LIKE 'campus'");
-                        $row = $query->row();
-                        preg_match_all("/'([^']+)'/", $row->Type, $enumValues);
-                        foreach ($enumValues[1] as $value) {
-                            $selected = ($student->campus == $value) ? 'selected' : '';
-                            echo "<option value='$value' $selected>$value</option>";
-                        }
-                        ?>
-                    </select>
+					<select name="campus">
+						<?php foreach ($options['campuses'] as $campus): ?>
+							<option value="<?= $campus['campus_id']; ?>" <?= ($campus['campus_id'] == $student->campus_id) ? 'selected' : ''; ?>>
+								<?= $campus['campus_name']; ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
                 </div>
 
                 <!-- Mess (Full Width) -->
                 <div class="field" style="margin-bottom: 1.5rem;">
                     <label for="mess">Mess Preference</label>
-                    <select id="mess" name="mess" required>
-                        <?php
-                        $query = $this->db->query("SHOW COLUMNS FROM student_info LIKE 'mess'");
-                        $row = $query->row();
-                        preg_match_all("/'([^']+)'/", $row->Type, $enumValues);
-                        foreach ($enumValues[1] as $value) {
-                            $selected = ($student->mess == $value) ? 'selected' : '';
-                            echo "<option value='$value' $selected>$value</option>";
-                        }
-                        ?>
-                    </select>
+					<select name="mess">
+						<?php foreach ($options['messes'] as $mess): ?>
+							<option value="<?= $mess['mess_id']; ?>" <?= ($mess['mess_id'] == $student->mess_id) ? 'selected' : ''; ?>>
+								<?= $mess['mess_name']; ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
                 </div>
 
                 <!-- Submit Button -->

@@ -9,21 +9,25 @@ class Admin_Login_model extends CI_Model
     }
 
     // Validate the admin's login credentials
-    public function validate_login($email, $password, $role)
-    {
-        // Query the database to check for the admin credentials
-        $this->db->where('email', $email);
-        $this->db->where('role', $role); // Ensure to check the role
+	public function validate_login($email, $password)
+	{
+		$this->db->select('al.id, al.email, al.password, al.active, al.is_temp_password, al.role_id, al.college_id, al.campus_id, r.role_name');
+		$this->db->from('admin_login al');
+		$this->db->join('role r', 'r.role_id = al.role_id', 'left');
+		$this->db->where('al.email', $email);
+		$query = $this->db->get();
 
-        $query = $this->db->get('admin_login'); // Replace 'admin_users' with your actual admin table name
+		if ($query->num_rows() == 1) {
+			$user = $query->row();
 
-        if ($query->num_rows() == 1) {
-            $user = $query->row();
-            // Directly compare the password
-            if ($user->password === $password) {
-                return $user; // Return user data if found
-            }
-        }
-        return false; // Return false if no match is found
-    }
+			// Check if password matches (modify this if you add hashing)
+			if ($user->password === $password) {
+				return $user; // Now includes college_id and campus_id
+			}
+		}
+		return false;
+	}
+
+
+
 }

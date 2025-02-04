@@ -12,10 +12,21 @@ class Admin_Pending_Complaints_model extends CI_Model
 	// Fetch all pending complaints
 	public function get_pending_complaints()
 	{
-		$this->db->select('id, food_complaints AS description, created_at AS date, name, mess, campus');
-		$this->db->where('status', 'pending'); // Filter for pending complaints
-		$query = $this->db->get('complaints');
-		return $query->result_array(); // Return results as an array
+		$this->db->select('
+        complaints.id, 
+        complaints.food_complaints AS description, 
+        complaints.created_at AS date, 
+        complaints.name, 
+        messes.mess_name AS mess, 
+        campus.campus_name AS campus
+    ');
+		$this->db->from('complaints');
+		$this->db->join('messes', 'complaints.mess_id = messes.mess_id', 'left');
+		$this->db->join('campus', 'complaints.campus_id = campus.campus_id', 'left');
+		$this->db->where('complaints.status', 'pending');
+
+		$query = $this->db->get();
+		return $query->result_array();
 	}
 
 	// Mark a complaint as resolved

@@ -99,7 +99,7 @@
 			<div class="form-group">
 				<label for="email">Email</label>
 				<input type="email" class="form-control" id="email" name="email"
-					   value="<?php echo set_value('email', $student_info['email']); ?>" readonly>
+					   value="<?= isset($student_info['email']) ? htmlspecialchars($student_info['email']) : ''; ?>" readonly>
 			</div>
 
 			<div class="form-group">
@@ -115,51 +115,21 @@
 			</div>
 
 			<div class="form-group">
-				<label for="college">College Name and Class</label>
-				<select class="form-control" id="college" name="college" disabled>
-					<?php
-					$query = $this->db->query("SHOW COLUMNS FROM student_info LIKE 'college'");
-					$row = $query->row();
-					preg_match_all("/'([^']+)'/", $row->Type, $enumValues);
-					foreach ($enumValues[1] as $value) {
-						$selected = ($student_info['college'] == $value) ? 'selected' : '';
-						echo "<option value='$value' $selected>$value</option>";
-					}
-					?>
-				</select>
-				<input type="hidden" name="college" value="<?php echo $student_info['college']; ?>">
+				<label>College:</label>
+				<input type="text" class="form-control" value="<?php echo isset($student_info['college_name']) ? $student_info['college_name'] : ''; ?>" readonly>
+				<input type="hidden" name="college_id" value="<?php echo isset($student_info['college_id']) ? $student_info['college_id'] : ''; ?>">
 			</div>
 
 			<div class="form-group">
-				<label for="campus">Select Campus</label>
-				<select class="form-control" id="campus" name="campus" disabled>
-					<?php
-					$query = $this->db->query("SHOW COLUMNS FROM student_info LIKE 'campus'");
-					$row = $query->row();
-					preg_match_all("/'([^']+)'/", $row->Type, $enumValues);
-					foreach ($enumValues[1] as $value) {
-						$selected = ($student_info['campus'] == $value) ? 'selected' : '';
-						echo "<option value='$value' $selected>$value</option>";
-					}
-					?>
-				</select>
-				<input type="hidden" name="campus" value="<?php echo $student_info['campus']; ?>">
+				<label>Campus:</label>
+				<input type="text" class="form-control" value="<?php echo isset($student_info['campus_name']) ? $student_info['campus_name'] : ''; ?>" readonly>
+				<input type="hidden" name="campus_id" value="<?php echo isset($student_info['campus_id']) ? $student_info['campus_id'] : ''; ?>">
 			</div>
 
 			<div class="form-group">
-				<label for="mess">Select Mess</label>
-				<select class="form-control" id="mess" name="mess" disabled>
-					<?php
-					$query = $this->db->query("SHOW COLUMNS FROM student_info LIKE 'mess'");
-					$row = $query->row();
-					preg_match_all("/'([^']+)'/", $row->Type, $enumValues);
-					foreach ($enumValues[1] as $value) {
-						$selected = ($student_info['mess'] == $value) ? 'selected' : '';
-						echo "<option value='$value' $selected>$value</option>";
-					}
-					?>
-				</select>
-				<input type="hidden" name="mess" value="<?php echo $student_info['mess']; ?>">
+				<label>Mess:</label>
+				<input type="text" class="form-control" value="<?php echo isset($student_info['mess_name']) ? $student_info['mess_name'] : ''; ?>" readonly>
+				<input type="hidden" name="mess_id" value="<?php echo isset($student_info['mess_id']) ? $student_info['mess_id'] : ''; ?>">
 			</div>
 
 			<div class="form-group">

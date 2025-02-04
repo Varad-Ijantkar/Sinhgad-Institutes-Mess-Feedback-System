@@ -95,6 +95,27 @@
                 background: var(--primary-hover);
             }
 
+			.form-control {
+				appearance: none;
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+				background-repeat: no-repeat;
+				background-position: right 0.5rem center;
+				background-size: 1.5em 1.5em;
+				padding-right: 2rem;
+				border: 1px solid var(--border-color);
+				border-radius: 0.375rem;
+				font-size: 0.875rem;
+				transition: border-color 0.15s ease;
+			}
+
+			.form-control:focus {
+				outline: none;
+				border-color: var(--primary-color);
+				box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+			}
+
             @media (max-width: 640px) {
                 .row {
                     grid-template-columns: 1fr;
@@ -141,35 +162,35 @@
             <!-- College -->
             <div class="field" style="margin-bottom: 1rem" >
                 <label for="college">College</label>
-                <select id="college" name="college" required>
-                    <option value="" selected disabled>Select College</option>
-                    <?php foreach ($college_options as $college): ?>
-                        <option value="<?php echo $college; ?>"><?php echo $college; ?></option>
-                    <?php endforeach; ?>
-                </select>
+				<select name="college" class="form-control">
+					<option value="">Select College</option>
+					<?php foreach ($options['colleges'] as $college): ?>
+						<option value="<?= $college['college_id'] ?>"><?= $college['college_name'] ?></option>
+					<?php endforeach; ?>
+				</select>
             </div>
 
             <!-- Campus -->
             <div class="field" style="margin-bottom: 1rem" >
                 <label for="campus">Campus</label>
-                <select id="campus" name="campus" required>
-                    <option value="" selected disabled>Select Campus</option>
-                    <?php foreach ($campus_options as $campus): ?>
-                        <option value="<?php echo $campus; ?>"><?php echo $campus; ?></option>
-                    <?php endforeach; ?>
-                </select>
+				<select name="campus" class="form-control">
+					<option value="">Select Campus</option>
+					<?php foreach ($options['campuses'] as $campus): ?>
+						<option value="<?= $campus['campus_id'] ?>"><?= $campus['campus_name'] ?></option>
+					<?php endforeach; ?>
+				</select>
             </div>
 
             <!-- Mess -->
-            <div class="field">
-                <label for="mess">Mess Preference</label>
-                <select id="mess" name="mess" required>
-                    <option value="" selected disabled>Select Mess Preference</option>
-                    <?php foreach ($mess_options as $mess): ?>
-                        <option value="<?php echo $mess; ?>"><?php echo $mess; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+			<div class="field">
+				<label for="mess">Mess Preference</label>
+				<select id="mess" name="mess" class="form-control" required>
+					<option value="">Select Mess</option>
+					<?php foreach ($options['messes'] as $mess): ?>
+						<option value="<?= $mess['mess_id'] ?>"><?= $mess['mess_name'] ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
 
             <!-- Submit Button -->
             <button type="submit">Register Student</button>

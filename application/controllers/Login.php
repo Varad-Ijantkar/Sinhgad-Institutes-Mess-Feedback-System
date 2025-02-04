@@ -19,51 +19,45 @@ class Login extends CI_Controller
 		$data['error'] = ""; // To store any error messages
 
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
-			// Step 1: Email and password submission
-			if ($this->input->post('email') && $this->input->post('password') && !$this->input->post('otp')) {
-				$email = $this->input->post('email');
-				$password = $this->input->post('password');
+			$email = $this->input->post('email');
+			$password = $this->input->post('password');
+			$otp = $this->input->post('otp');
 
-				// Check if email and password match a record in the database
+			if ($email && $password && !$otp) {  // Step 1: Email and password submission
 				$user = $this->Login_model->validate_user($email, $password);
 
 				if ($user) {
-					// Check if the user is using a temporary password
 					if ($user->is_temp_password == 1) {
-						// Redirect to password renewal
 						$this->session->set_userdata('user_email', $user->email);
 						$this->session->set_userdata('is_temp_password', 1);
 						redirect('passwordrenew');
 					}
-					// User exists, store student_id and mess in session
-					$this->session->set_userdata('student_id', $user->id); // Store student ID
-					$this->session->set_userdata('mess', $user->mess);     // Store mess
 
-					// User exists, generate OTP
-					$this->session->set_userdata('otp', $user->otp); // Use the OTP from the database
-					$this->session->set_userdata('user_email', $email); // Store email in session
+					// Store student_id and mess details in session
+					$this->session->set_userdata('student_id', $user->id);
+					$this->session->set_userdata('mess_id', $user->mess_id);  // Fix: Use mess_id
+					$this->session->set_userdata('mess_name', $user->mess_name); // Fix: Use mess_name
+
+					// Generate OTP and store it in session
+					$this->session->set_userdata('otp', $user->otp);
+					$this->session->set_userdata('user_email', $email);
+
 					$data['otpSent'] = true;
-					$data['email'] = $email; // Pass email back to view
+					$data['email'] = $email;
 				} else {
 					$data['error'] = "Invalid email or password. Please try again.";
-					$data['email'] = $email; // Keep email filled even in case of error
+					$data['email'] = $email;
 				}
 			}
 
-			// Step 2: OTP submission
-			if ($this->input->post('otp')) {
-				$otp = $this->input->post('otp');
-
-				// Verify OTP
+			if ($otp) {  // Step 2: OTP verification
 				if ($otp == $this->session->userdata('otp')) {
-					// Successful login, redirect to complaintform.php
 					redirect('complaint');
-					exit(); // Make sure to stop script execution after redirection
+					exit();
 				} else {
-					// Invalid OTP
 					$data['error'] = "Invalid OTP. Please try again.";
-					$data['otpSent'] = true; // Keep OTP field visible
-					$data['email'] = $this->session->userdata('user_email'); // Preserve email
+					$data['otpSent'] = true;
+					$data['email'] = $this->session->userdata('user_email');
 				}
 			}
 		}

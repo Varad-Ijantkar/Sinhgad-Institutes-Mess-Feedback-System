@@ -30,20 +30,44 @@ class Admin_Dashboard_model extends CI_Model
     }
 	public function get_resolved_complaints()
 	{
-		$this->db->select('id, food_complaints as description, updated_at as date, name, mess, campus');
-		$this->db->where('status', 'Resolved'); // Filter for resolved complaints
-		$query = $this->db->get('complaints'); // Assuming 'complaints' is the table name
+		$this->db->select('
+        complaints.id, 
+        complaints.food_complaints AS description, 
+        complaints.updated_at AS date, 
+        complaints.name, 
+        messes.mess_name AS mess, 
+        campus.campus_name AS campus
+    ');
+		$this->db->from('complaints');
+		$this->db->join('messes', 'complaints.mess_id = messes.mess_id', 'left');
+		$this->db->join('campus', 'complaints.campus_id = campus.campus_id', 'left');
+		$this->db->where('complaints.status', 'resolved'); // Ensure 'resolved' is lowercase as per DB
+
+		$query = $this->db->get();
 		return $query->result_array();
 	}
 
+
     // Fetch total complaints data (both pending and resolved)
-    public function get_total_complaints()
-    {
-        // Select the correct fields, replacing 'description' with 'food_complaints'
-        $this->db->select('id, name, mess, date, campus, status, food_complaints');
-        $query = $this->db->get('complaints');
-        return $query->result_array();
-    }
+	public function get_total_complaints()
+	{
+		$this->db->select('
+        complaints.id, 
+        complaints.name, 
+        messes.mess_name AS mess, 
+        complaints.created_at AS date, 
+        campus.campus_name AS campus, 
+        complaints.status, 
+        complaints.food_complaints
+    ');
+		$this->db->from('complaints');
+		$this->db->join('messes', 'complaints.mess_id = messes.mess_id', 'left');
+		$this->db->join('campus', 'complaints.campus_id = campus.campus_id', 'left');
+
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 
 	public function mark_as_resolved($complaint_id)
 	{

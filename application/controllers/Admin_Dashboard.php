@@ -142,101 +142,106 @@ class Admin_Dashboard extends CI_Controller
         $this->load->view('mess_ratings', $data);
     }
 
-    public function edit_student_details($id) {
-        $this->load->model('Student_Info_model'); // Load the correct model
-        $user_email = $this->session->userdata('user_email');
-        $data['user_email'] = $user_email;
-    
-        // Check if form is submitted
-        if ($this->input->server('REQUEST_METHOD') === 'POST') {
-            // Collect form data
-            $update_data = array(
-                'name' => $this->input->post('name'),
-                'email' => $this->input->post('email'),
-                'phone' => $this->input->post('phone'),
-                'college' => $this->input->post('college'),
-                'campus' => $this->input->post('campus'),
-                'mess' => $this->input->post('mess')
-            );
-    
-            // Update student details in the database
-            $updated = $this->Student_Info_model->update_student_by_id($id, $update_data);
-    
-            // Set flashdata for success message
-            if ($updated) {
-                $this->session->set_flashdata('success', 'Student details updated successfully!');
-            } else {
-                $this->session->set_flashdata('error', 'Failed to update student details.');
-            }
-    
-            // Redirect back to the edit page
-            redirect("admin_dashboard/edit_student_details/$id");
-        }
-    
-        // Fetch student details by ID
-        $data['student'] = $this->Student_Info_model->get_student_by_id($id);
-    
-        // Load the edit student details view
-        $this->load->view('template/header');
-        $this->load->view('template/adminnavbar', $data);
-        $this->load->view('edit_student_details', $data);
-    }
+	public function edit_student_details($id) {
+		$this->load->model('Student_Info_model'); // Load the correct model
+		$user_email = $this->session->userdata('user_email');
+		$data['user_email'] = $user_email;
+
+		// Check if form is submitted
+		if ($this->input->server('REQUEST_METHOD') === 'POST') {
+			// Collect form data with correct column names
+			$update_data = array(
+				'name'       => $this->input->post('name'),
+				'email'      => $this->input->post('email'),
+				'phone'      => $this->input->post('phone'),
+				'college_id' => $this->input->post('college'), // Use correct column name
+				'campus_id'  => $this->input->post('campus'),
+				'mess_id'    => $this->input->post('mess')
+			);
+
+			// Update student details in the database
+			$updated = $this->Student_Info_model->update_student_by_id($id, $update_data);
+
+			// Set flashdata for success message
+			if ($updated) {
+				$this->session->set_flashdata('success', 'Student details updated successfully!');
+			} else {
+				$this->session->set_flashdata('error', 'Failed to update student details.');
+			}
+
+			// Redirect back to the edit page
+			redirect("admin_dashboard/edit_student_details/$id");
+		}
+
+		// Fetch student details by ID with proper joins
+		$data['student'] = $this->Student_Info_model->get_student_by_id($id);
+
+		// Fetch college, campus, and mess options
+		$data['options'] = $this->Student_Info_model->get_registration_options();
+
+		// Load the edit student details view
+		$this->load->view('template/header');
+		$this->load->view('template/adminnavbar', $data);
+		$this->load->view('edit_student_details', $data);
+	}
+
     
         // Add this function to your Admin_Dashboard Controller
-    public function register_student() {
-        $this->load->model('Student_Info_model'); // Load the model
-        $user_email = $this->session->userdata('user_email');
-        $data['user_email'] = $user_email;
-        // Check if form is submitted
-        if ($this->input->server('REQUEST_METHOD') == 'POST') {
-            // Fetch input data from the form and sanitize
-            $data = array(
-                'name'    => trim($this->input->post('name', true)),
-                'email'   => trim($this->input->post('email', true)),
-                'phone'   => trim($this->input->post('phone', true)),
-                'college' => $this->input->post('college', true),
-                'campus'  => $this->input->post('campus', true),
-                'mess'    => $this->input->post('mess', true),
-            );
-    
-            // Basic validation for required fields
-            if (empty($data['name']) || empty($data['email']) || empty($data['phone']) || empty($data['college']) || empty($data['campus']) || empty($data['mess'])) {
-                $this->session->set_flashdata('error', 'All fields are required. Please fill in all the details.');
-                redirect('admin_dashboard/register_student_detail');
-            }
-    
-            // Validate email format
-            if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                $this->session->set_flashdata('error', 'Invalid email address. Please provide a valid email.');
-                redirect('admin_dashboard/register_student_detail');
-            }
-    
-            // Validate phone number (example: 10 digits)
-            if (!preg_match('/^[0-9]{10}$/', $data['phone'])) {
-                $this->session->set_flashdata('error', 'Invalid phone number. Please enter a 10-digit number.');
-                redirect('admin_dashboard/register_student_detail');
-            }
-    
-            // Attempt to insert data into the database
-            if ($this->Student_Info_model->add_student($data)) {
-                $this->session->set_flashdata('success', 'Student registered successfully!');
-            } else {
-                $this->session->set_flashdata('error', 'Failed to register the student. Please try again.');
-            }
-    
-            // Redirect back to the registration form
-            redirect('admin_dashboard/register_student');
-        }
-    
-        // Load the registration view with necessary data
-        $data['college_options'] = $this->Student_Info_model->get_enum_values('student_info', 'college');
-        $data['campus_options'] = $this->Student_Info_model->get_enum_values('student_info', 'campus');
-        $data['mess_options'] = $this->Student_Info_model->get_enum_values('student_info', 'mess');
-    
-        $this->load->view('template/header');
-        $this->load->view('template/adminnavbar', $data);
-        $this->load->view('register_student_view', $data);
-    }
+	public function register_student() {
+		$this->load->model('Student_Info_model'); // Load the model
+		$user_email = $this->session->userdata('user_email');
+		$data['user_email'] = $user_email;
+
+		// Check if form is submitted
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+			// Fetch input data from the form and sanitize
+			$student_data = array(
+				'name'      => trim($this->input->post('name', true)),
+				'email'     => trim($this->input->post('email', true)),
+				'phone'     => trim($this->input->post('phone', true)),
+				'college_id'=> $this->input->post('college', true),
+				'campus_id' => $this->input->post('campus', true),
+				'mess_id'   => $this->input->post('mess', true),
+			);
+
+			// Basic validation for required fields
+			if (empty($student_data['name']) || empty($student_data['email']) || empty($student_data['phone']) || empty($student_data['college_id']) || empty($student_data['campus_id']) || empty($student_data['mess_id'])) {
+				$this->session->set_flashdata('error', 'All fields are required. Please fill in all the details.');
+				redirect('admin_dashboard/register_student');
+			}
+
+			// Validate email format
+			if (!filter_var($student_data['email'], FILTER_VALIDATE_EMAIL)) {
+				$this->session->set_flashdata('error', 'Invalid email address. Please provide a valid email.');
+				redirect('admin_dashboard/register_student');
+			}
+
+			// Validate phone number (example: 10 digits)
+			if (!preg_match('/^[0-9]{10}$/', $student_data['phone'])) {
+				$this->session->set_flashdata('error', 'Invalid phone number. Please enter a 10-digit number.');
+				redirect('admin_dashboard/register_student');
+			}
+
+			// Attempt to insert data into the database
+			if ($this->Student_Info_model->add_student($student_data)) {
+				$this->session->set_flashdata('success', 'Student registered successfully!');
+			} else {
+				$this->session->set_flashdata('error', 'Failed to register the student. Please try again.');
+			}
+
+			// Redirect back to the registration form
+			redirect('admin_dashboard/register_student');
+		}
+
+		// ✅ Fetch college, campus, and mess options in a single query
+		$data['options'] = $this->Student_Info_model->get_registration_options();
+		// Debugging
+		$this->load->view('template/header');
+		$this->load->view('template/adminnavbar', $data);
+		$this->load->view('register_student_view', $data);
+	}
+
+
         
     public function logout()
     {

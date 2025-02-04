@@ -113,7 +113,7 @@
 
 <aside>
     <div class="sidebar content-sidebar closed">
-        <a href="http://localhost/mess-feedback/index.php/admin_dashboard"><strong>Dashboard</strong></a>
+        <a href="http://localhost/mess_feedback/index.php/admin_dashboard"><strong>Dashboard</strong></a>
         <div class="menu">
             <div class="vertical-line"></div>
             <ul>

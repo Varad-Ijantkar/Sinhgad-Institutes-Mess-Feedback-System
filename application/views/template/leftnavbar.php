@@ -139,10 +139,10 @@
 	<!-- Sidebar (initially closed) -->
 	<div class="sidebar closed">
 		<ul>
-			<li><a href="<?php echo site_url('Complaint'); ?>"><strong>Register Complaint</strong></a></li>
-			<li><a href="<?php echo site_url('Complaint/pending_complaints'); ?>"><strong>Pending Complaints</strong></a>
+			<li><a href="<?php echo site_url('complaint'); ?>"><strong>Register Complaint</strong></a></li>
+			<li><a href="<?php echo site_url('complaint/pending_complaints'); ?>"><strong>Pending Complaints</strong></a>
 			</li>
-			<li><a href="<?php echo site_url('Complaint/resolved_complaints'); ?>"><strong>Resolved Complaints</strong></a>
+			<li><a href="<?php echo site_url('complaint/resolved_complaints'); ?>"><strong>Resolved Complaints</strong></a>
 			</li>
 			<li><a href="<?php echo site_url('feedback'); ?>"><strong>Give Feedback</strong></a>
 			</li>

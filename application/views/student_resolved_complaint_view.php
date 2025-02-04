@@ -209,7 +209,7 @@
                             <td data-lable="Campus"><?php echo $complaint->campus; ?></td>
                             <td data-lable="Description"><?php echo $complaint->food_complaints; ?></td>
                             <td data-lable="View Report">
-                                <a href="<?php echo base_url('complaint/generate_report/' . $complaint->id); ?>"><button class='view-btn'>View</button></a>
+                                <a href="<?php echo base_url('complaint/generate_report/' . $complaint->id); ?>">View</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -221,7 +221,6 @@
             </tbody>
         </table>
     </div>
-    <?php $this->load->view('template/footer'); ?>
 </body>
 
 </html>

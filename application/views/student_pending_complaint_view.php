@@ -187,29 +187,28 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php if (!empty($pending_complaints)): ?>
-					<?php foreach ($pending_complaints as $complaint): ?>
-						<tr>
-							<td data-lable="Complaint ID"><?php echo $complaint->id; ?></td>
-							<td data-lable="Name"><?php echo $complaint->name; ?></td>
-							<td data-lable="Mess"><?php echo $complaint->mess; ?></td>
-							<td data-lable="Date Filed"><?php echo $complaint->date; ?></td>
-							<td data-lable="Campus"><?php echo $complaint->campus; ?></td>
-							<td data-lable="Description"><?php echo $complaint->food_complaints; ?></td>
-							<td data-lable="View Report">
-								<a href="<?php echo base_url('complaint/generate_report/' . $complaint->id); ?>"><button class='view-btn'>View</button></a>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				<?php else: ?>
+			<?php if (!empty($pending_complaints)): ?>
+				<?php foreach ($pending_complaints as $complaint): ?>
 					<tr>
-						<td colspan="7" style="text-align: center;">No pending complaints found</td>
+						<td><?php echo isset($complaint['id']) ? $complaint['id'] : 'N/A'; ?></td>
+						<td><?php echo isset($complaint['name']) ? $complaint['name'] : 'N/A'; ?></td>
+						<td><?php echo isset($complaint['mess']) ? $complaint['mess'] : 'N/A'; ?></td>
+						<td><?php echo isset($complaint['date']) ? $complaint['date'] : 'N/A'; ?></td>
+						<td><?php echo isset($complaint['campus']) ? $complaint['campus'] : 'N/A'; ?></td>
+						<td><?php echo isset($complaint['description']) ? $complaint['description'] : 'N/A'; ?></td>
+						<td>
+							<a href="<?php echo base_url('admin_pending_complaints/generate_report/' . $complaint['id']); ?>">View</a>
+						</td>
 					</tr>
-				<?php endif; ?>
+				<?php endforeach; ?>
+			<?php else: ?>
+				<tr>
+					<td colspan="7">No pending complaints found</td>
+				</tr>
+			<?php endif; ?>
 			</tbody>
 		</table>
 	</div>
-	<?php $this->load->view('template/footer'); ?>
 </body>
 
 </html>

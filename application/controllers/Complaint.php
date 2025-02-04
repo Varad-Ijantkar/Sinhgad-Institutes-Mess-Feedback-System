@@ -6,48 +6,88 @@ class Complaint extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Complaint_model'); // Load the model for database interaction
-		$this->load->model('Student_Info_model'); // Load model to access student info
-		$this->load->helper(array('form', 'url'));
-		$this->load->library('form_validation');
-		$this->load->library('session');  // Load session library
+		$this->load->model('Complaint_model');
+		$this->load->model('Student_Info_model');
+		$this->load->helper(array('form', 'url', 'security'));
+		$this->load->library(['form_validation', 'session', 'upload']);
 	}
 
-	// Method to display the complaint form
 	public function index()
 	{
-		// Fetch the logged-in student's email from session
-		$email = $this->session->userdata('user_email');
-
-		// Auto-fill data based on student's email
-		$student_info = $this->Student_Info_model->get_student_by_email($email);
-
-		// Check if student data is found
-		if ($student_info) {
-			// Pass student info to the view to auto-fill the form
-			$data['student_info'] = $student_info;
-		} else {
-			// If no student info found, pass an empty array
-			$data['student_info'] = array();
+		if (!$this->session->userdata('user_email')) {
+			redirect('login');
 		}
 
-		// Load the complaint form view with student info
-		$this->load->view('template/header');
-		$this->load->view('template/leftnavbar');
-		$this->load->view('complaint_view', $data); // Pass $data to the view
-		$this->load->view('template/footer');
+		$data = $this->get_student_data();
+		$this->load_views('complaint_view', $data);
 	}
 
-	// Method to handle complaint submission
 	public function submit()
 	{
-		// Set form validation rules
+		if (!$this->session->userdata('user_email')) {
+			redirect('login');
+		}
+
+		$this->set_validation_rules();
+
+		if ($this->form_validation->run() == FALSE) {
+			$data = $this->get_student_data();
+			$this->load_views('complaint_view', $data);
+			return;
+		}
+
+		$complaint_data = $this->prepare_complaint_data();
+
+		// Handle photo upload if present
+		if (!empty($_FILES['complaint_photo']['name'])) {
+			$photo_path = $this->handle_photo_upload();
+			if ($photo_path) {
+				$complaint_data['photo_path'] = $photo_path;
+			} else {
+				$data = $this->get_student_data();
+				$this->load_views('complaint_view', $data);
+				return;
+			}
+		}
+
+		// Save complaint
+		if ($this->Complaint_model->insert_complaint($complaint_data)) {
+			$this->session->set_flashdata('success', 'Complaint submitted successfully!');
+		} else {
+			$this->session->set_flashdata('error', 'Error submitting complaint. Please try again.');
+		}
+
+		redirect('complaint');
+	}
+
+	private function get_student_data()
+	{
+		$email = $this->session->userdata('user_email');
+		$student_info = $this->Student_Info_model->get_student_by_email($email);
+
+		return [
+			'student_info' => [
+				'email' => $student_info['email'] ?? '',
+				'name' => $student_info['name'] ?? '',
+				'phone' => $student_info['phone'] ?? '',
+				'college_id' => $student_info['student_college_id'] ?? '',
+				'campus_id' => $student_info['student_campus_id'] ?? '',
+				'mess_id' => $student_info['student_mess_id'] ?? '',
+				'college_name' => $student_info['college_name'] ?? 'Unknown',
+				'campus_name' => $student_info['campus_name'] ?? 'Unknown',
+				'mess_name' => $student_info['mess_name'] ?? 'Unknown'
+			]
+		];
+	}
+
+	private function set_validation_rules()
+	{
 		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('phone', 'Phone', 'required|numeric');
-		$this->form_validation->set_rules('college', 'College', 'required');
-		$this->form_validation->set_rules('campus', 'Campus', 'required');
-		$this->form_validation->set_rules('mess', 'Mess', 'required');
+		$this->form_validation->set_rules('college_id', 'College', 'required');
+		$this->form_validation->set_rules('campus_id', 'Campus', 'required');
+		$this->form_validation->set_rules('mess_id', 'Mess', 'required');
 		$this->form_validation->set_rules('date', 'Date', 'required');
 		$this->form_validation->set_rules('meal_time', 'Meal Time', 'required');
 		$this->form_validation->set_rules('category', 'Category', 'required');
@@ -56,160 +96,149 @@ class Complaint extends CI_Controller
 		$this->form_validation->set_rules('protocols', 'Protocols', 'required');
 		$this->form_validation->set_rules('food_complaints', 'Food Complaints', 'trim');
 		$this->form_validation->set_rules('suggestions', 'Suggestions', 'trim');
+	}
 
-		if ($this->form_validation->run() == FALSE) {
-			// Validation failed, reload form with errors
-			$this->load->view('complaint_form');
+	private function prepare_complaint_data()
+	{
+		return [
+			'email' => $this->input->post('email'),
+			'name' => $this->input->post('name'),
+			'phone' => $this->input->post('phone'),
+			'college_id' => $this->input->post('college_id'),
+			'campus_id' => $this->input->post('campus_id'),
+			'mess_id' => $this->input->post('mess_id'),
+			'date' => $this->input->post('date'),
+			'meal_time' => $this->input->post('meal_time'),
+			'category' => $this->input->post('category'),
+			'hygiene' => $this->input->post('hygiene'),
+			'pest_control' => $this->input->post('pest_control'),
+			'protocols' => $this->input->post('protocols'),
+			'food_complaints' => $this->input->post('food_complaints'),
+			'suggestions' => $this->input->post('suggestions'),
+			'status' => 'pending'
+		];
+	}
+
+	private function handle_photo_upload()
+	{
+		$meal_time = $this->input->post('meal_time');
+		$upload_path = 'uploads/complaint_photos/';
+		$student_name = str_replace(' ', '_', $this->input->post('name'));
+
+		if (!is_dir($upload_path . $student_name)) {
+			mkdir($upload_path . $student_name, 0777, true);
+		}
+
+		$current_datetime = date("Y-m-d_H-i-s");
+		$file_name = "{$current_datetime}_{$meal_time}.jpg";
+
+		$config = [
+			'upload_path' => $upload_path . $student_name,
+			'allowed_types' => 'jpg|jpeg|png|gif',
+			'max_size' => 2048,
+			'file_name' => $file_name
+		];
+
+		$this->upload->initialize($config);
+
+		if ($this->upload->do_upload('complaint_photo')) {
+			return $config['upload_path'] . '/' . $file_name;
 		} else {
-			// Collect form data
-			$data = array(
-				'email' => $this->input->post('email'),
-				'name' => $this->input->post('name'),
-				'phone' => $this->input->post('phone'),
-				'college' => $this->input->post('college'),
-				'campus' => $this->input->post('campus'),
-				'mess' => $this->input->post('mess'),
-				'date' => $this->input->post('date'),
-				'meal_time' => $this->input->post('meal_time'),
-				'category' => $this->input->post('category'),
-				'hygiene' => $this->input->post('hygiene'),
-				'pest_control' => $this->input->post('pest_control'),
-				'protocols' => $this->input->post('protocols'),
-				'food_complaints' => $this->input->post('food_complaints'),
-				'suggestions' => $this->input->post('suggestions'),
-				'status' => 'pending'
-			);
-
-			// Handle file upload
-			if (!empty($_FILES['complaint_photo']['name'])) {
-				$meal_time = $this->input->post('meal_time'); // Get the meal type
-				$upload_path = 'uploads/complaint_photos/';
-				$student_name = str_replace(' ', '_', $this->input->post('name'));
-
-				// Create folder if it doesn't exist
-				if (!is_dir($upload_path . $student_name)) {
-					mkdir($upload_path . $student_name, 0777, true);
-				}
-
-				// Set up the file name as "2024-11-09_08-30-00_breakfast.jpg"
-				$current_datetime = date("Y-m-d_H-i-s");
-				$file_name = "{$current_datetime}_{$meal_time}.jpg";
-
-				// Upload configuration
-				$config['upload_path'] = $upload_path . $student_name;
-				$config['allowed_types'] = 'jpg|jpeg|png|gif';
-				$config['max_size'] = 2048;  // Maximum file size in KB
-				$config['file_name'] = $file_name;
-
-				$this->load->library('upload', $config);
-
-				if ($this->upload->do_upload('complaint_photo')) {
-					// Save file path to data array
-					$data['photo_path'] = $config['upload_path'] . '/' . $file_name;
-				} else {
-					// Handle upload error
-					$this->session->set_flashdata('error', 'Error uploading photo: ' . $this->upload->display_errors());
-					redirect('complaint');
-				}
-			}
-
-			// Insert complaint data
-			if ($this->Complaint_model->insert_complaint($data)) {
-				$this->session->set_flashdata('success', 'Complaint submitted successfully with photo!');
-			} else {
-				$this->session->set_flashdata('error', 'Error submitting complaint. Please try again.');
-			}
-
-			// Redirect to prevent form resubmission
-			redirect('complaint');
+			$this->session->set_flashdata('error', 'Error uploading photo: ' . $this->upload->display_errors());
+			return false;
 		}
 	}
 
+	private function load_views($main_view, $data)
+	{
+		$this->load->view('template/header');
+		$this->load->view('template/leftnavbar');
+		$this->load->view($main_view, $data);
+		$this->load->view('template/footer');
+	}
 
-	// Method to display pending complaints for the logged-in student
 	public function pending_complaints()
 	{
-		$email = $this->session->userdata('user_email');
-		if ($email) {
-			$data['pending_complaints'] = $this->Complaint_model->get_complaints_by_status($email, 'pending');
-			$this->load->view('template/header');
-			$this->load->view('template/leftnavbar');
-			// Updated to load the correct view
-			$this->load->view('student_pending_complaint_view', $data);
-		} else {
+		if (!$this->session->userdata('user_email')) {
 			redirect('login');
+			return;
 		}
+
+		$email = $this->session->userdata('user_email');
+		$data['pending_complaints'] = $this->Complaint_model->get_complaints_by_status($email, 'pending');
+
+		// Debugging - Check if data exists
+		if (empty($data['pending_complaints'])) {
+			echo "No complaints found!";
+			exit();
+		}
+		$this->load_views('student_pending_complaint_view', $data);
 	}
 
 
-	// Method to display resolved complaints for the logged-in student
 	public function resolved_complaints()
 	{
-		$email = $this->session->userdata('user_email');
-		if ($email) {
-			$data['resolved_complaints'] = $this->Complaint_model->get_complaints_by_status($email, 'resolved');
-			$this->load->view('template/header');
-			$this->load->view('template/leftnavbar');
-			// Updated to load the correct view
-			$this->load->view('student_resolved_complaint_view', $data);
-		} else {
+		if (!$this->session->userdata('user_email')) {
 			redirect('login');
+			return;
 		}
+		$email = $this->session->userdata('user_email');
+		$data['resolved_complaints'] = $this->Complaint_model->get_resolved_complaints($email);
+		$this->load_views('student_resolved_complaint_view', $data);
 	}
 
 	public function generate_report($complaint_id)
 	{
-		// Validate complaint ID
+		if (!$this->session->userdata('user_email')) {
+			redirect('login');
+			return;
+		}
+
 		if (empty($complaint_id)) {
 			$this->session->set_flashdata('error', 'Invalid complaint ID.');
 			redirect('complaint/pending_complaints');
+			return;
 		}
 
-		// Load the Complaint model if not already loaded
-		$this->load->model('Complaint_model');
+		$complaint = $this->Complaint_model->get_complaint_by_id($complaint_id);
 
-		// Fetch complaint data using the model
-		$data['complaint'] = $this->Complaint_model->get_complaint_by_id($complaint_id);
-
-		// Check if data exists for the provided complaint ID
-		if (empty($data['complaint'])) {
+		if (empty($complaint)) {
 			$this->session->set_flashdata('error', 'Complaint not found.');
 			redirect('complaint/pending_complaints');
+			return;
 		}
 
-		// Extract data for the view
-		$data['id'] = $complaint_id; // Pass the ID explicitly
-		$data['created_at'] = $data['complaint']['created_at'] ?? 'Unknown'; // Check for undefined fields
-		$data['status'] = $data['complaint']['status'] ?? 'Unknown';
-		$data['email'] = $data['complaint']['email'] ?? 'Not Provided';
-		$data['phone'] = $data['complaint']['phone'] ?? 'Not Provided';
-		$data['campus'] = $data['complaint']['campus'] ?? 'Unknown';
-		$data['college'] = $data['complaint']['college'] ?? 'Unknown';
-		$data['date'] = $data['complaint']['date'] ?? 'Unknown';
-		$data['meal_time'] = $data['complaint']['meal_time'] ?? 'Unknown';
-		$data['mess'] = $data['complaint']['mess'] ?? 'Unknown';
-		$data['category'] = $data['complaint']['category'] ?? 'Unknown';
-		$data['hygiene'] = $data['complaint']['hygiene'] ?? 'Unknown';
-		$data['pest_control'] = $data['complaint']['pest_control'] ?? 'Unknown';
-		$data['protocols'] = $data['complaint']['protocols'] ?? 'Unknown';
-		$data['food_complaints'] = $data['complaint']['food_complaints'] ?? 'Not Available';
-		$data['suggestions'] = $data['complaint']['suggestions'] ?? 'Not Available';
-		$data['witnesses'] = $data['complaint']['witnesses'] ?? 'None';
-		$data['previous_complaints'] = $data['complaint']['previous_complaints'] ?? 'None';
-		$data['photos'] = $data['complaint']['photos'] ?? [];
+		$data = [
+			'id' => $complaint_id,
+			'created_at' => $complaint['created_at'] ?? 'Unknown',
+			'status' => $complaint['status'] ?? 'Unknown',
+			'email' => $complaint['email'] ?? 'Not Provided',
+			'phone' => $complaint['phone'] ?? 'Not Provided',
+			'campus' => $complaint['campus'] ?? 'Unknown',
+			'college' => $complaint['college'] ?? 'Unknown',
+			'date' => $complaint['date'] ?? 'Unknown',
+			'meal_time' => $complaint['meal_time'] ?? 'Unknown',
+			'mess' => $complaint['mess'] ?? 'Unknown',
+			'category' => $complaint['category'] ?? 'Unknown',
+			'hygiene' => $complaint['hygiene'] ?? 'Unknown',
+			'pest_control' => $complaint['pest_control'] ?? 'Unknown',
+			'protocols' => $complaint['protocols'] ?? 'Unknown',
+			'food_complaints' => $complaint['food_complaints'] ?? 'Not Available',
+			'suggestions' => $complaint['suggestions'] ?? 'Not Available',
+			'witnesses' => $complaint['witnesses'] ?? 'None',
+			'previous_complaints' => $complaint['previous_complaints'] ?? 'None',
+			'photos' => $complaint['photos'] ?? []
+		];
 
-		// Load the view to display the report
 		$this->load->view('complaint_report_view', $data);
 	}
 
-	// Method to log out the user
 	public function logout()
 	{
-		// Clear session data
 		$this->session->unset_userdata('user_email');
 		$this->session->sess_destroy();
-
-		// Redirect to login page or home page
 		redirect('login');
 	}
+
+//Debugging functions
 }
