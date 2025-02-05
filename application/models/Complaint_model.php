@@ -49,7 +49,6 @@ class Complaint_model extends CI_Model
 		$this->db->where('c.email', $email);
 		$this->db->where('c.status', $status);
 
-		$admin = $this->db->get_where('admin_login', ['email' => $email])->row();
 
 		if (!empty($college_id)) {
 			$this->db->where('c.college_id', $college_id);

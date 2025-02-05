@@ -162,11 +162,11 @@
         </style>
     </head>
     <body>
-        <div class="card">
-            <div class="card-header">
-                <h1><?php echo $this->session->userdata('mess'); ?></h1>
-				<p>Please rate your experience to help us serve you better.</p>
-            </div>
+	<div class="card">
+		<div class="card-header">
+			<h1><?php echo isset($mess_name) ? $mess_name : 'Mess Name Not Found'; ?></h1>
+			<p>Please rate your experience to help us serve you better.</p>
+		</div>
 			<?php if ($this->session->flashdata('success')): ?>
 				<div class="alert alert-success alert-dismissible fade show" role="alert">
 					<?php echo $this->session->flashdata('success'); ?>

@@ -9,21 +9,24 @@ class Feedback extends CI_Controller {
 	}
 
 	public function index() {
-		// Load the feedback view with the necessary templates
+		$mess_id = $this->session->userdata('mess_id'); // Store mess_id instead of mess name
+		$mess_name = $this->Feedback_model->get_mess_name($mess_id); // Get mess name using mess_id
+
+		$data['mess_name'] = $mess_name; // Pass mess_name to the view
 		$this->load->view('template/header');
 		$this->load->view('template/leftnavbar');
-		$this->load->view('feedback_view');
+		$this->load->view('feedback_view', $data); // Pass $data here
 		$this->load->view('template/footer');
 	}
 
 	// Method to handle feedback submission
 	public function submit() {
-		// Retrieve student_id and mess from session
+		// Retrieve student_id and mess_id from session
 		$student_id = $this->session->userdata('student_id');
-		$mess = $this->session->userdata('mess');
+		$mess_id = $this->session->userdata('mess_id'); // Store mess_id
 
 		// Validate session data to ensure the student is logged in
-		if (!$student_id || !$mess) {
+		if (!$student_id || !$mess_id) {
 			show_error('Student must be logged in to submit feedback.', 403);
 		}
 
@@ -55,7 +58,7 @@ class Feedback extends CI_Controller {
 		// Prepare data for insertion
 		$data = [
 			'student_id' => $student_id,
-			'mess' => $mess,
+			'mess_id' => $mess_id,
 			'taste_rating' => $inputs['taste_rating'],
 			'hygiene_rating' => $inputs['hygiene_rating'],
 			'variety_rating' => $inputs['variety_rating'],
