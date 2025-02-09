@@ -5,128 +5,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
+        .pro {
             font-family: Arial, sans-serif;
             margin: 0;
-            height: 100vh;
-        }
-
-        .content {
+            height: 80vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-grow: 1;
-            padding: 20px;
-            flex-direction: column;
-            margin-left: 250px;
-            /* Adjust this based on the width of your sidebar */
+            background-color: #f5f3ff;
+
         }
 
+        .dashboard {
+            display: flex;
+            gap: 90px;
+            width: 90%;
+            max-width: 1200px;
+            align-items: center;
+        }
+
+        /* Card container on the left */
         .card-container {
             display: flex;
-            justify-content: center;
-            /* Center the cards horizontally */
-            width: 100%;
-            max-width: 1000px;
-            flex-wrap: wrap;
-            /* Allow cards to wrap */
+            flex-direction: column;
             gap: 20px;
-            /* Add space between cards */
-            transform: translateY(250px);
+            width: 40%;
         }
 
         .card {
-            padding: 30px;
-            border-radius: 5px;
-            width: 30%;
+            padding: 20px;
+            border-radius: 10px;
             text-align: center;
             color: white;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-size: 18px;
+            font-weight: bold;
         }
 
-        /* Card colors */
         .card.pending {
             background-color: #e74c3c;
-            /* Red */
         }
 
         .card.resolved {
             background-color: #2ecc71;
-            /* Green */
         }
 
         .card.total {
             background-color: #2c3e50;
-            /* Black */
         }
 
-        /* Hover animations */
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        /* Pie chart container */
+        .chart-container {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: none ;
+            padding: 20px;
+            border-radius: 10px;
+            
         }
 
-        .card.pending:hover {
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.5);
-        }
-
-        .card.resolved:hover {
-            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.5);
-        }
-
-        .card.total:hover {
-            box-shadow: 0 5px 15px rgba(44, 62, 80, 0.5);
+        canvas {
+            max-width: 100%;
+            height: auto;
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
-            .card-container {
-                flex-direction: column;
-                /* Stack cards vertically on smaller screens */
-                align-items: center;
-            }
+        /* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
 
-            .card {
-                width: 80%;
-                /* Make cards wider on smaller screens */
-            }
-        }
+    /* Show Pie Chart first */
+    .chart-container {
+        width: 100%;
 
-        @media (max-width: 576px) {
-            .card {
-                width: 90%;
-                /* Full width on very small screens */
-            }
-        }
+    }
+
+    /* Cards Section */
+    .card-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .card {
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: none;
+        border: 1px solid #ddd; /* Adds a light border for visibility */
+        color: black;
+    }
+
+    .card h2 {
+        margin: 0;
+        font-size: 16px;
+    }
+
+    .card p {
+        font-size: 16px;
+        font-weight: bold;
+    }
+}
+
     </style>
 </head>
 
 <body>
-
-    <!-- Main Content -->
-    <div class="content">
+        <div class='pro'>
+    <div class="dashboard">
+        <!-- Cards (Left Side) -->
         <div class="card-container">
             <div class="card pending">
                 <h2>Pending</h2>
-                <p>
-                    <?php echo $pending_count; ?>
-                </p>
+                <p><?php echo $pending_count; ?></p>
             </div>
             <div class="card resolved">
                 <h2>Resolved</h2>
-                <p>
-                    <?php echo $resolved_count; ?>
-                </p>
+                <p><?php echo $resolved_count; ?></p>
             </div>
             <div class="card total">
                 <h2>Total</h2>
-                <p>
-                    <?php echo $total_count; ?>
-                </p>
+                <p><?php echo $total_count; ?></p>
             </div>
         </div>
+
+        <!-- Pie Chart (Right Side) -->
+        <div class="chart-container">
+            <canvas id="progressChart"></canvas>
+        </div>
     </div>
+    </div>
+
+    <script>
+        let pendingCount = <?php echo $pending_count; ?>;
+        let resolvedCount = <?php echo $resolved_count; ?>;
+        let totalCount = pendingCount + resolvedCount;
+
+        let ctx = document.getElementById('progressChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: [`Resolved : ${resolvedCount}`, `Pending : ${pendingCount}`],
+                datasets: [{
+                    data: [resolvedCount, pendingCount ],
+                    backgroundColor: ['#2ecc71', '#e74c3c']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+    </script>
 
 </body>
 
