@@ -13,7 +13,6 @@
 		}
 
 		.pending_view {
-			margin-left: 280px;
 			padding: 20px;
 		}
 
@@ -211,9 +210,9 @@
 						<td><?php echo $complaint['id']; ?></td>
 						<td><?php echo $complaint['name']; ?></td>
 						<td><?php echo $complaint['mess']; ?></td>
+						<td><?php echo $complaint['date']; ?></td>
 						<td><?php echo $complaint['meal_time']; ?></td>
 						<td><?php echo $complaint['college']; ?></td>
-						<td><?php echo $complaint['date']; ?></td>
 						<td><?php echo $complaint['description']; ?></td>
 						<td>
 							<a href="<?php echo base_url('admin_pending_complaints/generate_report/' . $complaint['id']); ?>">View</a>

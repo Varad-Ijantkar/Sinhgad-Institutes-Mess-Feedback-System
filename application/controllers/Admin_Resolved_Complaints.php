@@ -6,7 +6,8 @@ class Admin_Resolved_Complaints extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Admin_Dashboard_model'); // Load the Admin Dashboard model
+		$this->load->model('Admin_Dashboard_model');
+		$this->load->model('Admin_Pending_Complaints_model'); // Added this model for mess and college data
 		$this->load->library('session');
 		$this->load->helper('url');
 	}
@@ -18,14 +19,19 @@ class Admin_Resolved_Complaints extends CI_Controller
 			redirect('Admin_Login');
 		}
 
-		// Fetch resolved complaints from the model
+		// Fetch all necessary data
 		$data['resolved_complaints'] = $this->Admin_Dashboard_model->get_resolved_complaints();
 		$data['user_email'] = $this->session->userdata('user_email');
+		$data['role'] = strtolower($this->session->userdata('user_role'));
+
+		// Add mess and college data for filters
+		$data['messes'] = $this->Admin_Pending_Complaints_model->get_all_messes();
+		$data['colleges'] = $this->Admin_Pending_Complaints_model->get_all_colleges();
 
 		// Load views
 		$this->load->view('template/header', $data);
 		$this->load->view('template/adminnavbar', $data);
-		$this->load->view('resolved_complaints_view', $data); // Resolved complaints view
+		$this->load->view('resolved_complaints_view', $data);
 	}
 
 	public function generate_report($complaint_id)
@@ -35,9 +41,6 @@ class Admin_Resolved_Complaints extends CI_Controller
 			$this->session->set_flashdata('error', 'Invalid complaint ID.');
 			redirect('Admin_Resolved_Complaints');
 		}
-
-		// Load the Complaint model if not already loaded
-		$this->load->model('Admin_Pending_Complaints_model');
 
 		// Fetch complaint data using the model
 		$data['complaint'] = $this->Admin_Pending_Complaints_model->get_complaint_by_id($complaint_id);
@@ -49,8 +52,8 @@ class Admin_Resolved_Complaints extends CI_Controller
 		}
 
 		// Extract data for the view
-		$data['id'] = $complaint_id; // Pass the ID explicitly
-		$data['created_at'] = $data['complaint']['created_at'] ?? 'Unknown'; // Check for undefined fields
+		$data['id'] = $complaint_id;
+		$data['created_at'] = $data['complaint']['created_at'] ?? 'Unknown';
 		$data['status'] = $data['complaint']['status'] ?? 'Unknown';
 		$data['email'] = $data['complaint']['email'] ?? 'Not Provided';
 		$data['phone'] = $data['complaint']['phone'] ?? 'Not Provided';
