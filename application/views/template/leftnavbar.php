@@ -136,9 +136,9 @@
 <body>
 
 <aside>
-	<!-- Sidebar (initially closed) -->
 	<div class="sidebar closed">
 		<ul>
+			<li><a href="<?php echo site_url('student_dashboard');?>"><strong>Student Dashboard</strong></a></li>
 			<li><a href="<?php echo site_url('complaint'); ?>"><strong>Register Complaint</strong></a></li>
 			<li><a href="<?php echo site_url('complaint/pending_complaints'); ?>"><strong>Pending Complaints</strong></a>
 			</li>
@@ -176,7 +176,5 @@
 		content.classList.toggle('collapsed');
 	}
 </script>
-
 </body>
-
 </html>

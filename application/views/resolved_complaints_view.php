@@ -204,7 +204,6 @@
 	<?php elseif ($this->session->flashdata('error')): ?>
 		<div class="alert alert-danger"><?php echo $this->session->flashdata('error'); ?></div>
 	<?php endif; ?>
-
 	<div class="filters-container">
 		<div class="filters">
 			<select id="filterMess" onchange="filterTable()">

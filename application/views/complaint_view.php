@@ -5,7 +5,6 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Mess Feedback System</title>
-	<!-- Bootstrap CDN -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 	<style>
@@ -80,7 +79,6 @@
 <body>
 <div class="container container-custom">
 	<h2 class="text-center mb-4">Food Complaint Section</h2>
-
 	<div class="container form-custom">
 		<?php if (isset($message)) {
 			echo "<div class='alert alert-info'>$message</div>";
@@ -94,7 +92,6 @@
 
 		<!-- Display validation errors -->
 		<?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
-
 		<form action="<?php echo site_url('complaint/submit'); ?>" method="POST" enctype="multipart/form-data">
 			<div class="form-group">
 				<label for="email">Email</label>

@@ -178,6 +178,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>
 			<?php endif; ?>
+			<?php $this->load->view('template/studentheader');?>
             <div class="card-content">
                 <form id="feedbackForm" method="post" action="<?php echo base_url('feedback/submit'); ?>">
                     <input type="hidden" name="student_id" value="<?php echo $this->session->userdata('student_id'); ?>">
