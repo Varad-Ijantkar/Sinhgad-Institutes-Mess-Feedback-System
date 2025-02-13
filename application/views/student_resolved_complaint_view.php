@@ -186,6 +186,7 @@
 <body  class='bg-violet-100'>
     <div class="table-container ">
         <h1 class="heading">Resolved Complaints</h1>
+		<?php $this->load->view('template/studentheader');?>
         <table class="table">
             <thead>
                 <tr>

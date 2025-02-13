@@ -31,22 +31,27 @@ class Admin_Dashboard_model extends CI_Model
 	public function get_resolved_complaints()
 	{
 		$this->db->select('
-        complaints.id, 
-        complaints.food_complaints AS description, 
-        complaints.updated_at AS date, 
-        complaints.name, 
-        messes.mess_name AS mess, 
-        campus.campus_name AS campus
-    ');
+            complaints.id, 
+            complaints.food_complaints AS description, 
+            complaints.date,
+            complaints.name,
+            complaints.mess_id,
+            complaints.college_id,
+            complaints.campus_id,
+            complaints.meal_time,
+            messes.mess_name AS mess,
+            campus.campus_name AS campus,
+            colleges.college_name AS college
+        ');
 		$this->db->from('complaints');
 		$this->db->join('messes', 'complaints.mess_id = messes.mess_id', 'left');
 		$this->db->join('campus', 'complaints.campus_id = campus.campus_id', 'left');
-		$this->db->where('complaints.status', 'resolved'); // Ensure 'resolved' is lowercase as per DB
+		$this->db->join('colleges', 'complaints.college_id = colleges.college_id', 'left');
+		$this->db->where('complaints.status', 'resolved');
 
 		$query = $this->db->get();
 		return $query->result_array();
 	}
-
 
     // Fetch total complaints data (both pending and resolved)
 	public function get_total_complaints()
@@ -54,15 +59,20 @@ class Admin_Dashboard_model extends CI_Model
 		$this->db->select('
         complaints.id, 
         complaints.name, 
+        complaints.meal_time,
         messes.mess_name AS mess, 
-        complaints.created_at AS date, 
-        campus.campus_name AS campus, 
+        complaints.created_at AS date,
+		complaints.mess_id,
+        complaints.college_id,
+        complaints.campus_id, 
+        messes.mess_name AS mess, 
+        colleges.college_name AS college,
         complaints.status, 
         complaints.food_complaints
     ');
 		$this->db->from('complaints');
 		$this->db->join('messes', 'complaints.mess_id = messes.mess_id', 'left');
-		$this->db->join('campus', 'complaints.campus_id = campus.campus_id', 'left');
+		$this->db->join('colleges', 'complaints.college_id = colleges.college_id', 'left');
 
 		$query = $this->db->get();
 		return $query->result_array();

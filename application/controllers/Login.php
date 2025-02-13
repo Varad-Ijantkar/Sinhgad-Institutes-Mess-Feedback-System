@@ -52,7 +52,7 @@ class Login extends CI_Controller
 
 			if ($otp) {  // Step 2: OTP verification
 				if ($otp == $this->session->userdata('otp')) {
-					redirect('complaint');
+					redirect('student_dashboard');
 					exit();
 				} else {
 					$data['error'] = "Invalid OTP. Please try again.";

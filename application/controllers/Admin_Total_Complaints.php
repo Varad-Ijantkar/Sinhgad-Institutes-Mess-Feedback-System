@@ -7,6 +7,7 @@ class Admin_Total_Complaints extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('Admin_Dashboard_model'); // Load the Admin Dashboard model
+		$this->load->model('Admin_Pending_Complaints_model');
 		$this->load->library('session');
 		$this->load->helper('url');
 	}
@@ -21,6 +22,11 @@ class Admin_Total_Complaints extends CI_Controller
 		// Fetch total complaints from the model
 		$data['total_complaints'] = $this->Admin_Dashboard_model->get_total_complaints();
 		$data['user_email'] = $this->session->userdata('user_email');
+		$data['role'] = strtolower($this->session->userdata('user_role'));
+
+		// Add mess and college data for filters
+		$data['messes'] = $this->Admin_Pending_Complaints_model->get_all_messes();
+		$data['colleges'] = $this->Admin_Pending_Complaints_model->get_all_colleges();
 
 		// Load views
 		$this->load->view('template/header', $data);
@@ -38,6 +44,8 @@ class Admin_Total_Complaints extends CI_Controller
 		if ($complaint_id) {
 			$this->load->model('Admin_Dashboard_model');
 			$this->Admin_Dashboard_model->mark_as_resolved($complaint_id);
+			$this->Admin_Pending_Complaints_model->get_all_colleges();
+			$this->Admin_Pending_Complaints_model->get_all_messes();
 			$this->session->set_flashdata('message', 'Complaint resolved successfully!');
 		}
 
