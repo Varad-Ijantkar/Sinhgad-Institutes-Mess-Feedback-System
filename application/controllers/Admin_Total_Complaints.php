@@ -27,10 +27,10 @@ class Admin_Total_Complaints extends CI_Controller
 		// Add mess and college data for filters
 		$data['messes'] = $this->Admin_Pending_Complaints_model->get_all_messes();
 		$data['colleges'] = $this->Admin_Pending_Complaints_model->get_all_colleges();
-
+		$data['campuses'] = $this->Admin_Pending_Complaints_model->get_all_campuses();
 		// Load views
-		$this->load->view('template/header', $data);
 		$this->load->view('template/adminnavbar', $data);
+		$this->load->view('template/header', $data);
 		$this->load->view('total_complaints_view', $data); // Total complaints view
 	}
 

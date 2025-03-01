@@ -167,11 +167,6 @@ class Complaint extends CI_Controller
 		$email = $this->session->userdata('user_email');
 		$data['pending_complaints'] = $this->Complaint_model->get_complaints_by_status($email, 'pending');
 
-		// Debugging - Check if data exists
-		if (empty($data['pending_complaints'])) {
-			echo "No complaints found!";
-			exit();
-		}
 		$this->load_views('student_pending_complaint_view', $data);
 	}
 

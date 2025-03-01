@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Resolved Complaints</title>
+	<title>Assigned Complaints</title>
 	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 	<style>
 		:root {
@@ -53,6 +53,14 @@
 		.btn { background-color: var(--primary-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600; transition: background-color 0.3s ease; }
 		.btn:hover { background-color: var(--primary-hover); }
 
+		.modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); }
+		.modal-content { background-color: var(--card-background); margin: 15% auto; padding: 1.5rem; border-radius: 16px; width: 80%; max-width: 500px; box-shadow: var(--shadow); }
+		.modal-content h3 { color: var(--primary-color); margin-bottom: 1rem; }
+		.modal-content textarea { width: 100%; padding: 0.8rem; border: 2px solid var(--border-color); border-radius: 8px; font-family: 'Quicksand', sans-serif; font-size: 0.95rem; min-height: 100px; }
+		.modal-content button { width: 100%; margin-top: 1rem; }
+		.close { float: right; color: #aaa; font-size: 1.5rem; cursor: pointer; }
+		.close:hover { color: var(--primary-color); }
+
 		@media (max-width: 768px) {
 			.content { padding: 1rem; }
 			h2 { font-size: 1.8rem; }
@@ -64,7 +72,7 @@
 <body>
 <div class="content">
 	<div class="heading">
-		<h2>Resolved Complaints</h2>
+		<h2>Assigned Complaints</h2>
 		<h3>Role: <?php echo isset($role) ? $role : 'Not set'; ?></h3>
 	</div>
 
@@ -105,20 +113,18 @@
 				<th onclick="sortTable(2)">Mess</th>
 				<th onclick="sortTable(3)">Campus</th>
 				<th onclick="sortTable(4)">Meal Time</th>
-				<th onclick="sortTable(5)">Date Filed</th>
-				<th onclick="sortTable(6)">Accepted At</th>
-				<th onclick="sortTable(7)">Resolved At</th>
-				<th onclick="sortTable(8)">Resolved By</th>
-				<th onclick="sortTable(9)">Status</th>
+				<th onclick="sortTable(5)">Date Occurred</th>
+				<th onclick="sortTable(6)">Category</th>
+				<th onclick="sortTable(7)">Priority</th>
 				<th>View Report</th>
-				<?php if ($role === 'supervisor'): ?>
+				<?php if ($role === 'Vendor'): ?>
 					<th>Action</th>
 				<?php endif; ?>
 			</tr>
 			</thead>
 			<tbody>
-			<?php if (!empty($resolved_complaints)): ?>
-				<?php foreach ($resolved_complaints as $complaint): ?>
+			<?php if (!empty($assigned_complaints)): ?>
+				<?php foreach ($assigned_complaints as $complaint): ?>
 					<tr data-mess-id="<?php echo $complaint['mess_id']; ?>"
 						data-campus-id="<?php echo $complaint['campus_id']; ?>">
 						<td><?php echo $complaint['id']; ?></td>
@@ -127,20 +133,18 @@
 						<td><?php echo $complaint['campus']; ?></td>
 						<td><?php echo $complaint['meal_time']; ?></td>
 						<td><?php echo $complaint['date']; ?></td>
-						<td><?php echo $complaint['accepted_at'] ? date('Y-m-d H:i', strtotime($complaint['accepted_at'])) : 'N/A'; ?></td>
-						<td><?php echo $complaint['resolved_at'] ? date('Y-m-d H:i', strtotime($complaint['resolved_at'])) : 'N/A'; ?></td>
-						<td><?php echo $complaint['vendor_name'] ?: 'N/A'; ?></td>
-						<td><?php echo $complaint['status']; ?></td>
-						<td><a href="<?php echo base_url('admin_resolved_complaints/generate_report/' . $complaint['id']); ?>">View</a></td>
-						<?php if ($role === 'supervisor'): ?>
+						<td><?php echo $complaint['category']; ?></td>
+						<td><?php echo $complaint['priority'] ?: 'N/A'; ?></td>
+						<td><a href="<?php echo base_url('admin_assigned_complaints/generate_report/' . $complaint['id']); ?>">View</a></td>
+						<?php if ($role === 'Vendor'): ?>
 							<td>
-								<?php if ($complaint['status'] === 'completed'): ?>
-									<form method="post" action="<?php echo base_url('Admin_Resolved_Complaints/mark_as_resolved'); ?>">
+								<?php if ($complaint['status'] === 'assigned'): ?>
+									<form method="post" action="<?php echo base_url('Admin_Assigned_Complaints/accept_complaint'); ?>" style="display:inline;">
 										<input type="hidden" name="complaint_id" value="<?php echo $complaint['id']; ?>">
-										<button type="submit" class="btn">Mark as Resolved</button>
+										<button type="submit" class="btn">Accept</button>
 									</form>
-								<?php elseif ($complaint['status'] === 'resolved'): ?>
-									<span>Completed</span>
+								<?php elseif ($complaint['status'] === 'in progress'): ?>
+									<button class="btn" onclick="showCompleteModal(<?php echo $complaint['id']; ?>)">Mark as Completed</button>
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
@@ -148,13 +152,27 @@
 				<?php endforeach; ?>
 			<?php else: ?>
 				<tr>
-					<td colspan="<?php echo $role === 'supervisor' ? 12 : 11; ?>" style="text-align: center;">
-						No completed complaints found
+					<td colspan="<?php echo $role === 'Vendor' ? 10 : 9; ?>" style="text-align: center;">
+						No assigned complaints found
 					</td>
 				</tr>
 			<?php endif; ?>
 			</tbody>
 		</table>
+	</div>
+</div>
+
+<!-- Modal for Mark as Completed -->
+<div id="completeModal" class="modal">
+	<div class="modal-content">
+		<span class="close">×</span>
+		<h3>Mark Complaint as Completed</h3>
+		<form method="post" action="<?php echo base_url('Admin_Assigned_Complaints/mark_as_completed'); ?>">
+			<input type="hidden" name="complaint_id" id="modalComplaintId">
+			<label for="remarks">Remarks (optional):</label>
+			<textarea name="remarks" id="remarks" placeholder="Enter any remarks about the resolution"></textarea>
+			<button type="submit" class="btn">Submit</button>
+		</form>
 	</div>
 </div>
 
@@ -199,11 +217,11 @@
 
 			if (columnIndex === 0) { // Complaint ID (numeric)
 				return isAscending ? parseInt(bValue) - parseInt(aValue) : parseInt(aValue) - parseInt(bValue);
-			} else if (columnIndex === 5 || columnIndex === 6 || columnIndex === 7) { // Date Filed, Accepted At, Resolved At
-				const dateA = aValue === 'N/A' ? 0 : new Date(aValue);
-				const dateB = bValue === 'N/A' ? 0 : new Date(bValue);
+			} else if (columnIndex === 5) { // Date Occurred (date)
+				const dateA = new Date(aValue);
+				const dateB = new Date(bValue);
 				return isAscending ? dateB - dateA : dateA - dateB;
-			} else { // Name, Mess, Campus, Resolved By, Status (text)
+			} else { // Name, Mess, Campus, Meal Time, Category, Priority (text)
 				return isAscending ? bValue.localeCompare(aValue) : aValue.localeCompare(bValue);
 			}
 		});
@@ -217,6 +235,17 @@
 		});
 		header.classList.add(isAscending ? "desc" : "asc");
 	}
+
+	const modal = document.getElementById("completeModal");
+	const closeBtn = document.querySelector(".close");
+
+	function showCompleteModal(complaintId) {
+		document.getElementById("modalComplaintId").value = complaintId;
+		modal.style.display = "block";
+	}
+
+	closeBtn.onclick = function() { modal.style.display = "none"; };
+	window.onclick = function(event) { if (event.target === modal) modal.style.display = "none"; };
 
 	document.addEventListener('DOMContentLoaded', () => {
 		filterTable();

@@ -1,63 +1,68 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Admin_Resolved_Complaints extends CI_Controller
+class Admin_Assigned_Complaints extends CI_Controller
 {
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->model('Admin_Dashboard_model');
-		$this->load->model('Admin_Pending_Complaints_model'); // Added this model for mess and college data
-		$this->load->library('session');
-		$this->load->helper('url');
-	}
-
 	public function index()
 	{
 		if (!$this->session->userdata('user_id')) {
 			redirect('Admin_Login');
 		}
 
-		// Fetch completed and resolved complaints
-		$data['resolved_complaints'] = $this->Admin_Pending_Complaints_model->get_completed_complaints();
+		// Load the model
+		$this->load->model('Admin_Pending_Complaints_model');
+		$this->load->model('Admin_Dashboard_model');
+
+		// Fetch data using the consistent model
+		$data['assigned_complaints'] = $this->Admin_Dashboard_model->get_assigned_complaints();
 		$data['messes'] = $this->Admin_Pending_Complaints_model->get_all_messes();
 		$data['colleges'] = $this->Admin_Pending_Complaints_model->get_all_colleges();
 		$data['campuses'] = $this->Admin_Pending_Complaints_model->get_all_campuses();
 		$data['user_email'] = $this->session->userdata('user_email');
-		$data['role'] = strtolower($this->session->userdata('user_role'));
-
-		// Debug: Check if data is fetched
-		if (empty($data['resolved_complaints'])) {
-			log_message('debug', 'No resolved complaints fetched: ' . $this->db->last_query());
-		}
-
+		$data['role'] = $this->session->userdata('user_role');
+		// Load views
 		$this->load->view('template/adminnavbar', $data);
 		$this->load->view('template/header', $data);
-		$this->load->view('resolved_complaints_view', $data);
+		$this->load->view('assigned_complaints_view', $data);
 	}
 
-	public function mark_as_resolved()
+	public function accept_complaint()
 	{
-		$user_role = $this->session->userdata('user_role');
-		if (strtolower($user_role) !== 'supervisor') {
-			$this->session->set_flashdata('error', 'Unauthorized access. Your role: ' . $user_role);
-			redirect('Admin_Resolved_Complaints');
+		if ($this->session->userdata('user_role') !== 'Vendor') {
+			$this->session->set_flashdata('error', 'Unauthorized access.');
+			redirect('Admin_Assigned_Complaints');
 		}
 
 		$complaint_id = $this->input->post('complaint_id');
-		$success = $this->Admin_Pending_Complaints_model->mark_as_resolved($complaint_id);
-
-		log_message('debug', 'Mark as Resolved - Complaint ID: ' . $complaint_id . ', Success: ' . ($success ? 'Yes' : 'No'));
-		if (!$success) {
-			log_message('error', 'DB Error: ' . $this->db->error()['message']);
-		}
+		$this->load->model('Admin_Pending_Complaints_model');
+		$success = $this->Admin_Pending_Complaints_model->accept_complaint($complaint_id);
 
 		if ($success) {
-			$this->session->set_flashdata('message', 'Complaint marked as resolved successfully.');
+			$this->session->set_flashdata('message', 'Complaint accepted successfully.');
 		} else {
-			$this->session->set_flashdata('error', 'Failed to resolve complaint. Error: ' . $this->db->error()['message']);
+			$this->session->set_flashdata('error', 'Failed to accept complaint. Error: ' . $this->db->error()['message']);
 		}
-		redirect('Admin_Resolved_Complaints');
+		redirect('Admin_Assigned_Complaints');
+	}
+
+	public function mark_as_completed()
+	{
+		if ($this->session->userdata('user_role') !== 'Vendor') {
+			$this->session->set_flashdata('error', 'Unauthorized access.');
+			redirect('Admin_Assigned_Complaints');
+		}
+
+		$complaint_id = $this->input->post('complaint_id');
+		$remarks = $this->input->post('remarks');
+		$this->load->model('Admin_Pending_Complaints_model');
+		$success = $this->Admin_Pending_Complaints_model->mark_as_completed($complaint_id, $remarks);
+
+		if ($success) {
+			$this->session->set_flashdata('message', 'Complaint marked as completed.');
+		} else {
+			$this->session->set_flashdata('error', 'Failed to mark complaint as completed.');
+		}
+		redirect('Admin_Assigned_Complaints');
 	}
 
 	public function generate_report($complaint_id)
@@ -68,10 +73,13 @@ class Admin_Resolved_Complaints extends CI_Controller
 			redirect('Admin_Assigned_Complaints');
 		}
 
-		// Fetch complaint data using the model
+		// Load the model explicitly in this method
+		$this->load->model('Admin_Pending_Complaints_model');
+
+		// Fetch complaint data
 		$data['complaint'] = $this->Admin_Pending_Complaints_model->get_complaint_by_id($complaint_id);
 
-		// Check if data exists for the provided complaint ID
+		// Check if data exists
 		if (empty($data['complaint'])) {
 			$this->session->set_flashdata('error', 'Complaint not found.');
 			redirect('Admin_Assigned_Complaints');
@@ -98,7 +106,7 @@ class Admin_Resolved_Complaints extends CI_Controller
 		$data['previous_complaints'] = $data['complaint']['previous_complaints'] ?? 'None';
 		$data['photos'] = $data['complaint']['photos'] ?? [];
 
-		// Load the view to display the report
+		// Load the report view
 		$this->load->view('complaint_report_view', $data);
 	}
 }

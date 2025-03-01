@@ -29,8 +29,8 @@ class Admin_Dashboard extends CI_Controller
         $data['user_email'] = $this->session->userdata('user_email');
 
         // Load the views, pass $data to all views that require it
-        $this->load->view('template/header', $data);
         $this->load->view('template/adminnavbar', $data);
+        $this->load->view('template/header', $data);
         $this->load->view('admin_dashboard_view', $data);
     }
     
@@ -44,8 +44,8 @@ class Admin_Dashboard extends CI_Controller
         $data['students'] = $this->Student_Info_model->get_all_students();
 
         // Load views
-        $this->load->view('template/header', $data);
         $this->load->view('template/adminnavbar', $data);
+        $this->load->view('template/header', $data);
         $this->load->view('view_student_details', $data);
     }
 
@@ -57,8 +57,8 @@ class Admin_Dashboard extends CI_Controller
         $data['user_email'] = $user_email;
 
         // Load views
-        $this->load->view('template/header');
         $this->load->view('template/adminnavbar', $data);
+        $this->load->view('template/header');
         $this->load->view('upload_student_details', $data);
     }
 
@@ -103,8 +103,8 @@ class Admin_Dashboard extends CI_Controller
         $data['message'] = $this->session->flashdata('message');
 
         // Load views
-        $this->load->view('template/header');
         $this->load->view('template/adminnavbar', $data);
+        $this->load->view('template/header');
         $this->load->view('manage_access', $data);
     }
 
@@ -137,8 +137,8 @@ class Admin_Dashboard extends CI_Controller
         $user_email = $this->session->userdata('user_email');
         $data['user_email'] = $user_email;
 
-        $this->load->view('template/header');
         $this->load->view('template/adminnavbar', $data);
+        $this->load->view('template/header');
         $this->load->view('mess_ratings', $data);
     }
 
@@ -180,8 +180,8 @@ class Admin_Dashboard extends CI_Controller
 		$data['options'] = $this->Student_Info_model->get_registration_options();
 
 		// Load the edit student details view
-		$this->load->view('template/header');
 		$this->load->view('template/adminnavbar', $data);
+		$this->load->view('template/header');
 		$this->load->view('edit_student_details', $data);
 	}
 
@@ -236,8 +236,8 @@ class Admin_Dashboard extends CI_Controller
 		// ✅ Fetch college, campus, and mess options in a single query
 		$data['options'] = $this->Student_Info_model->get_registration_options();
 		// Debugging
-		$this->load->view('template/header');
 		$this->load->view('template/adminnavbar', $data);
+		$this->load->view('template/header');
 		$this->load->view('register_student_view', $data);
 	}
 

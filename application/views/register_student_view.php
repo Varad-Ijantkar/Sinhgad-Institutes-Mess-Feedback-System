@@ -78,7 +78,7 @@
                 box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
             }
 
-            button {
+            #btnn {
                 background: var(--primary-color);
                 color: white;
                 border: none;
@@ -91,7 +91,7 @@
                 margin-top:5%;
             }
 
-            button:hover {
+            #btnn:hover {
                 background: var(--primary-hover);
             }
 
@@ -193,7 +193,7 @@
 			</div>
 
             <!-- Submit Button -->
-            <button type="submit">Register Student</button>
+            <button id="btnn" type="submit">Register Student</button>
         </form>
     </div>
 </body>
