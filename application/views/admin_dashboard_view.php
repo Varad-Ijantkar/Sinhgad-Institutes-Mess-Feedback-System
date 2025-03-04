@@ -19,8 +19,14 @@
             flex-grow: 1;
             padding: 20px;
             flex-direction: column;
-            margin-left: 250px;
+            margin-left: 0;
+            transition: all 0.3s ease;
             /* Adjust this based on the width of your sidebar */
+        }
+
+        .content.expanded {
+            margin-left: 250px;
+            /* Shift right when sidebar is closed */
         }
 
         .card-container {

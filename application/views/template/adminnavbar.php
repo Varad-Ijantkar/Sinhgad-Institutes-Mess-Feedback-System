@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,14 +24,14 @@
 		}
 
 		.sidebar {
-			width: 280px;
+			width: 240px;
 			background: linear-gradient(180deg, #48276a 0%, #351B4A 100%);
 			color: #fff;
 			transition: all 0.3s ease;
 			box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
 			position: fixed;
 			height: 100vh;
-			z-index: 1000;
+			z-index: 989;
 			left: 0;
 		}
 
@@ -51,41 +52,41 @@
 		}
 
 		.sidebar-menu {
-			padding: 0; /
-			overflow-y: auto;
+			padding: 0;/ overflow-y: auto;
 			height: calc(100vh - 140px);
 			position: absolute;
-			top: 140px;
+			top: 150px;
 			width: 100%;
 		}
 
 		.menu-section {
-			margin-bottom: 15px;
+			/* margin-bottom: 15px; */
 		}
 
 		.menu-section-title {
 			padding: 10px 20px;
-			font-size: 14px;
+			font-size: 12px;
 			text-transform: uppercase;
 			letter-spacing: 1px;
 			color: rgba(255, 255, 255, 0.6);
 			font-weight: 600;
+			margin: 0 0;
 		}
 
 		.menu-item {
 			position: relative;
 			transition: all 0.3s;
-			margin: 5px 12px;
+			margin: 0 12px;
 			border-radius: 8px;
 		}
 
 		.menu-item a {
 			display: flex;
 			align-items: center;
-			padding: 12px 15px;
+			padding: 5px 15px;
 			color: #fff;
 			text-decoration: none;
-			font-size: 14px;
+			font-size: 12px;
 			font-weight: 500;
 			transition: all 0.2s;
 			border-radius: 8px;
@@ -114,7 +115,7 @@
 			position: absolute;
 			bottom: 0;
 			width: 100%;
-			padding: 15px 20px;
+			padding: 10px 10px;
 			background-color: rgba(0, 0, 0, 0.2);
 			border-top: 1px solid rgba(255, 255, 255, 0.05);
 		}
@@ -124,11 +125,13 @@
 			align-items: center;
 			gap: 10px;
 			margin-bottom: 15px;
+			width: 90%;
+			margin-left: 25px;
 		}
 
 		.user-avatar {
-			width: 42px;
-			height: 42px;
+			width: 32px;
+			height: 32px;
 			border-radius: 50%;
 			background-color: #6A4C93;
 			display: flex;
@@ -155,8 +158,12 @@
 			color: #FFD700;
 		}
 
+		.user-section form {
+			margin-left: 18px;
+		}
+
 		.logout-btn {
-			width: 100%;
+			width: 90%;
 			padding: 12px;
 			background-color: #e74c3c;
 			color: white;
@@ -169,6 +176,7 @@
 			gap: 8px;
 			font-weight: 600;
 			transition: all 0.2s;
+			height: 40px;
 		}
 
 		.logout-btn:hover {
@@ -179,7 +187,7 @@
 			position: fixed;
 			top: 20px;
 			left: 20px;
-			z-index: 9999;
+			z-index: 1000;
 			background-color: #4B2E83;
 			color: white;
 			border: none;
@@ -240,127 +248,127 @@
 		}
 	</style>
 </head>
-<aside class="sidebar">
-<div class="wrapper">
+<aside class="sidebar closed">
+	<div class="wrapper">
 
-	<div class="sidebar-menu">
-		<div class="menu-section">
-			<h4 class="menu-section-title">Main</h4>
-			<div class="menu-item active">
-				<div class="active-indicator"></div>
-				<a href="<?php echo site_url('admin_dashboard'); ?>">
-					<i class="fas fa-tachometer-alt"></i>
-					<span>Dashboard</span>
-				</a>
-			</div>
-		</div>
-
-		<div class="menu-section">
-			<h4 class="menu-section-title">Complaints</h4>
-			<?php if (in_array($this->session->userdata('user_role'), ['Supervisor','Residence Officer', 'Management', 'Estate Head'])): ?>
-				<div class="menu-item">
-					<a href="<?php echo site_url('admin_pending_complaints'); ?>">
-						<i class="fas fa-clock"></i>
-						<span>Pending</span>
+		<div class="sidebar-menu">
+			<div class="menu-section">
+				<h4 class="menu-section-title">Main</h4>
+				<div class="menu-item active">
+					<div class="active-indicator"></div>
+					<a href="<?php echo site_url('admin_dashboard'); ?>">
+						<i class="fas fa-tachometer-alt"></i>
+						<span>Dashboard</span>
 					</a>
+				</div>
+			</div>
+
+			<div class="menu-section">
+				<h4 class="menu-section-title">Complaints</h4>
+				<?php if (in_array($this->session->userdata('user_role'), ['Supervisor', 'Residence Officer', 'Management', 'Estate Head'])): ?>
+					<div class="menu-item">
+						<a href="<?php echo site_url('admin_pending_complaints'); ?>">
+							<i class="fas fa-clock"></i>
+							<span>Pending</span>
+						</a>
+					</div>
+				<?php endif; ?>
+
+				<?php if (in_array($this->session->userdata('user_role'), ['Vendor'])): ?>
+					<div class="menu-item">
+						<a href="<?php echo site_url('admin_assigned_complaints'); ?>">
+							<i class="fas fa-tasks"></i>
+							<span>Assigned</span>
+						</a>
+					</div>
+				<?php endif; ?>
+
+				<div class="menu-item">
+					<a href="<?php echo site_url('admin_resolved_complaints'); ?>">
+						<i class="fas fa-check-circle"></i>
+						<span>Resolved</span>
+					</a>
+				</div>
+
+				<div class="menu-item">
+					<a href="<?php echo site_url('admin_total_complaints'); ?>">
+						<i class="fas fa-list-alt"></i>
+						<span>Total</span>
+					</a>
+				</div>
+			</div>
+
+			<div class="menu-section">
+				<h4 class="menu-section-title">Services</h4>
+				<div class="menu-item">
+					<a href="<?php echo site_url('admin_dashboard/mess_ratings'); ?>">
+						<i class="fas fa-star"></i>
+						<span>Mess Rating</span>
+					</a>
+				</div>
+			</div>
+
+			<?php if (in_array($this->session->userdata('user_role'), ['Residence Officer', 'Management', 'Estate Head'])): ?>
+				<div class="menu-section">
+					<h4 class="menu-section-title">Student Management</h4>
+					<div class="menu-item">
+						<a href="<?php echo site_url('admin_dashboard/upload_student_details'); ?>">
+							<i class="fas fa-upload"></i>
+							<span>Upload Student Details</span>
+						</a>
+					</div>
+
+					<div class="menu-item">
+						<a href="<?php echo site_url('admin_dashboard/register_student'); ?>">
+							<i class="fas fa-user-plus"></i>
+							<span>Register Student</span>
+						</a>
+					</div>
+
+					<div class="menu-item">
+						<a href="<?php echo site_url('admin_dashboard/view_student_details'); ?>">
+							<i class="fas fa-address-card"></i>
+							<span>View Student Details</span>
+						</a>
+					</div>
 				</div>
 			<?php endif; ?>
 
-			<?php if (in_array($this->session->userdata('user_role'), ['Vendor'])): ?>
-				<div class="menu-item">
-					<a href="<?php echo site_url('admin_assigned_complaints'); ?>">
-						<i class="fas fa-tasks"></i>
-						<span>Assigned</span>
-					</a>
+			<?php if (in_array($this->session->userdata('user_role'), ['Residence Officer', 'Estate Head', 'Management'])): ?>
+				<div class="menu-section">
+					<h4 class="menu-section-title">Administration</h4>
+					<div class="menu-item">
+						<a href="<?php echo site_url('admin_dashboard/manage_access'); ?>">
+							<i class="fas fa-lock"></i>
+							<span>Manage Access</span>
+						</a>
+					</div>
 				</div>
 			<?php endif; ?>
-
-			<div class="menu-item">
-				<a href="<?php echo site_url('admin_resolved_complaints'); ?>">
-					<i class="fas fa-check-circle"></i>
-					<span>Resolved</span>
-				</a>
-			</div>
-
-			<div class="menu-item">
-				<a href="<?php echo site_url('admin_total_complaints'); ?>">
-					<i class="fas fa-list-alt"></i>
-					<span>Total</span>
-				</a>
-			</div>
 		</div>
 
-		<div class="menu-section">
-			<h4 class="menu-section-title">Services</h4>
-			<div class="menu-item">
-				<a href="<?php echo site_url('admin_dashboard/mess_ratings'); ?>">
-					<i class="fas fa-star"></i>
-					<span>Mess Rating</span>
-				</a>
+		<div class="user-section">
+			<div class="user-info">
+				<div class="user-avatar">
+					<i class="fas fa-user"></i>
+				</div>
+				<div class="user-details">
+					<div class="user-role"><?php echo $this->session->userdata('user_role'); ?></div>
+					<div class="user-email"><?php echo $user_email; ?></div>
+				</div>
 			</div>
+
+			<form method="post" action="<?php echo base_url('Admin_Login'); ?>">
+				<button type="submit" class="logout-btn">
+					<i class="fas fa-sign-out-alt"></i>
+					<span>Logout</span>
+				</button>
+			</form>
 		</div>
-
-		<?php if (in_array($this->session->userdata('user_role'), ['Residence Officer', 'Management', 'Estate Head'])): ?>
-			<div class="menu-section">
-				<h4 class="menu-section-title">Student Management</h4>
-				<div class="menu-item">
-					<a href="<?php echo site_url('admin_dashboard/upload_student_details'); ?>">
-						<i class="fas fa-upload"></i>
-						<span>Upload Student Details</span>
-					</a>
-				</div>
-
-				<div class="menu-item">
-					<a href="<?php echo site_url('admin_dashboard/register_student'); ?>">
-						<i class="fas fa-user-plus"></i>
-						<span>Register Student</span>
-					</a>
-				</div>
-
-				<div class="menu-item">
-					<a href="<?php echo site_url('admin_dashboard/view_student_details'); ?>">
-						<i class="fas fa-address-card"></i>
-						<span>View Student Details</span>
-					</a>
-				</div>
-			</div>
-		<?php endif; ?>
-
-		<?php if (in_array($this->session->userdata('user_role'),['Residence Officer','Estate Head','Management'])): ?>
-			<div class="menu-section">
-				<h4 class="menu-section-title">Administration</h4>
-				<div class="menu-item">
-					<a href="<?php echo site_url('admin_dashboard/manage_access'); ?>">
-						<i class="fas fa-lock"></i>
-						<span>Manage Access</span>
-					</a>
-				</div>
-			</div>
-		<?php endif; ?>
+		<button class="menu-toggle" onclick="toggleSidebar()">
+			<i class="fas fa-bars"></i>
+		</button>
 	</div>
-
-	<div class="user-section">
-		<div class="user-info">
-			<div class="user-avatar">
-				<i class="fas fa-user"></i>
-			</div>
-			<div class="user-details">
-				<div class="user-role"><?php echo $this->session->userdata('user_role'); ?></div>
-				<div class="user-email"><?php echo $user_email; ?></div>
-			</div>
-		</div>
-
-		<form method="post" action="<?php echo base_url('Admin_Login'); ?>">
-			<button type="submit" class="logout-btn">
-				<i class="fas fa-sign-out-alt"></i>
-				<span>Logout</span>
-			</button>
-		</form>
-	</div>
-	<button class="menu-toggle" onclick="toggleSidebar()">
-		<i class="fas fa-bars"></i>
-	</button>
-</div>
 </aside>
 
 <script>
@@ -372,6 +380,18 @@
 		content.classList.toggle('expanded');
 	}
 
+	 // Highlight current link
+	 function highlightCurrentLink() {
+        const currentPath = window.location.pathname;
+        const menuLinks = document.querySelectorAll('.sidebar-menu .menu-item a');
+
+        menuLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.parentElement.classList.add('active');
+            }
+        });
+    }
+	
 	// For mobile view
 	function checkScreenSize() {
 		if (window.innerWidth <= 768) {
@@ -386,4 +406,5 @@
 	window.addEventListener('resize', checkScreenSize);
 </script>
 </body>
+
 </html>

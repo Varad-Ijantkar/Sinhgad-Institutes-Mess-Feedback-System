@@ -16,10 +16,23 @@
 
 		.main-content {
 			padding: 20px;
-			display: flex;
+			/* display: flex; */
 			flex-direction: column;
 			align-items: center;
 			font-family: 'Quicksand', sans-serif;
+		}
+		.content {
+			justify-content: center;
+			align-items: center;
+			flex-grow: 1;
+			padding: 20px;
+			flex-direction: column;
+			margin-left: 0;
+			transition: all 0.3s ease;
+		}
+
+		.content.expanded {
+			margin-left: 250px;
 		}
 
 		h2 {
@@ -34,11 +47,11 @@
 			width: 100%;
 			overflow-x: auto;
 			-webkit-overflow-scrolling: touch;
+			margin: 0;
 		}
 
 		table {
-			width: 82%;
-			margin-left:18%;
+			width: 100%;
 			border-collapse: collapse;
 			background-color: #fff;
 			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
@@ -144,7 +157,7 @@
 </head>
 
 <body>
-    <div class="main-content">
+    <div class="main-content content">
         <h2>Student Details</h2>
 
         <!-- Success/Error Messages -->
