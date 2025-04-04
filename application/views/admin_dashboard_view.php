@@ -103,16 +103,14 @@
 
 	.card-container {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		grid-template-columns: repeat(3, 1fr); /* Equal width for all three cards */
 		gap: 1.5rem;
 		width: 100%;
-		max-width: 1000px;
-		justify-content: center;
-		flex-wrap: wrap;
-		margin: 0 auto; /* Center the container */
+		margin: 0 auto;
 	}
 
 	.card {
+		width: 100%;
 		display: flex;
 		border-radius: 12px;
 		padding: 1.5rem;
@@ -233,6 +231,9 @@
 		.card {
 			padding: 1.2rem;
 		}
+		.card-container {
+			grid-template-columns: repeat(3, 1fr); /* Maintain 3 columns at medium screens */
+		}
 	}
 
 	@media (max-width: 768px) {
@@ -267,29 +268,27 @@
 </style>
 
 <script>
+	// This ensures the sidebar toggle is initialized properly
 	document.addEventListener('DOMContentLoaded', function() {
-		window.toggleSidebar = function() {
-			const sidebar = document.querySelector('.sidebar');
-			if (sidebar) {
-				sidebar.classList.toggle('closed');
-				document.body.classList.toggle('sidebar-closed');
-			}
-		};
+		// Check if toggleSidebar exists in window scope
+		if (typeof window.toggleSidebar !== 'function') {
+			// Fallback definition if the sidebar script hasn't loaded properly
+			window.toggleSidebar = function() {
+				const sidebar = document.querySelector('.sidebar');
+				const body = document.body;
 
-		function checkScreenSize() {
-			const sidebar = document.querySelector('.sidebar');
-			if (sidebar) {
-				if (window.innerWidth <= 768) {
-					sidebar.classList.add('closed');
-					document.body.classList.add('sidebar-closed');
-				} else {
-					sidebar.classList.remove('closed');
-					document.body.classList.remove('sidebar-closed');
+				if (sidebar) {
+					sidebar.classList.toggle('closed');
+					sidebar.classList.toggle('open');
+					body.classList.toggle('sidebar-closed');
+					body.classList.toggle('sidebar-open');
 				}
-			}
+			};
 		}
 
-		checkScreenSize();
-		window.addEventListener('resize', checkScreenSize);
+		// Initial check for screen size
+		if (typeof checkScreenSize === 'function') {
+			checkScreenSize();
+		}
 	});
 </script>

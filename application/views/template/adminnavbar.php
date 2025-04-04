@@ -343,51 +343,49 @@ $current_method = $CI->uri->segment(2);     // e.g., 'upload_student_details'
 </style>
 
 <script>
-	function toggleSidebar() {
+	// Global function for toggling sidebar
+	window.toggleSidebar = function() {
 		const sidebar = document.querySelector('.sidebar');
-		const content = document.querySelector('.content') || document.querySelector('.container'); // Flexible targeting
 		const body = document.body;
 
-		if (sidebar && content) {
+		if (sidebar) {
+			// Toggle sidebar classes
 			sidebar.classList.toggle('closed');
 			sidebar.classList.toggle('open');
-			content.classList.toggle('expanded');
 
-			// Toggle body classes for responsive positioning
-			if (sidebar.classList.contains('closed')) {
+			// Toggle body classes
+			body.classList.toggle('sidebar-closed');
+			body.classList.toggle('sidebar-open');
+		}
+	};
+
+	// Screen size check function
+	function checkScreenSize() {
+		const sidebar = document.querySelector('.sidebar');
+		const body = document.body;
+
+		if (sidebar) {
+			if (window.innerWidth <= 768) {
+				// Mobile view - sidebar closed by default
+				sidebar.classList.add('closed');
+				sidebar.classList.remove('open');
 				body.classList.add('sidebar-closed');
 				body.classList.remove('sidebar-open');
 			} else {
-				body.classList.add('sidebar-open');
-				body.classList.remove('sidebar-closed');
-			}
-		}
-	}
-
-	function checkScreenSize() {
-		const sidebar = document.querySelector('.sidebar');
-		const content = document.querySelector('.content') || document.querySelector('.container'); // Flexible targeting
-		const body = document.body;
-
-		if (window.innerWidth <= 768) {
-			if (sidebar && content) {
-				sidebar.classList.add('closed');
-				sidebar.classList.remove('open');
-				content.classList.add('expanded');
-				body.classList.add('sidebar-closed');
-				body.classList.remove('sidebar-open');
-			}
-		} else {
-			if (sidebar && content) {
+				// Desktop view - sidebar open by default
 				sidebar.classList.remove('closed');
 				sidebar.classList.add('open');
-				content.classList.remove('expanded');
 				body.classList.remove('sidebar-closed');
 				body.classList.add('sidebar-open');
 			}
 		}
 	}
 
-	window.addEventListener('load', checkScreenSize);
+	// Run on page load
+	document.addEventListener('DOMContentLoaded', function() {
+		checkScreenSize();
+	});
+
+	// Run on window resize
 	window.addEventListener('resize', checkScreenSize);
 </script>
