@@ -23,7 +23,6 @@
 			color: #333;
 			overflow-x: hidden;
 		}
-=======
         .content {
             display: flex;
             justify-content: center;
@@ -333,3 +332,4 @@
 </script>
 </body>
 </html>
+	
