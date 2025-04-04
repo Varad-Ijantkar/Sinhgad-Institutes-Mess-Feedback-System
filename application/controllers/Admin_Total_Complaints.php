@@ -18,7 +18,7 @@ class Admin_Total_Complaints extends CI_Controller
 		if (!$this->session->userdata('user_id')) {
 			redirect('Admin_Login');
 		}
-
+		$data['page_title'] = 'Total Complaints';
 		// Fetch total complaints from the model
 		$data['total_complaints'] = $this->Admin_Dashboard_model->get_total_complaints();
 		$data['user_email'] = $this->session->userdata('user_email');
@@ -29,8 +29,8 @@ class Admin_Total_Complaints extends CI_Controller
 		$data['colleges'] = $this->Admin_Pending_Complaints_model->get_all_colleges();
 		$data['campuses'] = $this->Admin_Pending_Complaints_model->get_all_campuses();
 		// Load views
-		$this->load->view('template/adminnavbar', $data);
 		$this->load->view('template/header', $data);
+		$this->load->view('template/adminnavbar', $data);
 		$this->load->view('total_complaints_view', $data); // Total complaints view
 	}
 

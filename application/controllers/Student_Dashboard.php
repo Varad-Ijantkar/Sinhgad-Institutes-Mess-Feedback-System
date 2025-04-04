@@ -16,6 +16,7 @@ class Student_Dashboard extends CI_Controller {
 	public function index() {
 		$student_id = $this->session->userdata('student_id');
 		$data['student_info'] = $this->Student_model->get_student_info($student_id);
+		$data['page_title'] = 'Student Dashboard';
 
 		if (!$data['student_info']) {
 			$this->session->set_flashdata('error', 'Student information not found.');

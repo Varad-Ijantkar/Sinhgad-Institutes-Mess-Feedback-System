@@ -7,18 +7,12 @@
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         max-width: 500px;
-        margin-top: 5%;
-        margin-left: 28%;
+		transform:translateX(100%) translateY(150%);
     }
 
     /* Adjust the container margin-left to account for the sidebar */
-    .container {
-        margin: auto;
-    }
     .heading {
-        color: hsl(270, 46.20%, 28.40%);
         margin-top: 7%;
-        font-weight: bold;
     }
 
     /* Ensure the form is centered */
@@ -50,7 +44,7 @@
 
     /* Style for the form labels */
     .form-group label {
-        font-weight: bold;
+        font-weight: 500;
     }
 
     /* Responsive Design */
@@ -67,7 +61,6 @@
     }
 </style>
 <div class="container">
-    <h2 class="heading text-center">Upload Student Details</h2>
     <div class="form-container">
         <?php if ($this->session->flashdata('success')): ?>
             <div class="alert alert-success"><?php echo $this->session->flashdata('success'); ?></div>

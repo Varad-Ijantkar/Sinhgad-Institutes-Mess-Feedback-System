@@ -6,6 +6,7 @@
 	<title>Assigned Complaints</title>
 	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 	<style>
+		/* === CSS Variables === */
 		:root {
 			--primary-color: rgb(87, 49, 125);
 			--primary-light: rgba(87, 49, 125, 0.1);
@@ -17,7 +18,12 @@
 			--shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 		}
 
-		* { margin: 0; padding: 0; box-sizing: border-box; }
+		/* === Global Styles === */
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
 
 		html, body {
 			height: 100%;
@@ -25,57 +31,262 @@
 			background-color: var(--background-color);
 			color: var(--text-color);
 			line-height: 1.6;
+			margin: 0;
+			overflow-x: hidden; /* Prevent horizontal scrollbar */
 		}
 
-		.content { max-width: 1400px; margin: 0 auto; padding: 2rem; }
-		.heading { text-align: center; margin-bottom: 2.5rem; }
-		h2 { color: var(--primary-color); font-size: 2.2rem; font-weight: 700; margin-bottom: 1rem; }
-		h3 { color: var(--primary-color); font-size: 1.4rem; font-weight: 600; }
-		.filters-container { background-color: var(--card-background); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: var(--shadow); }
-		.filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-		select, input { width: 100%; padding: 0.8rem 1rem; border: 2px solid var(--border-color); border-radius: 8px; font-family: 'Quicksand', sans-serif; font-size: 0.95rem; background-color: var(--card-background); color: var(--text-color); transition: all 0.3s ease; }
-		select:hover, input:hover, select:focus, input:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px var(--primary-light); }
-		.table-wrapper { background-color: var(--card-background); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
-		table { width: 100%; border-collapse: collapse; }
-		th { background-color: var(--primary-color); color: white; font-weight: 600; text-align: left; padding: 1rem; font-size: 0.95rem; cursor: pointer; }
-		th:hover { background-color: var(--primary-hover); }
-		th.asc::after { content: " ↑"; }
-		th.desc::after { content: " ↓"; }
-		td { padding: 1rem; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; }
-		tr:last-child td { border-bottom: none; }
-		tr:nth-child(even) { background-color: rgba(87, 49, 125, 0.03); }
-		tr:hover { background-color: var(--primary-light); }
-		.alert { padding: 1rem; border-radius: 8px; margin-bottom: 1rem; font-weight: 500; }
-		.alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-		.alert-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-		a { color: var(--primary-color); text-decoration: none; font-weight: 600; transition: color 0.3s ease; }
-		a:hover { color: var(--primary-hover); }
-		.btn { background-color: var(--primary-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600; transition: background-color 0.3s ease; }
-		.btn:hover { background-color: var(--primary-hover); }
+		/* === Main Content === */
+		.content {
+			padding: 2rem;
+			margin-left: 200px; /* Default: sidebar open */
+			width: calc(100% - 200px); /* Adjust width for sidebar */
+			transition: margin-left 0.3s ease, width 0.3s ease;
+			box-sizing: border-box; /* Ensure padding is included in width */
+			min-height: calc(100vh - 60px); /* Account for header height */
+		}
 
-		.modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); }
-		.modal-content { background-color: var(--card-background); margin: 15% auto; padding: 1.5rem; border-radius: 16px; width: 80%; max-width: 500px; box-shadow: var(--shadow); }
-		.modal-content h3 { color: var(--primary-color); margin-bottom: 1rem; }
-		.modal-content textarea { width: 100%; padding: 0.8rem; border: 2px solid var(--border-color); border-radius: 8px; font-family: 'Quicksand', sans-serif; font-size: 0.95rem; min-height: 100px; }
-		.modal-content button { width: 100%; margin-top: 1rem; }
-		.close { float: right; color: #aaa; font-size: 1.5rem; cursor: pointer; }
-		.close:hover { color: var(--primary-color); }
+		.content.expanded {
+			margin-left: 0; /* Sidebar closed */
+			width: 100%; /* Full width when sidebar is closed */
+		}
 
+		.content.expanded {
+			margin-left: 0; /* Sidebar closed */
+			width: 100%;
+		}
+
+		.heading {
+			text-align: center;
+			margin-bottom: 2.5rem;
+		}
+
+		h2 {
+			color: var(--primary-color);
+			font-size: 2.2rem;
+			font-weight: 700;
+			margin-bottom: 1rem;
+		}
+
+		h3 {
+			color: var(--primary-color);
+			font-size: 1.4rem;
+			font-weight: 600;
+		}
+
+		/* === Filters Section === */
+		.filters-container {
+			background-color: var(--card-background);
+			border-radius: 16px;
+			padding: 1.5rem;
+			margin-bottom: 2rem;
+			box-shadow: var(--shadow);
+			margin-top:10%;
+		}
+
+		.filters {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 1rem;
+		}
+
+		select, input {
+			width: 100%;
+			padding: 0.8rem 1rem;
+			border: 2px solid var(--border-color);
+			border-radius: 8px;
+			font-family: 'Quicksand', sans-serif;
+			font-size: 0.95rem;
+			background-color: var(--card-background);
+			color: var(--text-color);
+			transition: all 0.3s ease;
+		}
+
+		select:hover, input:hover, select:focus, input:focus {
+			border-color: var(--primary-color);
+			outline: none;
+			box-shadow: 0 0 0 3px var(--primary-light);
+		}
+
+		/* === Table Styles === */
+		.table-wrapper {
+			background-color: var(--card-background);
+			border-radius: 16px;
+			overflow: hidden;
+			box-shadow: var(--shadow);
+			max-height: calc(100vh - 200px); /* Adjust based on header and other content */
+			overflow-y: auto; /* Allow vertical scrolling if table is too tall */
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		th {
+			background-color: var(--primary-color);
+			color: white;
+			font-weight: 600;
+			text-align: left;
+			padding: 1rem;
+			font-size: 0.95rem;
+			cursor: pointer;
+		}
+
+		th:hover {
+			background-color: var(--primary-hover);
+		}
+
+		th.asc::after {
+			content: " ↑";
+		}
+
+		th.desc::after {
+			content: " ↓";
+		}
+
+		td {
+			padding: 1rem;
+			border-bottom: 1px solid var(--border-color);
+			font-size: 0.95rem;
+		}
+
+		tr:last-child td {
+			border-bottom: none;
+		}
+
+		tr:nth-child(even) {
+			background-color: rgba(87, 49, 125, 0.03);
+		}
+
+		tr:hover {
+			background-color: var(--primary-light);
+		}
+
+		/* === Alerts === */
+		.alert {
+			padding: 1rem;
+			border-radius: 8px;
+			margin-bottom: 1rem;
+			font-weight: 500;
+		}
+
+		.alert-success {
+			background-color: #d4edda;
+			color: #155724;
+			border: 1px solid #c3e6cb;
+		}
+
+		.alert-danger {
+			background-color: #f8d7da;
+			color: #721c24;
+			border: 1px solid #f5c6cb;
+		}
+
+		/* === Links and Buttons === */
+		a {
+			color: var(--primary-color);
+			text-decoration: none;
+			font-weight: 600;
+			transition: color 0.3s ease;
+		}
+
+		.btn {
+			background-color: var(--primary-color);
+			color: white;
+			border: none;
+			padding: 0.5rem 1rem;
+			border-radius: 6px;
+			cursor: pointer;
+			font-weight: 600;
+			transition: background-color 0.3s ease;
+		}
+
+		.btn:hover {
+			background-color: var(--primary-hover);
+		}
+
+		/* === Modal Styles === */
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+
+		.modal-content {
+			background-color: var(--card-background);
+			margin: 15% auto;
+			padding: 1.5rem;
+			border-radius: 16px;
+			width: 80%;
+			max-width: 500px;
+			box-shadow: var(--shadow);
+		}
+
+		.modal-content h3 {
+			color: var(--primary-color);
+			margin-bottom: 1rem;
+		}
+
+		.modal-content textarea {
+			width: 100%;
+			padding: 0.8rem;
+			border: 2px solid var(--border-color);
+			border-radius: 8px;
+			font-family: 'Quicksand', sans-serif;
+			font-size: 0.95rem;
+			min-height: 100px;
+		}
+
+		.modal-content button {
+			width: 100%;
+			margin-top: 1rem;
+		}
+
+		.close {
+			float: right;
+			color: #aaa;
+			font-size: 1.5rem;
+			cursor: pointer;
+		}
+
+		.close:hover {
+			color: var(--primary-color);
+		}
+
+		/* === Responsive Design === */
 		@media (max-width: 768px) {
-			.content { padding: 1rem; }
-			h2 { font-size: 1.8rem; }
-			.filters { grid-template-columns: 1fr; }
-			th, td { padding: 0.8rem; font-size: 0.9rem; }
+			.content {
+				padding: 1rem;
+				margin-left: 0; /* Default: full width since sidebar is closed */
+				width: 100%;
+			}
+
+			h2 {
+				font-size: 1.8rem;
+			}
+
+			.filters {
+				grid-template-columns: 1fr;
+			}
+
+			th, td {
+				padding: 0.8rem;
+				font-size: 0.9rem;
+			}
+
+			.sidebar.open + .content {
+				margin-left: 200px; /* Shift content when sidebar is open */
+				width: calc(100% - 200px);
+			}
 		}
 	</style>
 </head>
 <body>
 <div class="content">
-	<div class="heading">
-		<h2>Assigned Complaints</h2>
-		<h3>Role: <?php echo isset($role) ? $role : 'Not set'; ?></h3>
-	</div>
-
 	<?php if ($this->session->flashdata('message')): ?>
 		<div class="alert alert-success"><?php echo $this->session->flashdata('message'); ?></div>
 	<?php elseif ($this->session->flashdata('error')): ?>
@@ -86,19 +297,23 @@
 		<div class="filters">
 			<select id="filterMess" onchange="filterTable()">
 				<option value="">Filter by Mess</option>
-				<?php if (!empty($messes)): foreach ($messes as $mess): ?>
-					<option value="<?php echo htmlspecialchars($mess['mess_id']); ?>">
-						<?php echo htmlspecialchars($mess['mess_name']); ?>
-					</option>
-				<?php endforeach; endif; ?>
+				<?php if (!empty($messes)): ?>
+					<?php foreach ($messes as $mess): ?>
+						<option value="<?php echo htmlspecialchars($mess['mess_id']); ?>">
+							<?php echo htmlspecialchars($mess['mess_name']); ?>
+						</option>
+					<?php endforeach; ?>
+				<?php endif; ?>
 			</select>
 			<select id="filterCampus" onchange="filterTable()">
 				<option value="">Filter by Campus</option>
-				<?php if (!empty($campuses)): foreach ($campuses as $campus): ?>
-					<option value="<?php echo htmlspecialchars($campus['campus_id']); ?>">
-						<?php echo htmlspecialchars($campus['campus_name']); ?>
-					</option>
-				<?php endforeach; endif; ?>
+				<?php if (!empty($campuses)): ?>
+					<?php foreach ($campuses as $campus): ?>
+						<option value="<?php echo htmlspecialchars($campus['campus_id']); ?>">
+							<?php echo htmlspecialchars($campus['campus_name']); ?>
+						</option>
+					<?php endforeach; ?>
+				<?php endif; ?>
 			</select>
 			<input type="text" id="searchBar" placeholder="Search complaints..." onkeyup="filterTable()">
 		</div>
@@ -177,6 +392,7 @@
 </div>
 
 <script>
+	// Filter table based on search and dropdowns
 	function filterTable() {
 		const searchQuery = document.getElementById("searchBar").value.toLowerCase();
 		const messFilter = document.getElementById("filterMess").value;
@@ -204,6 +420,7 @@
 		});
 	}
 
+	// Sort table columns
 	function sortTable(columnIndex) {
 		const table = document.querySelector("tbody");
 		const rows = Array.from(table.getElementsByTagName("tr"));
@@ -221,7 +438,7 @@
 				const dateA = new Date(aValue);
 				const dateB = new Date(bValue);
 				return isAscending ? dateB - dateA : dateA - dateB;
-			} else { // Name, Mess, Campus, Meal Time, Category, Priority (text)
+			} else { // Text columns
 				return isAscending ? bValue.localeCompare(aValue) : aValue.localeCompare(bValue);
 			}
 		});
@@ -229,13 +446,11 @@
 		while (table.firstChild) table.removeChild(table.firstChild);
 		dataRows.forEach(row => table.appendChild(row));
 
-		// Toggle sorting direction and update indicators
-		document.querySelectorAll("thead th").forEach(th => {
-			th.classList.remove("asc", "desc");
-		});
+		document.querySelectorAll("thead th").forEach(th => th.classList.remove("asc", "desc"));
 		header.classList.add(isAscending ? "desc" : "asc");
 	}
 
+	// Modal functionality
 	const modal = document.getElementById("completeModal");
 	const closeBtn = document.querySelector(".close");
 
@@ -244,9 +459,15 @@
 		modal.style.display = "block";
 	}
 
-	closeBtn.onclick = function() { modal.style.display = "none"; };
-	window.onclick = function(event) { if (event.target === modal) modal.style.display = "none"; };
+	closeBtn.onclick = function() {
+		modal.style.display = "none";
+	};
 
+	window.onclick = function(event) {
+		if (event.target === modal) modal.style.display = "none";
+	};
+
+	// Initialize on page load
 	document.addEventListener('DOMContentLoaded', () => {
 		filterTable();
 		document.getElementById("searchBar").addEventListener("input", filterTable);

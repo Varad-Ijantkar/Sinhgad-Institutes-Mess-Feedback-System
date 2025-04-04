@@ -19,7 +19,20 @@ class Complaint extends CI_Controller
 		}
 
 		$data = $this->get_student_data();
+		$data['page_title'] = 'Register Complaint'; // Added page title
 		$this->load_views('complaint_view', $data);
+	}
+
+	public function student_dashboard()
+	{
+		if (!$this->session->userdata('user_email')) {
+			redirect('login');
+			return;
+		}
+
+		$data = $this->get_student_data();
+		$data['page_title'] = 'Student Dashboard'; // Added page title
+		$this->load_views('student_dashboard', $data);
 	}
 
 	public function submit()
@@ -32,6 +45,7 @@ class Complaint extends CI_Controller
 
 		if ($this->form_validation->run() == FALSE) {
 			$data = $this->get_student_data();
+			$data['page_title'] = 'Register Complaint'; // Added page title
 			$this->load_views('complaint_view', $data);
 			return;
 		}
@@ -45,6 +59,7 @@ class Complaint extends CI_Controller
 				$complaint_data['photo_path'] = $photo_path;
 			} else {
 				$data = $this->get_student_data();
+				$data['page_title'] = 'Register Complaint'; // Added page title
 				$this->load_views('complaint_view', $data);
 				return;
 			}
@@ -75,7 +90,9 @@ class Complaint extends CI_Controller
 				'mess_id' => $student_info['student_mess_id'] ?? '',
 				'college_name' => $student_info['college_name'] ?? 'Unknown',
 				'campus_name' => $student_info['campus_name'] ?? 'Unknown',
-				'mess_name' => $student_info['mess_name'] ?? 'Unknown'
+				'mess_name' => $student_info['mess_name'] ?? 'Unknown',
+				'gender' => $student_info['gender'] ?? '', // Added for dashboard
+				'id' => $student_info['id'] ?? 'N/A' // Added for dashboard
 			]
 		];
 	}
@@ -151,7 +168,7 @@ class Complaint extends CI_Controller
 
 	private function load_views($main_view, $data)
 	{
-		$this->load->view('template/header');
+		$this->load->view('template/header', $data); // Pass $data to header to access page_title
 		$this->load->view('template/leftnavbar');
 		$this->load->view($main_view, $data);
 		$this->load->view('template/footer');
@@ -166,10 +183,9 @@ class Complaint extends CI_Controller
 
 		$email = $this->session->userdata('user_email');
 		$data['pending_complaints'] = $this->Complaint_model->get_complaints_by_status($email, 'pending');
-
+		$data['page_title'] = 'Pending Complaints'; // Added page title
 		$this->load_views('student_pending_complaint_view', $data);
 	}
-
 
 	public function resolved_complaints()
 	{
@@ -179,6 +195,7 @@ class Complaint extends CI_Controller
 		}
 		$email = $this->session->userdata('user_email');
 		$data['resolved_complaints'] = $this->Complaint_model->get_resolved_complaints($email);
+		$data['page_title'] = 'Resolved Complaints'; // Added page title
 		$this->load_views('student_resolved_complaint_view', $data);
 	}
 
@@ -222,7 +239,8 @@ class Complaint extends CI_Controller
 			'suggestions' => $complaint['suggestions'] ?? 'Not Available',
 			'witnesses' => $complaint['witnesses'] ?? 'None',
 			'previous_complaints' => $complaint['previous_complaints'] ?? 'None',
-			'photos' => $complaint['photos'] ?? []
+			'photos' => $complaint['photos'] ?? [],
+			'page_title' => 'Complaint Report' // Added page title
 		];
 
 		$this->load->view('complaint_report_view', $data);
@@ -234,6 +252,4 @@ class Complaint extends CI_Controller
 		$this->session->sess_destroy();
 		redirect('login');
 	}
-
-//Debugging functions
 }

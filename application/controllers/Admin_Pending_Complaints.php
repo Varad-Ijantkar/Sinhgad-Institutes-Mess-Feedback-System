@@ -16,17 +16,18 @@ class Admin_Pending_Complaints extends CI_Controller
 		if (!$this->session->userdata('user_id')) {
 			redirect('Admin_Login');
 		}
+		$data['page_title'] = 'Pending Complaints';
 		// Fetch pending complaints
 		$data['pending_complaints'] = $this->Admin_Pending_Complaints_model->get_pending_complaints();
 		$data['user_email'] = $this->session->userdata('user_email');
-		$data['role'] = strtolower($this->session->userdata('user_role')); // Use 'user_role' here
+		$data['role'] = strtolower($this->session->userdata('user_role'));
 		$data['messes'] = $this->Admin_Pending_Complaints_model->get_all_messes();
 		$data['colleges'] = $this->Admin_Pending_Complaints_model->get_all_colleges();
 		$data['vendors'] = $this->Admin_Pending_Complaints_model->get_vendors();
 		$data['campuses'] = $this->Admin_Pending_Complaints_model->get_all_campuses();
-		// Load the views
-		$this->load->view('template/adminnavbar', $data);
+		// Load the views in the recommended order
 		$this->load->view('template/header', $data);
+		$this->load->view('template/adminnavbar', $data);
 		$this->load->view('pending_complaints_view', $data);
 	}
 

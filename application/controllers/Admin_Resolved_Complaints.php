@@ -19,6 +19,7 @@ class Admin_Resolved_Complaints extends CI_Controller
 		}
 
 		// Fetch completed and resolved complaints
+		$data['page_title'] = 'Resolved Complaints';
 		$data['resolved_complaints'] = $this->Admin_Pending_Complaints_model->get_completed_complaints();
 		$data['messes'] = $this->Admin_Pending_Complaints_model->get_all_messes();
 		$data['colleges'] = $this->Admin_Pending_Complaints_model->get_all_colleges();
@@ -31,8 +32,8 @@ class Admin_Resolved_Complaints extends CI_Controller
 			log_message('debug', 'No resolved complaints fetched: ' . $this->db->last_query());
 		}
 
-		$this->load->view('template/adminnavbar', $data);
 		$this->load->view('template/header', $data);
+		$this->load->view('template/adminnavbar', $data);
 		$this->load->view('resolved_complaints_view', $data);
 	}
 

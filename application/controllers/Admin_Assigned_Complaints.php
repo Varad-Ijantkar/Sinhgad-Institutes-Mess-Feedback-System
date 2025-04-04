@@ -14,6 +14,7 @@ class Admin_Assigned_Complaints extends CI_Controller
 		$this->load->model('Admin_Dashboard_model');
 
 		// Fetch data using the consistent model
+		$data['page_title']='Assigned Complaints';
 		$data['assigned_complaints'] = $this->Admin_Dashboard_model->get_assigned_complaints();
 		$data['messes'] = $this->Admin_Pending_Complaints_model->get_all_messes();
 		$data['colleges'] = $this->Admin_Pending_Complaints_model->get_all_colleges();
@@ -21,8 +22,8 @@ class Admin_Assigned_Complaints extends CI_Controller
 		$data['user_email'] = $this->session->userdata('user_email');
 		$data['role'] = $this->session->userdata('user_role');
 		// Load views
-		$this->load->view('template/adminnavbar', $data);
 		$this->load->view('template/header', $data);
+		$this->load->view('template/adminnavbar', $data);
 		$this->load->view('assigned_complaints_view', $data);
 	}
 

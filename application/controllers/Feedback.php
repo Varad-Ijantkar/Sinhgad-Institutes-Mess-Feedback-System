@@ -11,7 +11,6 @@ class Feedback extends CI_Controller {
 	public function index() {
 		$mess_id = $this->session->userdata('mess_id'); // Store mess_id instead of mess name
 		$mess_name = $this->Feedback_model->get_mess_name($mess_id); // Get mess name using mess_id
-
 		$data['mess_name'] = $mess_name; // Pass mess_name to the view
 		$this->load->view('template/header');
 		$this->load->view('template/leftnavbar');
