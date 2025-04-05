@@ -52,9 +52,100 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $route['default_controller'] = 'login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-$route['ResidenceOfficer/upload_student_details'] = 'ResidenceOfficer/upload_student_details';
-$route['pending-complaints'] = 'complaint/pending_complaints';
-$route['resolved-complaints'] = 'complaint/resolved_complaints';
+
+// -------------------------
+// Complaint Controller
+// -------------------------
+$route['complaint'] = 'Complaint/index';
+$route['complaint/register'] = 'Complaint/index';
+$route['complaint/submit'] = 'Complaint/submit';
+$route['complaint/dashboard'] = 'Complaint/student_dashboard';
+$route['complaint/pending_complaints'] = 'Complaint/pending_complaints';
+$route['complaint/resolved_complaints'] = 'Complaint/resolved_complaints';
+$route['complaint/report/(:num)'] = 'Complaint/generate_report/$1';
+$route['logout'] = 'Complaint/logout';
+
+//
+// -------------------------
+// Admin_Pending_Complaints Controller
+// -------------------------
+$route['admin_pending_complaints'] = 'Admin_Pending_Complaints/index';
+$route['admin_pending_complaints/mark_as_resolved'] = 'Admin_Pending_Complaints/mark_as_resolved';
+$route['admin_pending_complaints/generate_report/(:num)'] = 'Admin_Pending_Complaints/generate_report/$1';
+$route['admin_pending_complaints/assign_complaint'] = 'Admin_Pending_Complaints/assign_complaint';
+
+//
+// -------------------------
+// Admin_Resolved_Complaints Controller
+// -------------------------
+$route['admin_resolved_complaints'] = 'Admin_Resolved_Complaints/index';
+$route['admin_resolved_complaints/mark_as_resolved'] = 'Admin_Resolved_Complaints/mark_as_resolved';
+$route['admin_resolved_complaints/generate_report/(:num)'] = 'Admin_Resolved_Complaints/generate_report/$1';
+
+//
+// -------------------------
+// Admin_Total_Complaints Controller
+// -------------------------
+$route['admin_total_complaints'] = 'Admin_Total_Complaints/index';
+$route['admin_total_complaints/resolve'] = 'Admin_Total_Complaints/resolve';
+
+//
+// -------------------------
+// Admin_Assigned_Complaints Controller
+// -------------------------
+$route['admin_assigned_complaints'] = 'Admin_Assigned_Complaints/index';
+$route['admin_assigned_complaints/accept'] = 'Admin_Assigned_Complaints/accept_complaint';
+$route['admin_assigned_complaints/complete'] = 'Admin_Assigned_Complaints/mark_as_completed';
+$route['admin_assigned_complaints/report/(:num)'] = 'Admin_Assigned_Complaints/generate_report/$1';
+
+//
+// -------------------------
+// Admin_Dashboard Controller
+// -------------------------
+$route['admin_dashboard'] = 'Admin_Dashboard/index';
+$route['admin_dashboard/view_student_details'] = 'Admin_Dashboard/view_student_details';
+$route['admin_dashboard/upload_student_details'] = 'Admin_Dashboard/upload_student_details';
+$route['admin_dashboard/upload_csv'] = 'Admin_Dashboard/upload_csv';
+$route['admin_dashboard/manage_access'] = 'Admin_Dashboard/manage_access';
+$route['admin_dashboard/submit_access'] = 'Admin_Dashboard/submit_access';
+$route['admin_dashboard/mess_ratings'] = 'Admin_Dashboard/mess_ratings';
+$route['admin_dashboard/edit_student_details/(:num)'] = 'Admin_Dashboard/edit_student_details/$1';
+$route['admin_dashboard/register_student'] = 'Admin_Dashboard/register_student';
+$route['admin_dashboard/logout'] = 'Admin_Dashboard/logout';
+
+//
+// -------------------------
+// Admin_Login Controller
+// -------------------------
+$route['admin_login'] = 'Admin_Login/index';
+$route['admin_login/login'] = 'Admin_Login/login';
+
+//
+// -------------------------
+// Feedback Controller
+// -------------------------
+$route['feedback'] = 'Feedback/index';
+$route['feedback/submit'] = 'Feedback/submit';
+
+//
+// -------------------------
+// GetCredentials Controller
+// -------------------------
+$route['getcredentials'] = 'GetCredentials/index';
+$route['getcredentials/send'] = 'GetCredentials/send_credentials';
+
+//
+// -------------------------
+// PasswordRenew Controller
+// -------------------------
+$route['passwordrenew'] = 'PasswordRenew/index';
+$route['passwordrenew/update'] = 'PasswordRenew/update_password';
+
+//
+// -------------------------
+// Student_Dashboard Controller
+// -------------------------
+$route['student_dashboard'] = 'Student_Dashboard/index';
 
 
-
+$route['view-report/(:num)'] = 'Admin_Pending_Complaints/generate_report/$1';

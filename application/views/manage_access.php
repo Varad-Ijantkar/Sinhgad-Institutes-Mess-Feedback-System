@@ -73,7 +73,7 @@
 			<div class="alert alert-info"><?php echo $message; ?></div>
 		<?php endif; ?>
 
-		<form action="<?php echo site_url('ResidenceOfficer/submit_access'); ?>" method="POST">
+		<form action="<?php echo site_url('admin_dashboard/submit_access'); ?>" method="POST">
 			<div class="form-group">
 				<label for="email">Email</label>
 				<input type="email" class="form-control" id="email" name="email" required>

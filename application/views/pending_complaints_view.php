@@ -56,7 +56,7 @@
 						<td><?php echo htmlspecialchars($complaint['category'] ?? ''); ?></td>
 						<td><?php echo htmlspecialchars($complaint['date'] ?? ''); ?></td>
 						<td>
-							<button class="view-btn" data-report-url="<?php echo base_url('admin_pending_complaints/generate_report/' . ($complaint['id'] ?? '')); ?>">View</button>
+							<button class="view-btn" data-report-url="<?php echo base_url('view-report/' . ($complaint['id'] ?? '')); ?>">View</button>
 						</td>
 						<?php if ($role === 'supervisor'): ?>
 							<td class="center-align">

@@ -127,7 +127,7 @@
 
 		<!-- Links -->
 		<div class="flex flex-col sm:flex-row justify-between items-center mt-4 text-xs">
-			<a href="<?php echo base_url('admin_login'); ?>" class="link-btn flex items-center mb-2 sm:mb-0">
+			<a href="<?php echo base_url('Admin_Login'); ?>" class="link-btn flex items-center mb-2 sm:mb-0">
 				<i class="fas fa-user-shield mr-1"></i> Admin Login
 			</a>
 			<a href="<?php echo base_url('getcredentials'); ?>" class="link-btn flex items-center">

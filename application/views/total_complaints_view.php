@@ -279,7 +279,7 @@
 						<td><?php echo $complaint['resolved_at'] ? date('Y-m-d H:i', strtotime($complaint['resolved_at'])) : 'N/A'; ?></td>
 						<td><?php echo htmlspecialchars($complaint['category']); ?></td>
 						<td><?php echo htmlspecialchars($complaint['status']); ?></td>
-						<td><a href="<?php echo base_url('admin_total_complaints/generate_report/' . $complaint['id']); ?>">View</a></td>
+						<td><a href="<?php echo base_url('view-report/' . $complaint['id']); ?>">View</a></td>
 					</tr>
 				<?php endforeach; ?>
 			<?php else: ?>
