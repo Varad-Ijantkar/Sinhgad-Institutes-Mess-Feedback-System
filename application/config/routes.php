@@ -149,3 +149,14 @@ $route['student_dashboard'] = 'Student_Dashboard/index';
 
 
 $route['view-report/(:num)'] = 'Admin_Pending_Complaints/generate_report/$1';
+
+// -------------------------
+// Mess_Menu Controller
+// -------------------------
+$route['mess_menu'] = 'Mess_Menu/index';
+
+//
+// -------------------------
+// Vendor_Menu Controller
+// -------------------------
+$route['update_menu'] = 'Update_Menu/index';

@@ -350,7 +350,7 @@
 						<td><?php echo $complaint['date']; ?></td>
 						<td><?php echo $complaint['category']; ?></td>
 						<td><?php echo $complaint['priority'] ?: 'N/A'; ?></td>
-						<td><a href="<?php echo base_url('admin_assigned_complaints/generate_report/' . $complaint['id']); ?>">View</a></td>
+						<td><button class="btn" onclick="showReportModal(<?php echo $complaint['id']; ?>)">View</button></td>
 						<?php if ($role === 'Vendor'): ?>
 							<td>
 								<?php if ($complaint['status'] === 'assigned'): ?>
