@@ -3,650 +3,1119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mess Menu Management</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <title>$title</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #5e35b1;
-            --primary-light: #7e57c2;
-            --primary-dark: #4527a0;
-            --accent: #ff9800;
-            --light-bg: #f5f0ff;
-            --white: #ffffff;
-            --text-dark: #333333;
-            --text-light: #666666;
-            --border: #dddddd;
-            --success: #4caf50;
-            --error: #f44336;
+            --primary-color: #48276a;
+            --primary-light: #6a3d99;
+            --primary-dark: #36134d;
+            --primary-gradient: linear-gradient(135deg, #48276a 0%, #6a3d99 100%);
+            --secondary-gradient: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);
+            --accent-color: #ffd166;
+            --dark-bg: #1f2937;
+            --light-bg: #f8f9fb;
+            --card-bg: #ffffff;
+            --text-dark: #2d3748;
+            --text-light: #6b7280;
+            --text-muted: #9ca3af;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --box-shadow: 0 10px 25px -5px rgba(72, 39, 106, 0.1), 0 8px 10px -6px rgba(72, 39, 106, 0.05);
+            --box-shadow-hover: 0 20px 25px -5px rgba(72, 39, 106, 0.15), 0 10px 10px -5px rgba(72, 39, 106, 0.1);
+            --header-height: 120px;
+            --sidebar-width: 200px;
+            --sidebar-collapsed-width: 0px;
+            --transition: all 0.3s ease;
         }
 
         * {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: #f0f0f5;
+            background-color: var(--light-bg);
             color: var(--text-dark);
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
             line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 20% 35%, rgba(72, 39, 106, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 75% 15%, rgba(72, 39, 106, 0.04) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        .content-wrapper {
+            margin-top: var(--header-height);
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            min-height: calc(100vh - var(--header-height));
+            padding: 2rem;
+            transition: var(--transition);
+        }
+
+        body.sidebar-closed .content-wrapper {
+            margin-left: var(--sidebar-collapsed-width);
+            width: 100%;
         }
 
         .container {
-            width: 95%;
-            max-width: 1200px;
+            max-width: 1260px;
+            width: 100%;
             margin: 0 auto;
-            padding: 30px 20px;
+            padding: 0 1.5rem;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
+        main {
+            padding: 1.5rem 0;
         }
 
         .page-title {
-            color: var(--primary);
-            font-size: 32px;
+            margin-bottom: 2.5rem;
+            font-size: 2.2rem;
+            color: var(--primary-color);
             font-weight: 700;
-            margin-bottom: 10px;
             position: relative;
             display: inline-block;
+            padding-bottom: 0.5rem;
         }
 
         .page-title::after {
             content: '';
             position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
+            left: 0;
+            bottom: 0;
+            width: 60%;
             height: 4px;
-            background-color: var(--accent);
-            border-radius: 2px;
+            background: var(--primary-gradient);
+            border-radius: 4px;
         }
 
-        .sub-title {
-            color: var(--text-light);
-            font-size: 16px;
-        }
-
-        .card {
-            background: var(--white);
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            padding: 25px;
-            margin-bottom: 30px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-        }
-
-        .filter-form {
+        .date-selector {
+            background: var(--card-bg);
+            padding: 1.8rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2.5rem;
             display: flex;
             flex-wrap: wrap;
+            gap: 1.5rem;
             align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 25px;
-            padding: 20px;
-            background: var(--light-bg);
-            border-radius: 12px;
-            border-left: 4px solid var(--primary);
+            justify-content: space-between;
+            border-top: 5px solid var(--primary-color);
         }
 
-        .form-group {
-            display: flex;
-            align-items: center;
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .form-label {
-            margin-right: 15px;
+        .date-selector h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.7rem;
+            color: var(--primary-color);
             font-weight: 600;
-            color: var(--primary);
         }
 
-        .form-label i {
-            margin-right: 8px;
+        .date-picker {
+            padding: 0.85rem 1.2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.7rem;
+            font-size: 1rem;
+            min-width: 220px;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            transition: var(--transition);
+            background-color: #fafbfc;
         }
 
-        select,
-        input[type="date"],
-        input[type="text"],
-        input[type="number"] {
-            padding: 12px 15px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            min-width: 200px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        select:focus,
-        input[type="date"]:focus,
-        input[type="text"]:focus,
-        input[type="number"]:focus {
+        .date-picker:focus {
+            border-color: var(--primary-light);
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(94, 53, 177, 0.2);
+            box-shadow: 0 0 0 3px rgba(72, 39, 106, 0.1);
         }
 
-        .select2-container--default .select2-selection--multiple {
-            padding: 8px;
-            min-height: 120px;
-            border-color: var(--border);
-            border-radius: 8px;
+        .mess-info {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 4px 12px rgba(72, 39, 106, 0.2);
+            transition: var(--transition);
         }
 
-        .select2-container--default.select2-container--focus .select2-selection--multiple {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(94, 53, 177, 0.2);
+        .mess-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(72, 39, 106, 0.3);
         }
 
-        .section-title {
-            color: var(--primary);
-            font-size: 22px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--light-bg);
+        .meal-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .meal-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(72, 39, 106, 0.05);
+        }
+
+        .meal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow-hover);
+        }
+
+        .meal-header {
+            padding: 1.5rem;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: relative;
+            overflow: hidden;
         }
 
-        .section-title::after {
+        .meal-header::before {
             content: '';
             position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 60px;
-            height: 2px;
-            background-color: var(--primary);
+            top: -40px;
+            right: -40px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        .menu-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .menu-table th {
-            background-color: var(--primary);
-            color: var(--white);
-            padding: 15px;
-            text-align: left;
+        .meal-header h2 {
+            font-size: 1.3rem;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
         }
 
-        .menu-table td {
-            padding: 15px;
-            border-bottom: 1px solid var(--border);
-            vertical-align: middle;
+        .meal-header h2 i {
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.2);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
         }
 
-        .menu-table tr:nth-child(even) {
-            background-color: var(--light-bg);
+        .kcal-counter {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .menu-table tr:last-child td {
+        .kcal-counter::before {
+            content: '🔥';
+            font-size: 0.85rem;
+        }
+
+        .meal-content {
+            padding: 1.8rem;
+        }
+
+        .food-items {
+            margin-bottom: 1.5rem;
+            max-height: 320px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .food-items::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .food-items::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .food-items::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+
+        .food-items::-webkit-scrollbar-thumb:hover {
+            background: #c1c5cd;
+        }
+
+        .food-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(72, 39, 106, 0.06);
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .food-item:hover {
+            background-color: rgba(72, 39, 106, 0.03);
+        }
+
+        .food-item:last-child {
             border-bottom: none;
         }
 
-        .menu-table .meal-type {
-            font-weight: 600;
-            color: var(--primary-dark);
-            font-size: 16px;
+        .food-name {
+            font-weight: 500;
         }
 
-        .menu-table .food-items {
-            color: var(--text-dark);
-        }
-
-        .menu-table .nutrition {
-            color: var(--primary);
-            font-weight: 600;
-            text-align: right;
-        }
-
-        .no-menu {
-            text-align: center;
-            padding: 40px 20px;
-            font-style: italic;
-            color: var(--text-light);
-            background: var(--light-bg);
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-
-        .management-section {
-            background: var(--light-bg);
-            border-radius: 12px;
-            padding: 25px;
-            margin-top: 30px;
-            border-left: 4px solid var(--primary);
-        }
-
-        .form-row {
+        .food-actions {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 20px;
-            align-items: flex-end;
-        }
-
-        .form-control {
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .form-control label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary-dark);
-        }
-
-        .form-control select,
-        .form-control input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .form-control select[multiple] {
-            height: 150px;
-            padding: 10px;
-        }
-
-        .btn {
-            background-color: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            min-width: 150px;
+            gap: 0.8rem;
         }
 
-        .btn i {
-            margin-right: 8px;
+        .food-kcal {
+            background: #f3f0ff;
+            color: var(--primary-color);
+            padding: 0.25rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(72, 39, 106, 0.1);
         }
 
-        .btn:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(94, 53, 177, 0.3);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .divider {
-            height: 2px;
-            background-color: var(--border);
-            margin: 40px 0;
-            position: relative;
-        }
-
-        .divider::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            background-color: var(--white);
-            border: 2px solid var(--border);
+        .remove-btn {
+            color: var(--danger);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            opacity: 0.7;
+            transition: var(--transition);
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .food-item-form {
-            background-color: var(--white);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        .remove-btn:hover {
+            opacity: 1;
+            background-color: rgba(239, 68, 68, 0.1);
         }
 
-        .food-details {
+        .add-food-wrapper {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            align-items: center;
+            gap: 0.8rem;
         }
 
-        .nutrition-info {
+        .select-food {
+            flex-grow: 1;
+            height: 48px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.5rem;
+            border-radius: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.01em;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 12px rgba(72, 39, 106, 0.25);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 16px rgba(72, 39, 106, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-gradient);
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 94, 98, 0.25);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 6px 16px rgba(255, 94, 98, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 2px solid #e2e8f0;
+            background: white;
+            color: var(--text-dark);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: #f9f6ff;
+        }
+
+        .btn-add {
+            padding: 0.85rem;
+            width: 48px;
+            height: 48px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        .new-food-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .new-food-section::before {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(72, 39, 106, 0.03);
+            z-index: 0;
+        }
+
+        .new-food-section h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .new-food-section h2 i {
+            color: var(--success);
+            font-size: 1.2rem;
+            background: rgba(16, 185, 129, 0.1);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.7rem;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            transition: var(--transition);
+            background-color: #fafbfc;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-light);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(72, 39, 106, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .form-row .form-group {
+            flex: 1 1 240px;
+        }
+
+        .menu-preview {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2.5rem;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(72, 39, 106, 0.05);
+        }
+
+        .menu-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--primary-gradient);
+        }
+
+        .menu-preview h2 {
+            font-size: 1.6rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--primary-color);
+            position: relative;
+            font-weight: 600;
+        }
+
+        .menu-preview h2::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--primary-gradient);
+            margin: 0.8rem auto 0;
+            border-radius: 2px;
+        }
+
+        .preview-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        .preview-meal {
+            padding: 1.5rem;
+            border-radius: 0.8rem;
+            background: #f8f9fb;
+            border: 1px solid rgba(72, 39, 106, 0.07);
+            transition: var(--transition);
+        }
+
+        .preview-meal:hover {
+            background: #f3f0ff;
+            border-color: rgba(72, 39, 106, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .preview-meal-header {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px dashed rgba(72, 39, 106, 0.1);
+            color: var(--primary-dark);
+        }
+
+        .preview-items {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 0.8rem;
         }
 
-        .nutrient-field {
-            flex: 1;
-            min-width: 120px;
+        .preview-item {
+            background: white;
+            padding: 0.6rem 1rem;
+            border-radius: 0.7rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: 1px solid rgba(72, 39, 106, 0.07);
+            transition: var(--transition);
         }
 
-        .badge {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 12px;
+        .preview-item:hover {
+            box-shadow: 0 4px 8px rgba(72, 39, 106, 0.1);
+            border-color: rgba(72, 39, 106, 0.2);
+        }
+
+        .preview-item span {
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 0.85rem;
+            padding: 0.15rem 0.5rem;
+            background: #f3f0ff;
+            border-radius: 12px;
+        }
+
+        .daily-total {
+            text-align: right;
             font-weight: 600;
-            margin-right: 5px;
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            padding-top: 1.2rem;
+            border-top: 2px dashed rgba(72, 39, 106, 0.15);
+            color: var(--text-dark);
+        }
+
+        .daily-total span {
+            color: var(--primary-color);
+            background: #f3f0ff;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            margin-left: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .toast {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 1.2rem 1.8rem;
+            border-radius: 0.8rem;
             color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 1000;
+            animation: slideIn 0.3s ease forwards, fadeOut 0.5s ease 2.5s forwards;
+            max-width: 380px;
+        }
+
+        .toast-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .toast-error {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .toast i {
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.2);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        .select2-container--default .select2-selection--single {
+            height: 48px;
+            display: flex;
+            align-items: center;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.7rem;
+            background-color: #fafbfc;
+            transition: var(--transition);
+        }
+
+        .select2-container--default .select2-selection--single:hover {
+            border-color: #d1d5db;
+        }
+
+        .select2-container--default.select2-container--focus .select2-selection--single,
+        .select2-container--default.select2-container--open .select2-selection--single {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(72, 39, 106, 0.1);
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 48px;
+        }
+
+        .select2-dropdown {
+            border: 2px solid var(--primary-light);
+            border-radius: 0.7rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .select2-results__option {
+            padding: 0.8rem 1rem;
+            transition: var(--transition);
+        }
+
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
             background-color: var(--primary-light);
         }
 
-        .meal-badge {
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-right: 10px;
+        @media (max-width: 1200px) {
+            .container { max-width: 1000px; }
+            .meal-sections { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
         }
 
-        .breakfast-badge {
-            background-color: #ff9800;
-            color: white;
-        }
-
-        .lunch-badge {
-            background-color: #4caf50;
-            color: white;
-        }
-
-        .dinner-badge {
-            background-color: #2196f3;
-            color: white;
-        }
-
-        .food-item-chip {
-            display: inline-flex;
-            align-items: center;
-            background-color: var(--light-bg);
-            border-radius: 16px;
-            padding: 5px 12px;
-            margin: 3px;
-            font-size: 14px;
-            color: var(--primary-dark);
-            font-weight: 500;
-        }
-
-        .food-item-chip .nutrition {
-            margin-left: 5px;
-            font-size: 12px;
-            color: var(--text-light);
+        @media (max-width: 992px) {
+            .content-wrapper { padding: 1.5rem; }
+            .meal-sections { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
         }
 
         @media (max-width: 768px) {
-            .form-group,
-            .form-control {
-                min-width: 100%;
-            }
-            
-            .form-row {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .btn {
+            :root { --header-height: 100px; }
+
+            .content-wrapper {
+                margin-left: var(--sidebar-collapsed-width);
                 width: 100%;
+                padding: 1.2rem;
             }
-            
-            .menu-table th,
-            .menu-table td {
-                padding: 10px;
+
+            body.sidebar-open .content-wrapper {
+                margin-left: var(--sidebar-width);
+                width: calc(100% - var(--sidebar-width));
             }
+
+            .meal-sections { grid-template-columns: 1fr; }
+            .date-selector { flex-direction: column; align-items: flex-start; }
+            .actions { flex-direction: column; }
+            .btn { width: 100%; }
+            .page-title { font-size: 1.8rem; }
+            .container { padding: 0 0.8rem; }
+            .menu-preview, .new-food-section { padding: 1.5rem; }
+        }
+
+        @media (max-width: 576px) {
+            .page-title { font-size: 1.5rem; }
+            .meal-header h2 { font-size: 1.1rem; }
+            .kcal-counter { font-size: 0.85rem; }
+            .date-picker { width: 100%; }
+            .meal-content, .date-selector { padding: 1.2rem; }
+            .add-food-wrapper { flex-direction: column; }
+            .btn { padding: 0.75rem 1.2rem; }
+            .preview-meal-header { font-size: 1rem; }
+            .daily-total { font-size: 1.1rem; }
+            .meal-header h2 i { width: 32px; height: 32px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1 class="page-title">Mess Menu Management</h1>
-            <p class="sub-title">Plan and organize your mess meals with ease</p>
-        </div>
-        
-        <div class="card">
-            <!-- Filter Form -->
-            <form class="filter-form" method="get" action="<?php echo base_url('vendor_menu'); ?>">
-                <div class="form-group">
-                    <label class="form-label"><i class="far fa-calendar-alt"></i> Date:</label>
-                    <input 
-                        type="date" 
-                        name="date" 
-                        value="<?php echo $selected_date; ?>" 
-                        onchange="this.form.submit();"
-                    >
+
+    <div class="toast" id="toast" style="display: none;">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message"></span>
+    </div>
+
+    <div class="content-wrapper">
+        <main class="container">
+            <h1 class="page-title">Daily Menu Creator</h1>
+
+            <div class="date-selector">
+                <div>
+                    <h2><i class="fas fa-calendar-alt"></i> Select Date</h2>
+                    <input type="date" class="date-picker" id="menuDate" value="<?= htmlspecialchars($selected_date) ?>">
                 </div>
-                
-                <div class="form-group">
-                    <label class="form-label"><i class="fas fa-utensils"></i> Mess:</label>
-                    <select name="mess_id" onchange="this.form.submit();">
-                        <?php foreach ($messes as $mess): ?>
-                            <option value="<?php echo $mess['mess_id']; ?>" <?php echo ($mess['mess_id'] == $selected_mess_id) ? 'selected' : ''; ?>>
-                                <?php echo $mess['mess_name']; ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+                <div class="mess-info">
+                    <i class="fas fa-store"></i>
+                    <span><?= htmlspecialchars($mess_info->mess_name) ?> (ID: <?= htmlspecialchars($mess_info->mess_id) ?>)</span>
                 </div>
-            </form>
-            
-            <!-- Current Menu Display -->
-            <div class="menu-display">
-                <h2 class="section-title">
-                    <i class="fas fa-clipboard-list"></i> 
-                    Menu for <?php echo date('F d, Y', strtotime($selected_date)); ?>
-                </h2>
-                
-                <?php if (empty($menu_items)): ?>
-                    <div class="no-menu">
-                        <i class="fas fa-empty-plate" style="font-size: 48px; color: #ccc; display: block; margin-bottom: 15px;"></i>
-                        No menu available for this date and mess. Please add items below.
-                    </div>
-                <?php else: ?>
-                    <table class="menu-table">
-                        <thead>
-                            <tr>
-                                <th width="15%"><i class="fas fa-clock"></i> Meal</th>
-                                <th width="65%"><i class="fas fa-hamburger"></i> Food Items</th>
-                                <th width="20%"><i class="fas fa-fire-alt"></i> Nutrition</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                            $grouped_menu = [];
-                            foreach ($menu_items as $item) {
-                                if (!isset($grouped_menu[$item['meal_type']])) {
-                                    $grouped_menu[$item['meal_type']] = [
-                                        'items' => [],
-                                        'total_nutrition' => 0,
-                                        'item_details' => []
-                                    ];
-                                }
-                                $grouped_menu[$item['meal_type']]['items'][] = $item['food'];
-                                $grouped_menu[$item['meal_type']]['total_nutrition'] += (int)$item['nutrition'];
-                                $grouped_menu[$item['meal_type']]['item_details'][] = [
-                                    'name' => $item['food'],
-                                    'nutrition' => $item['nutrition']
-                                ];
-                            }
-                            foreach ($grouped_menu as $meal_type => $data): 
-                                $badge_class = strtolower($meal_type) . '-badge';
-                            ?>
-                                <tr>
-                                    <td class="meal-type">
-                                        <span class="meal-badge <?php echo $badge_class; ?>"><?php echo $meal_type; ?></span>
-                                    </td>
-                                    <td class="food-items">
-                                        <?php foreach ($data['item_details'] as $food): ?>
-                                            <span class="food-item-chip">
-                                                <?php echo $food['name']; ?>
-                                                <span class="nutrition">(<?php echo $food['nutrition']; ?> Kcal)</span>
-                                            </span>
-                                        <?php endforeach; ?>
-                                    </td>
-                                    <td class="nutrition">
-                                        <i class="fas fa-fire-alt"></i> <?php echo number_format($data['total_nutrition']); ?> Kcal
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php endif; ?>
             </div>
-            
-            <!-- Menu Management Section -->
-            <div class="management-section">
-                <h2 class="section-title"><i class="fas fa-edit"></i> Update Menu</h2>
-                <form action="<?php echo base_url('vendor_menu/update_menu'); ?>" method="post" id="updateMenuForm">
-                    <input type="hidden" name="date" value="<?php echo $selected_date; ?>">
-                    <input type="hidden" name="mess_id" value="<?php echo $selected_mess_id; ?>">
-                    
-                    <div class="form-row">
-                        <div class="form-control">
-                            <label for="meal_type"><i class="fas fa-utensils"></i> Meal Type:</label>
-                            <select name="meal_type" id="meal_type" required>
-                                <option value="">Select Meal Type</option>
-                                <option value="Breakfast">Breakfast</option>
-                                <option value="Lunch">Lunch</option>
-                                <option value="Dinner">Dinner</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-control">
-                            <label for="food_items"><i class="fas fa-apple-alt"></i> Select Food Items:</label>
-                            <select name="food_ids[]" id="food_items" class="select2-multiple" multiple required>
-                                <?php foreach ($menu_items_all as $item): ?>
-                                    <option value="<?php echo $item['food_id']; ?>">
-                                        <?php echo $item['food']; ?> (<?php echo $item['nutrition']; ?> Kcal)
-                                    </option>
+
+            <div class="meal-sections">
+                <div class="meal-card">
+                    <div class="meal-header">
+                        <h2><i class="fas fa-coffee"></i> Breakfast</h2>
+                        <div class="kcal-counter" id="breakfast-kcal">0 Kcal</div>
+                    </div>
+                    <div class="meal-content">
+                        <div class="food-items" id="breakfast-items"></div>
+                        <div class="add-food-wrapper">
+                            <select class="select-food" id="breakfast-food-select">
+                                <option value="">Select Food Item</option>
+                                <?php foreach ($food_items as $item): ?>
+                                    <option value="<?= $item->food_id ?>" data-kcal="<?= $item->nutrition ?>"><?= htmlspecialchars($item->food) ?> (<?= $item->nutrition ?> Kcal)</option>
                                 <?php endforeach; ?>
                             </select>
-                        </div>
-                        
-                        <div>
-                            <button type="submit" class="btn">
-                                <i class="fas fa-save"></i> Update Menu
+                            <button class="btn btn-primary btn-add add-food-btn" data-meal="breakfast">
+                                <i class="fas fa-plus"></i>
                             </button>
                         </div>
                     </div>
-                </form>
-            </div>
-            
-            <div class="divider"></div>
-            
-            <!-- Add New Food Item Section with Nutrition Fields -->
-            <div class="management-section">
-                <h2 class="section-title"><i class="fas fa-plus-circle"></i> Add New Food Item</h2>
-                <div class="food-item-form">
-                    <form action="<?php echo base_url('vendor_menu/add_food'); ?>" method="post" id="addFoodForm">
-                        <div class="form-row">
-                            <div class="form-control">
-                                <label for="food_name"><i class="fas fa-hamburger"></i> Food Name:</label>
-                                <input type="text" name="food_name" id="food_name" required placeholder="Enter food name...">
-                            </div>
-                            
-                            <div class="form-control">
-                                <label for="nutrition"><i class="fas fa-fire-alt"></i> Calories:</label>
-                                <input type="number" name="nutrition" id="nutrition" required min="0" placeholder="Calories (Kcal)">
-                            </div>
+                </div>
+
+                <div class="meal-card">
+                    <div class="meal-header">
+                        <h2><i class="fas fa-sun"></i> Lunch</h2>
+                        <div class="kcal-counter" id="lunch-kcal">0 Kcal</div>
+                    </div>
+                    <div class="meal-content">
+                        <div class="food-items" id="lunch-items"></div>
+                        <div class="add-food-wrapper">
+                            <select class="select-food" id="lunch-food-select">
+                                <option value="">Select Food Item</option>
+                                <?php foreach ($food_items as $item): ?>
+                                    <option value="<?= $item->food_id ?>" data-kcal="<?= $item->nutrition ?>"><?= htmlspecialchars($item->food) ?> (<?= $item->nutrition ?> Kcal)</option>
+                                <?php endforeach; ?>
+                            </select>
+                            <button class="btn btn-primary btn-add add-food-btn" data-meal="lunch">
+                                <i class="fas fa-plus"></i>
+                            </button>
                         </div>
-                        
-                        <div class="form-row nutrition-info">
-                            <div class="nutrient-field">
-                                <label for="proteins"><i class="fas fa-dumbbell"></i> Proteins (g):</label>
-                                <input type="number" name="proteins" id="proteins" min="0" step="0.1" placeholder="Proteins in grams">
-                            </div>
-                            
-                            <div class="nutrient-field">
-                                <label for="carbs"><i class="fas fa-bread-slice"></i> Carbs (g):</label>
-                                <input type="number" name="carbs" id="carbs" min="0" step="0.1" placeholder="Carbohydrates in grams">
-                            </div>
-                            
-                            <div class="nutrient-field">
-                                <label for="fats"><i class="fas fa-cheese"></i> Fats (g):</label>
-                                <input type="number" name="fats" id="fats" min="0" step="0.1" placeholder="Fats in grams">
-                            </div>
-                            
-                            <div class="nutrient-field">
-                                <label for="fiber"><i class="fas fa-seedling"></i> Fiber (g):</label>
-                                <input type="number" name="fiber" id="fiber" min="0" step="0.1" placeholder="Dietary fiber in grams">
-                            </div>
+                    </div>
+                </div>
+
+                <div class="meal-card">
+                    <div class="meal-header">
+                        <h2><i class="fas fa-moon"></i> Dinner</h2>
+                        <div class="kcal-counter" id="dinner-kcal">0 Kcal</div>
+                    </div>
+                    <div class="meal-content">
+                        <div class="food-items" id="dinner-items"></div>
+                        <div class="add-food-wrapper">
+                            <select class="select-food" id="dinner-food-select">
+                                <option value="">Select Food Item</option>
+                                <?php foreach ($food_items as $item): ?>
+                                    <option value="<?= $item->food_id ?>" data-kcal="<?= $item->nutrition ?>"><?= htmlspecialchars($item->food) ?> (<?= $item->nutrition ?> Kcal)</option>
+                                <?php endforeach; ?>
+                            </select>
+                            <button class="btn btn-primary btn-add add-food-btn" data-meal="dinner">
+                                <i class="fas fa-plus"></i>
+                            </button>
                         </div>
-                        
-                        <div class="form-row">
-                            <div>
-                                <button type="submit" class="btn">
-                                    <i class="fas fa-plus"></i> Add Food Item
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="new-food-section">
+                <h2><i class="fas fa-plus-circle"></i> Add New Food Item</h2>
+                <form id="addFoodForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="foodName">Food Name</label>
+                            <input type="text" class="form-control" id="foodName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="foodCalories">Calories (Kcal)</label>
+                            <input type="number" class="form-control" id="foodCalories" required min="1">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">
+                        <i class="fas fa-save"></i> Save Food Item
+                    </button>
+                </form>
+            </div>
+
+            <div class="menu-preview">
+                <h2>Menu Preview</h2>
+                <div class="preview-content">
+                    <div class="preview-meal">
+                        <div class="preview-meal-header">
+                            <span>Breakfast</span>
+                            <span id="preview-breakfast-kcal">0 Kcal</span>
+                        </div>
+                        <div class="preview-items" id="preview-breakfast-items"></div>
+                    </div>
+                    <div class="preview-meal">
+                        <div class="preview-meal-header">
+                            <span>Lunch</span>
+                            <span id="preview-lunch-kcal">0 Kcal</span>
+                        </div>
+                        <div class="preview-items" id="preview-lunch-items"></div>
+                    </div>
+                    <div class="preview-meal">
+                        <div class="preview-meal-header">
+                            <span>Dinner</span>
+                            <span id="preview-dinner-kcal">0 Kcal</span>
+                        </div>
+                        <div class="preview-items" id="preview-dinner-items"></div>
+                    </div>
+                    <div class="daily-total">
+                        Total Daily Calories: <span id="total-daily-kcal">0 Kcal</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-outline" id="resetMenuBtn">
+                    <i class="fas fa-redo"></i> Reset Menu
+                </button>
+                <button class="btn btn-primary" id="saveMenuBtn">
+                    <i class="fas fa-save"></i> Display Menu
+                </button>
+            </div>
+        </main>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Initialize Select2 for better multiple selection
-            $('.select2-multiple').select2({
-                placeholder: 'Select food items...',
-                allowClear: true,
-                closeOnSelect: false,
-                templateResult: formatFoodItem,
-                templateSelection: formatFoodItem
+            $('.select-food').select2({
+                placeholder: "Select food item",
+                width: '100%'
             });
-            
-            // Format food items in dropdown
-            function formatFoodItem(food) {
-                if (!food.id) return food.text;
-                
-                var $container = $(
-                    '<div class="food-details">' +
-                        '<span>' + food.text + '</span>' +
-                    '</div>'
-                );
-                
-                return $container;
+
+            const menuData = {
+                breakfast: [],
+                lunch: [],
+                dinner: []
+            };
+
+            $('.add-food-btn').on('click', function() {
+                const mealType = $(this).data('meal');
+                const selectElement = $(`#${mealType}-food-select`);
+                const foodId = selectElement.val();
+
+                if (!foodId) return;
+
+                const foodName = selectElement.find('option:selected').text();
+                const foodKcal = parseInt(selectElement.find('option:selected').data('kcal'));
+
+                const itemId = `${mealType}-${foodId}-${Date.now()}`;
+
+                menuData[mealType].push({
+                    id: itemId,
+                    food_id: foodId,
+                    name: foodName,
+                    kcal: foodKcal
+                });
+
+                addFoodItemToUI(mealType, itemId, foodName, foodKcal);
+                updateMealTotals(mealType);
+                updateDailyTotal();
+
+                selectElement.val('').trigger('change');
+                showToast('Food item added successfully!', 'success');
+            });
+
+            function addFoodItemToUI(mealType, itemId, foodName, foodKcal) {
+                const itemHtml = `
+                    <div class="food-item" data-id="${itemId}">
+                        <div class="food-name">${foodName.split('(')[0].trim()}</div>
+                        <div class="food-actions">
+                            <span class="food-kcal">${foodKcal} Kcal</span>
+                            <button class="remove-btn" data-meal="${mealType}" data-id="${itemId}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                $(`#${mealType}-items`).append(itemHtml);
+
+                const previewItemHtml = `
+                    <div class="preview-item" data-id="${itemId}">
+                        ${foodName.split('(')[0].trim()}
+                        <span>${foodKcal} Kcal</span>
+                    </div>
+                `;
+                $(`#preview-${mealType}-items`).append(previewItemHtml);
             }
-            
-            // Preview total nutrition when food items are selected
-            $('#food_items').on('change', function() {
-                updateNutritionSummary();
+
+            $(document).on('click', '.remove-btn', function() {
+                const mealType = $(this).data('meal');
+                const itemId = $(this).data('id');
+
+                menuData[mealType] = menuData[mealType].filter(item => item.id !== itemId);
+
+                $(`.food-item[data-id="${itemId}"]`).remove();
+                $(`.preview-item[data-id="${itemId}"]`).remove();
+
+                updateMealTotals(mealType);
+                updateDailyTotal();
+
+                showToast('Food item removed', 'success');
             });
-            
-            function updateNutritionSummary() {
-                // This would typically use AJAX to get nutrition values of selected items
-                // and show a summary, but for demonstration we'll just count selections
-                var selectedCount = $('#food_items').select2('data').length;
-                if (selectedCount > 0) {
-                    // Display some feedback about selections
-                    console.log(selectedCount + ' items selected');
+
+            function updateMealTotals(mealType) {
+                const totalKcal = menuData[mealType].reduce((sum, item) => sum + item.kcal, 0);
+                $(`#${mealType}-kcal`).text(`${totalKcal} Kcal`);
+                $(`#preview-${mealType}-kcal`).text(`${totalKcal} Kcal`);
+            }
+
+            function updateDailyTotal() {
+                const dailyTotal = Object.values(menuData).flat().reduce((sum, item) => sum + item.kcal, 0);
+                $('#total-daily-kcal').text(`${dailyTotal} Kcal`);
+            }
+
+            function showToast(message, type = 'success') {
+                const toast = $('#toast');
+                $('#toast-message').text(message);
+                toast.removeClass('toast-success toast-error').addClass(`toast-${type}`).show();
+                setTimeout(() => toast.hide(), 3000);
+            }
+
+            $('#menuDate').on('change', function() {
+                const selectedDate = $(this).val();
+                resetMenu();
+                loadMenuForDate(selectedDate);
+                showToast(`Menu date changed to ${selectedDate}`, 'success');
+            });
+
+            $('#addFoodForm').on('submit', function(e) {
+                e.preventDefault();
+                const foodName = $('#foodName').val();
+                const foodCalories = $('#foodCalories').val();
+
+                $.ajax({
+                    url: '<?= base_url('Update_Menu/add_food_item') ?>',
+                    type: 'POST',
+                    data: { food_name: foodName, food_calories: foodCalories },
+                    success: function(response) {
+                        const res = JSON.parse(response);
+                        if (res.status === 'success') {
+                            showToast(res.message, 'success');
+                            const newOption = `<option value="${res.food_item.food_id}" data-kcal="${res.food_item.nutrition}">${res.food_item.food} (${res.food_item.nutrition} Kcal)</option>`;
+                            $('.select-food').append(newOption);
+                            $('#addFoodForm')[0].reset();
+                        } else {
+                            showToast(res.message, 'error');
+                        }
+                    },
+                    error: function() {
+                        showToast('Error adding food item', 'error');
+                    }
+                });
+            });
+
+            $('#resetMenuBtn').on('click', function() {
+                if (confirm('Are you sure you want to reset the menu? All changes will be lost.')) {
+                    resetMenu();
+                    showToast('Menu has been reset', 'success');
                 }
+            });
+
+            function resetMenu() {
+                menuData.breakfast = [];
+                menuData.lunch = [];
+                menuData.dinner = [];
+
+                $('#breakfast-items, #lunch-items, #dinner-items').empty();
+                $('#preview-breakfast-items, #preview-lunch-items, #preview-dinner-items').empty();
+
+                $('#breakfast-kcal, #lunch-kcal, #dinner-kcal').text('0 Kcal');
+                $('#preview-breakfast-kcal, #preview-lunch-kcal, #preview-dinner-kcal').text('0 Kcal');
+                $('#total-daily-kcal').text('0 Kcal');
             }
+
+            $('#saveMenuBtn').on('click', function() {
+                const selectedDate = $('#menuDate').val();
+
+                if (!selectedDate) {
+                    showToast('Please select a date', 'error');
+                    return;
+                }
+
+                if (!menuData.breakfast.length && !menuData.lunch.length && !menuData.dinner.length) {
+                    showToast('Please add at least one food item', 'error');
+                    return;
+                }
+
+                const menuSubmitData = {
+                    date: selectedDate,
+                    mess_id: <?= json_encode($mess_info->mess_id) ?>,
+                    meals: {
+                        breakfast: menuData.breakfast.map(item => ({ food_id: item.food_id })),
+                        lunch: menuData.lunch.map(item => ({ food_id: item.food_id })),
+                        dinner: menuData.dinner.map(item => ({ food_id: item.food_id }))
+                    }
+                };
+
+                $.ajax({
+                    url: '<?= base_url('Update_Menu/save_menu') ?>',
+                    type: 'POST',
+                    data: { menu_data: JSON.stringify(menuSubmitData) },
+                    success: function(response) {
+                        const res = JSON.parse(response);
+                        showToast(res.message, res.status === 'success' ? 'success' : 'error');
+                    },
+                    error: function() {
+                        showToast('Server error while saving menu', 'error');
+                    }
+                });
+            });
+
+            function loadMenuForDate(date) {
+                if (!date) return;
+
+                $.ajax({
+                    url: '<?= base_url('Update_Menu/get_menu') ?>',
+                    type: 'GET',
+                    data: { date: date, mess_id: <?= json_encode($mess_info->mess_id) ?> },
+                    success: function(response) {
+                        const res = JSON.parse(response);
+                        if (res.status === 'success' && res.menu) {
+                            populateMenuData(res.menu);
+                        }
+                    },
+                    error: function() {
+                        showToast('Error loading menu data', 'error');
+                    }
+                });
+            }
+
+            function populateMenuData(menu) {
+                resetMenu();
+                ['breakfast', 'lunch', 'dinner'].forEach(mealType => {
+                    if (menu[mealType] && menu[mealType].length) {
+                        menu[mealType].forEach(item => {
+                            const itemId = `${mealType}-${item.food_id}-${Date.now()}`;
+                            menuData[mealType].push({
+                                id: itemId,
+                                food_id: item.food_id,
+                                name: `${item.food_name} (${item.kcal} Kcal)`,
+                                kcal: item.kcal
+                            });
+                            addFoodItemToUI(mealType, itemId, `${item.food_name} (${item.kcal} Kcal)`, item.kcal);
+                        });
+                        updateMealTotals(mealType);
+                    }
+                });
+                updateDailyTotal();
+            }
+
+            const initialDate = $('#menuDate').val();
+            if (initialDate) loadMenuForDate(initialDate);
         });
     </script>
 </body>

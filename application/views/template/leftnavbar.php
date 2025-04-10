@@ -150,7 +150,7 @@ $current_method = $CI->uri->segment(2);     // e.g., '' for menu
         position: fixed;
         height: 100vh;
         top: 0;
-        z-index: 998;
+        z-index: 1;
         left: -200px;
         display: flex;
         flex-direction: column;

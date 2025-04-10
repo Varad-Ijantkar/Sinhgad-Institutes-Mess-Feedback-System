@@ -1,8 +1,8 @@
 <?php
 // Get the current controller and method from CodeIgniter's URI segments
 $CI =& get_instance();
-$current_controller = $CI->uri->segment(1); // e.g., 'vendor_menu'
-$current_method = $CI->uri->segment(2);     // e.g., 'update_menu'
+$current_controller = $CI->uri->segment(1);
+$current_method = $CI->uri->segment(2);
 ?>
 
 <!-- Toggle Button (Positioned outside the sidebar) -->
@@ -152,11 +152,16 @@ $current_method = $CI->uri->segment(2);     // e.g., 'update_menu'
 </aside>
 
 <style>
+    :root {
+        --sidebar-width: 200px;
+        --sidebar-collapsed-width: 0px;
+    }
+
     .sidebar {
-        width: 200px;
+        width: var(--sidebar-width);
         background: linear-gradient(180deg, #48276A 0%, #351B4A 100%);
         color: #fff;
-        transition: all 0.3s ease;
+        transition: transform 0.3s ease;
         box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
         position: fixed;
         height: 100vh;
@@ -165,20 +170,17 @@ $current_method = $CI->uri->segment(2);     // e.g., 'update_menu'
         top: 0;
         display: flex;
         flex-direction: column;
+        transform: translateX(0); /* Default: open */
     }
 
-    .sidebar.closed {
-        transform: translateX(-200px);
-    }
-
-    .sidebar.open {
-        transform: translateX(0);
+    body.sidebar-closed .sidebar {
+        transform: translateX(-200px); /* Closed state */
     }
 
     .sidebar-toggle-btn {
         position: fixed;
-        left: 15px;
-        top: 20px;
+        left: 215px; /* Adjusted to align with sidebar open */
+        top: 130px; /* Below assumed header */
         background-color: #48276A;
         color: white;
         width: 40px;
@@ -190,7 +192,11 @@ $current_method = $CI->uri->segment(2);     // e.g., 'update_menu'
         cursor: pointer;
         z-index: 1001;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
+        transition: left 0.3s ease;
+    }
+
+    body.sidebar-closed .sidebar-toggle-btn {
+        left: 15px; /* Moves to edge when sidebar is closed */
     }
 
     .sidebar-toggle-btn:hover {
@@ -336,52 +342,39 @@ $current_method = $CI->uri->segment(2);     // e.g., 'update_menu'
 
     @media (max-width: 768px) {
         .sidebar {
-            transform: translateX(-200px);
+            transform: translateX(-200px); /* Closed by default on mobile */
         }
 
-        .sidebar.open {
-            transform: translateX(0);
+        body.sidebar-open .sidebar {
+            transform: translateX(0); /* Open when toggled */
         }
 
         .sidebar-toggle-btn {
+            top: 110px; /* Adjust for smaller header */
             left: 15px;
         }
 
         body.sidebar-open .sidebar-toggle-btn {
-            left: 210px;
+            left: 215px; /* Moves with sidebar open */
         }
     }
 </style>
 
 <script>
     window.toggleSidebar = function() {
-        const sidebar = document.querySelector('.sidebar');
         const body = document.body;
-
-        if (sidebar) {
-            sidebar.classList.toggle('closed');
-            sidebar.classList.toggle('open');
-            body.classList.toggle('sidebar-closed');
-            body.classList.toggle('sidebar-open');
-        }
+        body.classList.toggle('sidebar-closed');
+        body.classList.toggle('sidebar-open');
     };
 
     function checkScreenSize() {
-        const sidebar = document.querySelector('.sidebar');
         const body = document.body;
-
-        if (sidebar) {
-            if (window.innerWidth <= 768) {
-                sidebar.classList.add('closed');
-                sidebar.classList.remove('open');
-                body.classList.add('sidebar-closed');
-                body.classList.remove('sidebar-open');
-            } else {
-                sidebar.classList.remove('closed');
-                sidebar.classList.add('open');
-                body.classList.remove('sidebar-closed');
-                body.classList.add('sidebar-open');
-            }
+        if (window.innerWidth <= 768) {
+            body.classList.add('sidebar-closed');
+            body.classList.remove('sidebar-open');
+        } else {
+            body.classList.add('sidebar-open');
+            body.classList.remove('sidebar-closed');
         }
     }
 
